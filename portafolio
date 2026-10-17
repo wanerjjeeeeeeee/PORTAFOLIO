@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waner Alcequiez Ciriaco - Portafolio y CV Digital</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #4682B4;
+            --bg-color: #f4f7f6;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --star-color: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: -2rem auto 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            margin-bottom: 2rem;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        section h2 {
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Ficha de Perfil / Foto */
+        .profile-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--secondary);
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .profile-card h2 {
+            border-bottom: none;
+            margin-bottom: 0.2rem;
+            padding-bottom: 0;
+        }
+
+        .profile-title {
+            color: var(--secondary);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        /* Grilla de Especialidades / Servicios */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .service-card {
+            background: #f8fafc;
+            border-left: 4px solid var(--secondary);
+            padding: 1.2rem;
+            border-radius: 6px;
+        }
+
+        .service-card h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .service-card p {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        /* Habilidades */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: #eef3f8;
+            color: var(--primary);
+            padding: 0.6rem 1rem;
+            text-align: center;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Proyectos */
+        .project-card {
+            border: 1px solid #e0e0e0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+        }
+
+        .project-card h3 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Calificaciones y Reseñas */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .review-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .review-stars {
+            color: var(--star-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            font-style: italic;
+            color: #4a5568;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .review-role {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        /* Formulario para agregar reseñas */
+        .review-form {
+            margin-top: 1.5rem;
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .review-form h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            color: var(--text-color);
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Waner Alcequiez Ciriaco</h1>
+        <p>Desarrollador Web & Creador de Software de Escritorio</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- Ficha Perfil -->
+        <section class="profile-card">
+            <!-- Cambia 'foto.jpg' por el nombre exacto de tu imagen en tu repositorio -->
+            <img src="foto.jpg" alt="Waner Alcequiez Ciriaco" class="profile-img">
+            <h2>Waner Alcequiez Ciriaco</h2>
+            <p class="profile-title">EL PROGRAMADOR</p>
+        </section>
+
+        <!-- Sobre mí -->
+        <section>
+            <h2>Sobre Mí</h2>
+            <p>Estudiante técnico con enfoque lógico y analítico. Apasionado por el desarrollo de aplicaciones web responsivas, herramientas de escritorio en Python y la creación de soluciones digitales eficientes y funcionales.
+                Lleno de proyectos personales y colaborativos, siempre buscando aprender y aplicar nuevas tecnologías para mejorar la experiencia del usuario y optimizar procesos.
+            </p>
+        </section>
+
+        <!-- Especialidades y Servicios -->
+        <section>
+            <h2>Especialidades y Servicios</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <h3>Desarrollo Web a Medida, Original y Personalizado</h3>
+                    <p>Creación de páginas web responsive, catálogos interactivos y landing pages estructuradas con HTML, CSS y JS.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Software de Escritorio</h3>
+                    <p>Desarrollo de aplicaciones ejecutables en Python con interfaz gráfica y persistencia de datos.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Integración de Tiendas y Pedidos</h3>
+                    <p>Implementación de tiendas online con carrito de compras y conexión directa para pedidos por WhatsApp o mensajería.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Sistemas de Gestión e Inventarios</h3>
+                    <p>Herramientas digitales diseñadas para el control de inventarios, reportes e integración con conocimientos contables.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Habilidades -->
+        <section>
+            <h2>Habilidades Técnicas</h2>
+            <div class="skills-grid">
+                <div class="skill-tag">HTML5 / CSS3</div>
+                <div class="skill-tag">JavaScript</div>
+                <div class="skill-tag">Python (Tkinter)</div>
+                <div class="skill-tag">Java</div>
+                <div class="skill-tag">Contabilidad</div>
+                <div class="skill-tag">Node.js</div>
+                <div class="skill-tag">PyInstaller</div>
+            </div>
+        </section>
+
+        <!-- Proyectos -->
+        <section>
+            <h2>Proyectos Destacados</h2>
+            
+            <div class="project-card">
+                <h3>Tienda Online con Carrito y Pedidos</h3>
+                <p>Plataforma web interactiva y llamativa para comercios, orientada a catálogo dinámico y negocios.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Calculadora de Impuestos ISR (Python)</h3>
+                <p>Software de escritorio desarrollado con Python y Tkinter para el cálculo automatizado de retenciones salariales bajo normativas fiscales, con persistencia en JSON.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Catálogo de Productos y Contacto</h3>
+                <p>Plataforma web interactiva y llamativa para mostrar productos y facilitar la comunicación con los clientes.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Catálogo de Servicios y Comercios (Outsourcing)</h3>
+                <p>Plataforma web interactiva y llamativa para mostrar servicios y facilitar la comunicación con los clientes.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Sistema de Gestión de Inventario</h3>
+                <p>Aplicación de escritorio para el control y gestión eficiente del inventario, con funcionalidades de seguimiento y reportes.</p>
+            </div>
+        </section>
+
+        <!-- Calificaciones y Reseñas con Formulario Interactivo -->
+        <section>
+            <h2>Calificaciones y Reseñas</h2>
+            
+            <!-- Contenedor donde aparecerán las reseñas -->
+            <div class="reviews-grid" id="reviewsContainer">
+                <!-- Reseña inicial de ejemplo -->
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"ESTE es un ejemplo de reseña. Excelente trabajo con el desarrollo web. Muy profesional y eficiente."</p>
+                    <div class="review-author">Cliente Satisfecho</div>
+                    <div class="review-role">Proyecto Web</div>
+                </div>
+            </div>
+
+            <!-- Formulario para agregar reseña -->
+            <div class="review-form">
+                <h3>Deja tu Reseña</h3>
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label for="authorName">Tu Nombre o Empresa:</label>
+                        <input type="text" id="authorName" required placeholder="Ej. Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label for="authorRole">Tipo de Proyecto / Rol:</label>
+                        <input type="text" id="authorRole" required placeholder="Ej. Tienda Online / Software Python">
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewRating">Calificación (Estrellas):</label>
+                        <select id="reviewRating">
+                            <option value="★★★★★">★★★★★ (5 Estrellas)</option>
+                            <option value="★★★★☆">★★★★☆ (4 Estrellas)</option>
+                            <option value="★★★☆☆">★★★☆☆ (3 Estrellas)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reviewText">Tu Comentario:</label>
+                        <textarea id="reviewText" rows="3" required placeholder="Escribe aquí tu opinión..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">Publicar Reseña</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section>
+            <h2>Contacto</h2>
+            <p>¿Interesado en colaborar o necesitas un proyecto web, programa o servicio? Ponte en contacto conmigo:</p>
+            <div class="contact-links">
+                <a href="https://github.com/wanerjjeeeeeeee" target="_blank" class="btn">Ver GitHub</a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Waner Alcequiez Ciriaco. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Script de JavaScript para agregar dinámicamente las reseñas -->
+    <script>
+        const reviewForm = document.getElementById('reviewForm');
+        const reviewsContainer = document.getElementById('reviewsContainer');
+
+        reviewForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Evita que la página se recargue
+
+            // Obtener los valores del formulario
+            const name = document.getElementById('authorName').value;
+            const role = document.getElementById('authorRole').value;
+            const rating = document.getElementById('reviewRating').value;
+            const text = document.getElementById('reviewText').value;
+
+            // Crear el elemento HTML de la nueva reseña
+            const newCard = document.createElement('div');
+            newCard.classList.add('review-card');
+            newCard.innerHTML = `
+                <div class="review-stars">${rating}</div>
+                <p class="review-text">"${text}"</p>
+                <div class="review-author">${name}</div>
+                <div class="review-role">${role}</div>
+            `;
+
+            // Agregar la tarjeta nueva al principio de la lista
+            reviewsContainer.prepend(newCard);
+
+            // Limpiar el formulario
+            reviewForm.reset();
+        });
+    </script>
+</body>
+</html>
