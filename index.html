@@ -1,453 +1,182 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waner Alcequiez Ciriaco - Portafolio y CV Digital</title>
-    <style>
-        :root {
-            --primary: #003366;
-            --secondary: #4682B4;
-            --bg-color: #f4f7f6;
-            --text-color: #333333;
-            --card-bg: #ffffff;
-            --star-color: #f39c12;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: -2rem auto 3rem auto;
-            padding: 0 1.5rem;
-        }
-
-        section {
-            background: var(--card-bg);
-            margin-bottom: 2rem;
-            padding: 2.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        section h2 {
-            color: var(--primary);
-            margin-bottom: 1.2rem;
-            font-size: 1.5rem;
-            border-bottom: 2px solid var(--bg-color);
-            padding-bottom: 0.5rem;
-        }
-
-        /* Ficha de Perfil / Foto */
-        .profile-card {
-            text-align: center;
-            padding: 2rem 1.5rem;
-        }
-
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--secondary);
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        .profile-card h2 {
-            border-bottom: none;
-            margin-bottom: 0.2rem;
-            padding-bottom: 0;
-        }
-
-        .profile-title {
-            color: var(--secondary);
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-        }
-
-        /* Grilla de Especialidades / Servicios */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.2rem;
-            margin-top: 1rem;
-        }
-
-        .service-card {
-            background: #f8fafc;
-            border-left: 4px solid var(--secondary);
-            padding: 1.2rem;
-            border-radius: 6px;
-        }
-
-        .service-card h3 {
-            color: var(--primary);
-            font-size: 1.1rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .service-card p {
-            font-size: 0.95rem;
-            color: #555;
-        }
-
-        /* Habilidades */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .skill-tag {
-            background: #eef3f8;
-            color: var(--primary);
-            padding: 0.6rem 1rem;
-            text-align: center;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* Proyectos */
-        .project-card {
-            border: 1px solid #e0e0e0;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            transition: transform 0.2s;
-        }
-
-        .project-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-        }
-
-        .project-card h3 {
-            color: var(--secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Calificaciones y Reseñas */
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.2rem;
-            margin-top: 1rem;
-        }
-
-        .review-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .review-stars {
-            color: var(--star-color);
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .review-text {
-            font-style: italic;
-            color: #4a5568;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-        }
-
-        .review-author {
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.9rem;
-        }
-
-        .review-role {
-            font-size: 0.8rem;
-            color: #718096;
-        }
-
-        /* Formulario para agregar reseñas */
-        .review-form {
-            margin-top: 1.5rem;
-            background: #f1f5f9;
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-
-        .review-form h3 {
-            font-size: 1.1rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            color: var(--text-color);
-        }
-
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 0.6rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 5px;
-            font-size: 0.95rem;
-        }
-
-        .contact-links {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-
-        .btn:hover {
-            background: var(--secondary);
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portafolio profesional de Waner Alcequiez Ciriaco: implementación frontend y automatización de procesos.">
+  <title>Waner Alcequiez Ciriaco | Portafolio y CV</title>
+  <style>
+    :root{--navy:#0f382c;--blue:#1e7858;--cyan:#32d398;--ink:#142921;--muted:#547065;--paper:#f3f8f5;--white:#fff;--line:#d3e5dc;--shadow:0 18px 45px rgba(15,56,44,.09)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:88px}
+    body{font-family:Inter,"Segoe UI",Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
+    a{color:inherit;text-decoration:none}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    .nav{max-width:1120px;margin:auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{font-weight:850;color:var(--navy);letter-spacing:-.03em}.brand span{color:var(--blue)}
+    .nav-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.9rem;color:#3b564b}.nav-links a:hover{color:var(--blue)}
+    .hero{overflow:hidden;position:relative;color:white;background:radial-gradient(circle at 85% 15%,rgba(50,211,152,.28),transparent 26%),linear-gradient(130deg,#0f382c,#165541 62%,#1e7858)}
+    .hero:after{content:"";position:absolute;width:420px;height:420px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-100px;bottom:-250px;box-shadow:0 0 0 45px rgba(255,255,255,.035),0 0 0 90px rgba(255,255,255,.025)}
+    .hero-inner{max-width:1120px;margin:auto;padding:86px 24px 100px;position:relative;z-index:1;display:grid;grid-template-columns:1.5fr .8fr;align-items:center;gap:48px}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#c2f7e2;text-transform:uppercase;letter-spacing:.15em;font-size:.76rem;font-weight:800;margin-bottom:18px}.eyebrow:before{content:"";height:2px;width:28px;background:var(--cyan)}
+    h1{font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.04;letter-spacing:-.055em;max-width:740px;margin-bottom:22px}
+    .hero p{font-size:1.12rem;color:#dcf3e8;max-width:670px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+    .btn{display:inline-flex;justify-content:center;align-items:center;gap:9px;padding:12px 18px;border-radius:11px;font-weight:750;font-size:.93rem;border:1px solid transparent;transition:transform .2s,box-shadow .2s,background .2s;cursor:pointer}
+    .btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--cyan);color:#06261c;box-shadow:0 8px 22px rgba(50,211,152,.22)}.btn-light{border-color:rgba(255,255,255,.45);color:white;background:rgba(255,255,255,.07)}.btn-dark{background:var(--navy);color:white}.btn-outline{border-color:#c4e2d4;color:var(--navy);background:white}
+    .hero-panel{padding:25px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.09);backdrop-filter:blur(8px);border-radius:22px;box-shadow:0 20px 60px rgba(0,0,0,.12)}
+    .hero-panel .panel-label{font-size:.76rem;text-transform:uppercase;letter-spacing:.13em;color:#bbf3db;font-weight:800}.hero-panel h2{font-size:1.35rem;margin:9px 0 15px}.focus-list{list-style:none;display:grid;gap:12px}.focus-list li{display:flex;gap:11px;color:#eaf8f2;font-size:.94rem}.check{flex:0 0 23px;height:23px;border-radius:7px;display:grid;place-items:center;background:rgba(50,211,152,.2);color:#9af0cd;font-weight:900}
+    main{max-width:1120px;margin:-30px auto 0;padding:0 24px;position:relative;z-index:2}.section{background:white;border:1px solid #e1eee7;border-radius:20px;padding:clamp(24px,4vw,42px);margin-bottom:24px;box-shadow:var(--shadow)}
+    .section-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:25px}.kicker{font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;color:var(--blue);font-weight:850}.section h2{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.04em;color:var(--navy);line-height:1.2;margin-top:5px}.section-intro{color:var(--muted);max-width:620px;font-size:.96rem;margin-top:9px}
+    .about-grid{display:grid;grid-template-columns:1.35fr .8fr;gap:30px}.about-copy p{color:#486358}.about-copy p+p{margin-top:12px}.quick-facts{display:grid;gap:12px}.fact{padding:15px 16px;border-radius:12px;background:#f2f9f5;border:1px solid #dceee4}.fact strong{display:block;color:var(--navy);font-size:.9rem}.fact span{font-size:.87rem;color:var(--muted)}
+    .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.skill-group{border:1px solid var(--line);border-radius:15px;padding:19px;background:linear-gradient(150deg,#fff,#f5faf7)}.skill-group h3{font-size:1rem;color:var(--navy);margin-bottom:12px}.tags{display:flex;flex-wrap:wrap;gap:8px}.tag{background:#e8f7f0;color:#1c694d;border:1px solid #cfeedf;padding:6px 10px;border-radius:8px;font-size:.82rem;font-weight:700}
+    .projects-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.project-card{overflow:hidden;border:1px solid #d9e8e0;border-radius:17px;background:white;transition:transform .22s,box-shadow .22s}.project-card:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(15,56,44,.12)}
+    .screenshot-slot{min-height:235px;position:relative;display:grid;place-items:center;text-align:center;padding:22px;background:linear-gradient(135deg,#e7f5ee,#d8ede2);border-bottom:1px solid #cbded4;overflow:hidden}
+    .screenshot-slot:before,.screenshot-slot:after{content:"";position:absolute;border:1px solid rgba(30,120,88,.16);border-radius:50%;width:190px;height:190px}.screenshot-slot:before{top:-95px;right:-45px}.screenshot-slot:after{bottom:-140px;left:-60px;width:250px;height:250px}
+    .placeholder-content{position:relative;z-index:1;max-width:280px}.placeholder-icon{height:48px;width:48px;margin:0 auto 10px;border-radius:14px;background:white;box-shadow:0 7px 18px rgba(25,92,67,.12);display:grid;place-items:center;color:var(--blue);font-size:1.45rem}.placeholder-content strong{display:block;color:var(--navy);font-size:.95rem}.placeholder-content span{display:block;color:#5c786c;font-size:.82rem;margin-top:5px}
+    .screenshot-slot img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;z-index:2;display:block}
+    .project-body{padding:22px}.project-type{font-size:.72rem;font-weight:850;text-transform:uppercase;letter-spacing:.11em;color:var(--blue)}.project-body h3{font-size:1.2rem;color:var(--navy);margin:6px 0 8px;letter-spacing:-.02em}.project-body p{font-size:.92rem;color:#546e62}.project-tags{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0 18px}.project-tags span{font-size:.75rem;color:#456155;background:#eef6f2;padding:5px 8px;border-radius:6px}.project-actions{display:flex;flex-wrap:wrap;gap:9px}.project-actions .btn{font-size:.82rem;padding:9px 12px;border-radius:9px}
+    .note{margin-top:18px;padding:14px 16px;border-left:3px solid var(--cyan);background:#f0faf5;color:#486659;border-radius:0 10px 10px 0;font-size:.88rem}
+    .timeline{display:grid;grid-template-columns:1fr 1fr;gap:16px}.placeholder-card{border:1px dashed #b2d1c2;border-radius:15px;padding:21px;background: #82e6a0}.placeholder-card h3{color:var(--navy);font-size:1rem;margin-bottom:7px}.placeholder-card p{color:var(--muted);font-size:.89rem}.placeholder-card .field{border-bottom:1px solid #d6e8de;padding:9px 0;color:#6d887b;font-size:.86rem}.placeholder-card .field:last-child{border-bottom:0}
+    .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.cert-card{border:1px solid var(--line);border-radius:15px;padding:19px;background:#fff;min-height:170px}.cert-icon{width:39px;height:39px;border-radius:11px;background:#e6f6ee;color:var(--blue);display:grid;place-items:center;font-size:1.2rem;margin-bottom:13px}.cert-card h3{font-size:.98rem;color:var(--navy);margin-bottom:6px}.cert-card p{font-size:.84rem;color:var(--muted)}.cert-card a{display:inline-block;color:var(--blue);font-weight:750;font-size:.83rem;margin-top:12px}
+    .contact-box{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:25px;border-radius:16px;background:linear-gradient(120deg,#0f382c,#1a6147);color:white}.contact-box h3{font-size:1.35rem;margin-bottom:5px}.contact-box p{color:#d3f0e3;max-width:600px;font-size:.93rem}.contact-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.contact-box .btn-outline{background:transparent;border-color:#6bbfa0;color:white}
+    footer{text-align:center;padding:30px 20px 38px;color:#6b8579;font-size:.85rem}
+    @media(max-width:800px){.hero-inner{grid-template-columns:1fr;padding-top:65px;gap:30px}.hero-panel{max-width:560px}.about-grid{grid-template-columns:1fr}.skills-grid{grid-template-columns:1fr}.cert-grid{grid-template-columns:repeat(2,1fr)}.nav{align-items:flex-start;flex-direction:column}.nav-links{gap:12px}}
+    @media(max-width:600px){.nav-links{font-size:.82rem}.hero-inner{padding-bottom:75px}.projects-grid,.timeline,.cert-grid{grid-template-columns:1fr}.screenshot-slot{min-height:200px}.section-heading{align-items:flex-start;flex-direction:column}.contact-box{align-items:flex-start;flex-direction:column}main{padding:0 13px}.section{padding:23px;border-radius:16px}}
+  </style>
 </head>
 <body>
-
-    <header>
-        <h1>Waner Alcequiez Ciriaco</h1>
-        <p>Desarrollador Web & Creador de Software de Escritorio</p>
-    </header>
-
-    <div class="container">
-        
-        <!-- Ficha Perfil -->
-        <section class="profile-card">
-            <!-- Cambia 'foto.jpg' por el nombre exacto de tu imagen en tu repositorio -->
-            <img src="foto.jpg" alt="Waner Alcequiez Ciriaco" class="profile-img">
-            <h2>Waner Alcequiez Ciriaco</h2>
-            <p class="profile-title">EL PROGRAMADOR</p>
-        </section>
-
-        <!-- Sobre mí -->
-        <section>
-            <h2>Sobre Mí</h2>
-            <p>Estudiante técnico con enfoque lógico y analítico. Apasionado por el desarrollo de aplicaciones web responsivas, herramientas de escritorio en Python y la creación de soluciones digitales eficientes y funcionales.
-                Lleno de proyectos personales y colaborativos, siempre buscando aprender y aplicar nuevas tecnologías para mejorar la experiencia del usuario y optimizar procesos.
-            </p>
-        </section>
-
-        <!-- Especialidades y Servicios -->
-        <section>
-            <h2>Especialidades y Servicios</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <h3>Desarrollo Web a Medida, Original y Personalizado</h3>
-                    <p>Creación de páginas web responsive, catálogos interactivos y landing pages estructuradas con HTML, CSS y JS.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Software de Escritorio</h3>
-                    <p>Desarrollo de aplicaciones ejecutables en Python con interfaz gráfica y persistencia de datos.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Integración de Tiendas y Pedidos</h3>
-                    <p>Implementación de tiendas online con carrito de compras y conexión directa para pedidos por WhatsApp o mensajería.</p>
-                </div>
-                <div class="service-card">
-                    <h3>Sistemas de Gestión e Inventarios</h3>
-                    <p>Herramientas digitales diseñadas para el control de inventarios, reportes e integración con conocimientos contables.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Habilidades -->
-        <section>
-            <h2>Habilidades Técnicas</h2>
-            <div class="skills-grid">
-                <div class="skill-tag">HTML5 / CSS3</div>
-                <div class="skill-tag">JavaScript</div>
-                <div class="skill-tag">Python (Tkinter)</div>
-                <div class="skill-tag">Java</div>
-                <div class="skill-tag">Contabilidad</div>
-                <div class="skill-tag">Node.js</div>
-                <div class="skill-tag">PyInstaller</div>
-            </div>
-        </section>
-
-        <!-- Proyectos -->
-        <section>
-            <h2>Proyectos Destacados</h2>
-            
-            <div class="project-card">
-                <h3>Tienda Online con Carrito y Pedidos</h3>
-                <p>Plataforma web interactiva y llamativa para comercios, orientada a catálogo dinámico y negocios.</p>
-            </div>
-
-            <div class="project-card">
-                <h3>Calculadora de Impuestos ISR (Python)</h3>
-                <p>Software de escritorio desarrollado con Python y Tkinter para el cálculo automatizado de retenciones salariales bajo normativas fiscales, con persistencia en JSON.</p>
-            </div>
-
-            <div class="project-card">
-                <h3>Catálogo de Productos y Contacto</h3>
-                <p>Plataforma web interactiva y llamativa para mostrar productos y facilitar la comunicación con los clientes.</p>
-            </div>
-
-            <div class="project-card">
-                <h3>Catálogo de Servicios y Comercios (Outsourcing)</h3>
-                <p>Plataforma web interactiva y llamativa para mostrar servicios y facilitar la comunicación con los clientes.</p>
-            </div>
-
-            <div class="project-card">
-                <h3>Sistema de Gestión de Inventario</h3>
-                <p>Aplicación de escritorio para el control y gestión eficiente del inventario, con funcionalidades de seguimiento y reportes.</p>
-            </div>
-        </section>
-
-        <!-- Calificaciones y Reseñas con Formulario Interactivo -->
-        <section>
-            <h2>Calificaciones y Reseñas</h2>
-            
-            <!-- Contenedor donde aparecerán las reseñas -->
-            <div class="reviews-grid" id="reviewsContainer">
-                <!-- Reseña inicial de ejemplo -->
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"ESTE es un ejemplo de reseña. Excelente trabajo con el desarrollo web. Muy profesional y eficiente."</p>
-                    <div class="review-author">Cliente Satisfecho</div>
-                    <div class="review-role">Proyecto Web</div>
-                </div>
-            </div>
-
-            <!-- Formulario para agregar reseña -->
-            <div class="review-form">
-                <h3>Deja tu Reseña</h3>
-                <form id="reviewForm">
-                    <div class="form-group">
-                        <label for="authorName">Tu Nombre o Empresa:</label>
-                        <input type="text" id="authorName" required placeholder="Ej. Juan Pérez">
-                    </div>
-                    <div class="form-group">
-                        <label for="authorRole">Tipo de Proyecto / Rol:</label>
-                        <input type="text" id="authorRole" required placeholder="Ej. Tienda Online / Software Python">
-                    </div>
-                    <div class="form-group">
-                        <label for="reviewRating">Calificación (Estrellas):</label>
-                        <select id="reviewRating">
-                            <option value="★★★★★">★★★★★ (5 Estrellas)</option>
-                            <option value="★★★★☆">★★★★☆ (4 Estrellas)</option>
-                            <option value="★★★☆☆">★★★☆☆ (3 Estrellas)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="reviewText">Tu Comentario:</label>
-                        <textarea id="reviewText" rows="3" required placeholder="Escribe aquí tu opinión..."></textarea>
-                    </div>
-                    <button type="submit" class="btn">Publicar Reseña</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- Contacto -->
-        <section>
-            <h2>Contacto</h2>
-            <p>¿Interesado en colaborar o necesitas un proyecto web, programa o servicio? Ponte en contacto conmigo:</p>
-            <div class="contact-links">
-                <a href="https://github.com/wanerjjeeeeeeee" target="_blank" class="btn">Ver GitHub</a>
-            </div>
-        </section>
-
+  <nav class="topbar" aria-label="Navegación principal">
+    <div class="nav">
+      <a class="brand" href="#inicio">Waner<span>.</span></a>
+      <div class="nav-links">
+        <a href="#perfil">Perfil</a><a href="#habilidades">Habilidades</a><a href="#proyectos">Proyectos</a><a href="#formacion">Formación</a><a href="#certificados">Certificados</a><a href="#contacto">Contacto</a>
+      </div>
     </div>
+  </nav>
 
-    <footer>
-        <p>&copy; 2026 Waner Alcequiez Ciriaco. Todos los derechos reservados.</p>
-    </footer>
+  <header class="hero" id="inicio">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Portafolio profesional</div>
+        <h1>Frontend e implementación de <span style="color:#7ef3c5">automatizaciones</span>.</h1>
+        <p>Soy Waner Alcequiez Ciriaco. Desarrollo interfaces frontend y mecanismos de automatización de procesos para crear experiencias digitales claras, funcionales y eficientes.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#proyectos">Explorar proyectos <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-light" href="#contacto">Contactarme</a>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <div class="panel-label">Enfoque de trabajo</div>
+        <h2>Soluciones digitales prácticas</h2>
+        <ul class="focus-list">
+          <li><span class="check">✓</span><span>Implementación frontend adaptable y centrada en la experiencia de usuario.</span></li>
+          <li><span class="check">✓</span><span>Automatización de tareas y procesos repetitivos.</span></li>
+          <li><span class="check">✓</span><span>Aplicaciones de escritorio y herramientas de apoyo a la gestión.</span></li>
+        </ul>
+      </aside>
+    </div>
+  </header>
 
-    <!-- Script de JavaScript para agregar dinámicamente las reseñas -->
-    <script>
-        const reviewForm = document.getElementById('reviewForm');
-        const reviewsContainer = document.getElementById('reviewsContainer');
+  <main>
+    <section class="section" id="perfil">
+      <div class="section-heading"><div><div class="kicker">01 / Perfil</div><h2>Sobre mí</h2><p class="section-intro">Un perfil orientado a construir herramientas digitales útiles y fáciles de utilizar.</p></div></div>
+      <div class="about-grid">
+        <div class="about-copy">
+          <p>Me enfoco en la implementación frontend y en el desarrollo de mecanismos de automatización de procesos. Me interesa convertir necesidades concretas en soluciones digitales funcionales, con interfaces claras y flujos de trabajo más eficientes.</p>
+          <p>Trabajo con tecnologías web y herramientas de programación para desarrollar sitios, interfaces y aplicaciones. En este portafolio presentaré proyectos, funcionalidades implementadas y ejemplos demostrables de mi trabajo.</p>
+        </div>
+        <div class="quick-facts">
+          <div class="fact"><strong>Área principal</strong><span>Frontend e interfaces web</span></div>
+          <div class="fact"><strong>Enfoque complementario</strong><span>Automatización de procesos</span></div>
+          <div class="fact"><strong>Portafolio de proyectos</strong><span>Web, escritorio y herramientas de gestión</span></div>
+        </div>
+      </div>
+    </section>
 
-        reviewForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Evita que la página se recargue
+    <section class="section" id="habilidades">
+      <div class="section-heading"><div><div class="kicker">02 / Tecnologías</div><h2>Habilidades técnicas</h2><p class="section-intro">Tecnologías mencionadas en mi portafolio actual, organizadas por área.</p></div></div>
+      <div class="skills-grid">
+        <div class="skill-group"><h3>Frontend</h3><div class="tags"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span></div></div>
+        <div class="skill-group"><h3>Programación y aplicaciones</h3><div class="tags"><span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">Java</span><span class="tag">Node.js</span></div></div>
+        <div class="skill-group"><h3>Herramientas y otros conocimientos</h3><div class="tags"><span class="tag">PyInstaller</span><span class="tag">JSON</span><span class="tag">Contabilidad</span></div></div>
+      </div>
+    </section>
 
-            // Obtener los valores del formulario
-            const name = document.getElementById('authorName').value;
-            const role = document.getElementById('authorRole').value;
-            const rating = document.getElementById('reviewRating').value;
-            const text = document.getElementById('reviewText').value;
+    <section class="section" id="proyectos">
+      <div class="section-heading"><div><div class="kicker">03 / Trabajo seleccionado</div><h2>Proyectos destacados</h2><p class="section-intro">Aqui encontrarás una selección de mis proyectos más relevantes, cada uno con una breve descripción y enlaces a la demostración.</p></div></div>
+      <div class="projects-grid">
+        <article class="project-card">
+          <div class="screenshot-slot"><div class="placeholder-content"><div class="placeholder-icon">▧</div><strong>AUN NO TENEMOS VISTA PREVIA</strong><span></span></div></div>
+          <div class="project-body"><div class="project-type">Frontend · Comercio electrónico</div><h3>Tienda online con carrito y pedidos</h3><p>Interfaz de catálogo de productos con flujo de compra y opciones para facilitar el envío de pedidos por mensajería.</p><div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div><div class="project-actions"><a class="btn btn-dark" href="#" target="_blank" rel="noopener">Ver demostración ↗</a><a class="btn btn-outline" href="https://github.com/wanerjjeeeeeeee" target="_blank" rel="noopener">Ver código</a></div></div>
+        </article>
+        <article class="project-card">
+          <div class="screenshot-slot"><div class="placeholder-content"><div class="placeholder-icon">▧</div><strong>AUN NO TENEMOS VISTA PREVIA</strong><span></span></div></div>
+          <div class="project-body"><div class="project-type">Automatización · Python</div><h3>Calculadora de impuestos ISR</h3><p>Aplicación de escritorio que automatiza cálculos de retenciones salariales y conserva datos mediante archivos JSON.</p><div class="project-tags"><span>Python</span><span>Tkinter</span><span>JSON</span></div><div class="project-actions"><a class="btn btn-dark" href="#" target="_blank" rel="noopener">Ver demostración ↗</a><a class="btn btn-outline" href="https://github.com/wanerjjeeeeeeee" target="_blank" rel="noopener">Ver código</a></div></div>
+        </article>
+        
+        <article class="project-card">
+          <div class="screenshot-slot">
+            <img src="WENWEB-IMG.png" alt="Vista previa de Jabón & Sueños - Catálogo de productos" style="display: block; width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; z-index: 2;">
+          </div>
+          <div class="project-body">
+            <div class="project-type">Frontend · Catálogo digital</div>
+            <h3>Catálogo de productos y contacto</h3>
+            <p>Plataforma para presentar productos de forma organizada y facilitar que los visitantes contacten al negocio.</p>
+            <div class="project-tags">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>JavaScript</span>
+            </div>
+            <div class="project-actions">
+              <a class="btn btn-dark" href="https://speak-spanish-1bc123.netlify.app" target="_blank" rel="noopener">Ver demostración ↗</a>
+              <a class="btn btn-outline" href="https://github.com/wanerjjeeeeeeee" target="_blank" rel="noopener">Ver código</a>
+            </div>
+          </div>
+        </article>
 
-            // Crear el elemento HTML de la nueva reseña
-            const newCard = document.createElement('div');
-            newCard.classList.add('review-card');
-            newCard.innerHTML = `
-                <div class="review-stars">${rating}</div>
-                <p class="review-text">"${text}"</p>
-                <div class="review-author">${name}</div>
-                <div class="review-role">${role}</div>
-            `;
+        <article class="project-card">
+          <div class="screenshot-slot"><div class="placeholder-content"><div class="placeholder-icon">▧</div><strong>AUN NO TENEMOS VISTA PREVIA</strong><span></span></div></div>
+          <div class="project-body"><div class="project-type">Frontend · Directorio digital</div><h3>Catálogo de servicios y comercios</h3><p>Interfaz para organizar y mostrar servicios o comercios, con información clara para ayudar al usuario a encontrar lo que busca.</p><div class="project-tags"><span>Frontend</span><span>Diseño adaptable</span><span>Interfaz web</span></div><div class="project-actions"><a class="btn btn-dark" href="#" target="_blank" rel="noopener">Ver demostración ↗</a><a class="btn btn-outline" href="https://github.com/wanerjjeeeeeeee" target="_blank" rel="noopener">Ver código</a></div></div>
+        </article>
+        <article class="project-card">
+          <div class="screenshot-slot"><div class="placeholder-content"><div class="placeholder-icon">▧</div><strong>AUN NO TENEMOS VISTA PREVIA</strong><span></span></div></div>
+          <div class="project-body"><div class="project-type">Automatización · Gestión</div><h3>Sistema de gestión de inventario</h3><p>Aplicación orientada al registro y seguimiento de artículos, con funcionalidades de control y reportes según la implementación del proyecto.</p><div class="project-tags"><span>Aplicación</span><span>Gestión de datos</span><span>Reportes</span></div><div class="project-actions"><a class="btn btn-dark" href="#" target="_blank" rel="noopener">Ver demostración ↗</a><a class="btn btn-outline" href="https://github.com/wanerjjeeeeeeee" target="_blank" rel="noopener">Ver código</a></div></div>
+        </article>
+        <article class="project-card">
+          <div class="screenshot-slot"><div class="placeholder-content"><div class="placeholder-icon">＋</div><strong>EN DESARROLLO</strong><span>Duplica esta tarjeta para añadir más trabajos</span></div></div>
+          <div class="project-body"><div class="project-type">PROYECTO EN DESARROLLO</div><h3>ESPERANDO VISTA PREVIA</h3><p>PRONTO</p><div class="project-tags"><span>Tecnología 1</span><span>Tecnología 2</span></div></div>
+        </article>
+      </div>
+    </section>
 
-            // Agregar la tarjeta nueva al principio de la lista
-            reviewsContainer.prepend(newCard);
+    <section class="section" id="formacion">
+      <div class="section-heading"><div><div class="kicker">04 / Educación</div><h2>Formación académica</h2><p class="section-intro">ESTA SECCION ESTÁ EN DESARROLLO PARA QUE ME CONOZCAN UN POCO MAS</p></div></div>
+      <div class="timeline">
+        <article class="placeholder-card"><h3>Estudios principales</h3><div class="field">Título o programa: EN DESARROLLO</div><div class="field">Institución: EN DESARROLLO</div><div class="field">Periodo: ESPERANDO INFORMACIÓN</div></article>
+        <article class="placeholder-card"><h3>Formación complementaria</h3><div class="field">Curso o programa: EN DESARROLLO</div><div class="field">Institución: EN DESARROLLO</div><div class="field">Periodo: ESPERANDO INFORMACIÓN</div></article>
+      </div>
+    </section>
 
-            // Limpiar el formulario
-            reviewForm.reset();
-        });
-    </script>
+    <section class="section" id="certificados">
+      <div class="section-heading"><div><div class="kicker">05 / Aprendizaje continuo</div><h2>Cursos y certificaciones</h2><p class="section-intro">ESTA SECCION ESTÁ EN DESARROLLO PARA QUE ME CONOZCAN UN POCO MAS</p></div></div>
+      <div class="cert-grid">
+        <article class="cert-card"><div class="cert-icon">✦</div><h3>Nombre del curso o certificado</h3><p>Institución emisora · Año</p><a href="#">Ver certificado ↗</a></article>
+        <article class="cert-card"><div class="cert-icon">✧</div><h3>Nombre del curso o certificado</h3><p>Institución emisora · Año</p><a href="#">Ver certificado ↗</a></article>
+        <article class="cert-card"><div class="cert-icon">◇</div><h3>Nombre del curso o certificado</h3><p>Institución emisora · Año</p><a href="#">Ver certificado ↗</a></article>
+      </div>
+    </section>
+
+    <section class="section" id="contacto">
+      <div class="section-heading"><div><div class="kicker">06 / Contacto</div><h2>Hablemos de tu proyecto</h2><p class="section-intro">ESTE ESPACIO ES EN CASO DE QUE QUIERAN CONTACTARME PARA ALGUN SERVICIO.</p></div></div>
+      <div class="contact-box">
+        <div><h3>¿Tienes una idea o un proceso que mejorar?</h3><p>Puedo colaborar en la implementación de interfaces frontend y en la construcción de herramientas digitales para automatizar tareas y organizar procesos.</p><div class="contact-links"><a class="btn btn-primary" href="https://github.com/wanerjjeeeeeeee" target="_blank" rel="noopener">Ver mi GitHub ↗</a></div></div>
+      </div>
+    </section>
+  </main>
+  <footer>© <span id="year"></span> Waner Alcequiez Ciriaco · Portafolio profesional</footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
 </body>
 </html>
