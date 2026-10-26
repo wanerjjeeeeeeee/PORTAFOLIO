@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Grupo Alba — Ingeniería y construcción</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap">
+<style>*{box-sizing:border-box;margin:0}img{max-width:100%}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--ac);outline-offset:2px}html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+:root{--bg:#fff;--tx:#1B1F23;--ac:#0A7E8C;--su:#E7F1F2}
+body{background:var(--bg);color:var(--tx);font-family:'IBM Plex Sans',sans-serif;line-height:1.6}
+header,section,footer{padding:clamp(1.2rem,5vw,4.5rem)}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dde}
+.logo{font-weight:700;font-size:1.3rem;color:var(--ac)}nav a{margin-left:1.4rem;color:inherit;text-decoration:none}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:3rem;align-items:center}
+h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.08}h2{font-size:1.9rem;margin-bottom:1.2rem}
+.hero p{margin:1rem 0 1.5rem;max-width:46ch}
+.foto{background:var(--su);display:grid;place-items:center;min-height:260px;color:#4a6}
+.btn{display:inline-block;background:var(--ac);color:#fff;padding:.8rem 1.5rem;text-decoration:none;font-weight:600;border:0;font:inherit;font-weight:600;cursor:pointer}
+.servicios{background:var(--su);display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.5rem}.servicios h2{grid-column:1/-1;margin:0}
+.servicios div{background:#fff;padding:1.3rem;border-left:6px solid var(--ac)}.servicios h3{margin-bottom:.4rem}
+.obras{display:grid;grid-template-columns:2fr 1fr;gap:1.2rem}.obras .foto{min-height:220px}.obras .foto:first-of-type{grid-row:span 2}
+.contacto{background:var(--tx);color:#fff;display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+form{display:grid;gap:.8rem}input,textarea{padding:.7rem;font:inherit;border:0}
+@media(max-width:760px){.hero,.contacto,.obras{grid-template-columns:1fr}}header{position:sticky;top:0;background:#fff;z-index:5;box-shadow:0 2px 14px #0001}.hero h1{font-size:clamp(2.2rem,5.5vw,4.2rem)}.hero .foto{min-height:360px;background:linear-gradient(135deg,#0A7E8C,#0A7E8Caa),repeating-linear-gradient(0deg,#fff3 0 2px,transparent 2px 28px),var(--su);color:#fff;font-weight:600;box-shadow:16px 16px 0 #CFE5E8}.btn{box-shadow:0 8px 20px #0A7E8C44}.servicios div{box-shadow:0 8px 24px #0A7E8C1a}.contacto{background:linear-gradient(135deg,#1B1F23,#12363b)}h2::after{content:'';display:block;width:56px;height:5px;background:var(--ac);margin-top:.5rem}</style></head><body>
+<header><span class="logo">Grupo Alba</span><nav><a href="#servicios">Servicios</a><a href="#obras">Obras</a><a href="#contacto">Contacto</a></nav></header>
+<section class="hero"><div><h1>Construimos con planos claros y plazos reales</h1><p>Ingeniería, remodelaciones y obras nuevas para viviendas y negocios. Te entregamos presupuesto por escrito antes de empezar.</p><a class="btn" href="#contacto">Pedir presupuesto</a></div><div class="foto">Foto de una obra</div></section>
+<section class="servicios" id="servicios"><h2>Servicios</h2><div><h3>Obras nuevas</h3><p>Casas, locales y naves, desde el plano hasta la entrega.</p></div><div><h3>Remodelaciones</h3><p>Cocinas, baños, techos y ampliaciones.</p></div><div><h3>Supervisión</h3><p>Revisamos tu obra y te informamos cada semana.</p></div></section>
+<section id="obras"><h2>Obras recientes</h2><div class="obras"><div class="foto">Foto de obra 1</div><div class="foto">Foto de obra 2</div><div class="foto">Foto de obra 3</div></div></section>
+<section class="contacto" id="contacto"><div><h2>Pide tu presupuesto</h2><p>Cuéntanos qué necesitas y te respondemos en un día laborable.</p><p>WhatsApp 809-000-0000<br>info@gruposalba.com</p></div>
+<form id="f"><input id="n" placeholder="Tu nombre" aria-label="Tu nombre" required><textarea id="m" rows="4" placeholder="¿Qué necesitas construir o remodelar?" aria-label="Mensaje" required></textarea><button class="btn">Enviar por WhatsApp</button></form></section>
+<script>document.getElementById("f").onsubmit=e=>{e.preventDefault();const t=`Hola, soy ${n.value}. ${m.value}`;window.open("https://wa.me/18090000000?text="+encodeURIComponent(t),"_blank")}</script></body></html>

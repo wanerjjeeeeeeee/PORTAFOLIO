@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ana y Luis — Nuestra boda</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost:wght@400;500&display=swap">
+<style>*{box-sizing:border-box;margin:0}img{max-width:100%}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--ac);outline-offset:2px}html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+:root{--bg:#F5F2F8;--tx:#2D1B3D;--ac:#8E5AA8}
+body{background:var(--bg);color:var(--tx);font-family:'Jost',sans-serif;line-height:1.6;text-align:center}
+section{padding:clamp(2.5rem,8vw,6rem) 1.5rem}
+h1,h2{font-family:'Cormorant Garamond',serif;font-weight:400}h1{font-size:clamp(3.5rem,14vw,9rem);line-height:.95}h1 span{display:block;font-size:.35em;margin:.4em 0}
+h2{font-size:2.4rem;margin-bottom:1rem}.hero{background:var(--tx);color:var(--bg);min-height:90vh;display:grid;align-content:center}
+#cuenta{display:flex;justify-content:center;gap:clamp(1rem,4vw,3rem);margin-top:2.5rem}#cuenta div{min-width:4rem}#cuenta b{display:block;font:400 clamp(2rem,7vw,3.5rem) 'Cormorant Garamond',serif}
+.datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;max-width:900px;margin:0 auto}.datos div{border-top:2px solid var(--ac);padding-top:1rem}
+form{max-width:420px;margin:0 auto;display:grid;gap:.9rem;text-align:left}label{display:grid;gap:.2rem}
+input,select{padding:.7rem;font:inherit;border:1.5px solid var(--tx);background:#fff}
+.btn{background:var(--ac);color:#fff;border:0;padding:.9rem;font:500 1rem 'Jost';cursor:pointer}.hero{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 30%,#4B2C66,#2D1B3D 70%)}.hero::before{content:'';position:absolute;left:50%;top:50%;width:min(95vw,720px);aspect-ratio:1;transform:translate(-50%,-50%);border:1px solid #ffffff2e;border-radius:50%;box-shadow:0 0 0 40px #ffffff08,0 0 0 90px #ffffff05}.hero>*{position:relative}.hero h1{text-shadow:0 4px 30px #8E5AA899}#cuenta div{border:1px solid #ffffff44;border-radius:14px;padding:.8rem 1rem}h2::after{content:'';display:block;width:70px;height:2px;background:var(--ac);margin:.8rem auto 0}.datos div{background:#fff;padding:1.5rem;border-top:4px solid var(--ac);box-shadow:0 10px 30px #2D1B3D14}.btn{letter-spacing:.04em}</style></head><body>
+<section class="hero"><p>Nos casamos</p><h1>Ana<span>y</span>Luis</h1><p>Sábado 19 de diciembre de 2026</p><div id="cuenta" aria-live="off"></div></section>
+<section><h2>Los detalles</h2><div class="datos"><div><h3>Ceremonia</h3><p>4:00 p. m.<br>Iglesia San Juan<br>Santo Domingo Este</p></div><div><h3>Recepción</h3><p>6:00 p. m.<br>Salón Las Palmas</p></div><div><h3>Vestimenta</h3><p>Formal. Colores claros para las damas, por favor.</p></div></div></section>
+<section style="background:#fff"><h2>Confirma tu asistencia</h2><form id="f"><label>Nombre<input id="n" required></label><label>Personas<select id="p"><option>1</option><option>2</option><option>3</option><option>4</option></select></label><label>¿Asistirás?<select id="a"><option>Sí, con gusto</option><option>No podré asistir</option></select></label><button class="btn">Confirmar por WhatsApp</button></form></section>
+<script>
+const FECHA=new Date("2026-12-19T16:00:00"),c=document.getElementById("cuenta");
+function tic(){let s=Math.max(0,Math.floor((FECHA-new Date())/1000));const v=[["días",86400],["horas",3600],["min",60],["seg",1]];
+c.innerHTML=v.map(([t,k])=>{const x=Math.floor(s/k);s-=x*k;return`<div><b>${x}</b>${t}</div>`}).join("")}
+tic();setInterval(tic,1000);
+document.getElementById("f").onsubmit=e=>{e.preventDefault();const t=`Hola, soy ${n.value}. ${a.value}. Personas: ${p.value}.`;window.open("https://wa.me/18090000000?text="+encodeURIComponent(t),"_blank")}
+</script></body></html>

@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPulse Solutions | Transformación Digital & Servicios Tech</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        pulse: {
+                            bg: '#090A0F',
+                            card: '#121420',
+                            border: '#23273B',
+                            purple: '#8B5CF6',
+                            cyan: '#06B6D4',
+                            pink: '#EC4899',
+                            glow: 'rgba(139, 92, 246, 0.25)',
+                            muted: '#94A3B8'
+                        }
+                    },
+                    fontFamily: {
+                        title: ['Space Grotesk', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #090A0F;
+            color: #F8FAFC;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(18, 20, 32, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(22, 26, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #8B5CF6 0%, #06B6D4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glow-purple {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.25);
+        }
+
+        .glow-cyan {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.25);
+        }
+
+        /* Range slider styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #23273B;
+            border-radius: 9999px;
+            height: 8px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            background: #8B5CF6;
+            cursor: pointer;
+            box-shadow: 0 0 10px #8B5CF6;
+            border: 2px solid #FFFFFF;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090A0F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #23273B;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8B5CF6;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-pulse-purple/30 selection:text-pulse-purple">
+
+    <!-- PROMOTIONAL CAMPAIGN TOP BANNER -->
+    <div class="bg-gradient-to-r from-pulse-purple via-pulse-cyan to-pulse-purple p-[1px]">
+        <div class="bg-pulse-bg/95 py-2.5 px-4 text-center text-xs font-semibold flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+            <span class="inline-flex items-center gap-1.5 text-pulse-pink font-bold uppercase tracking-wider text-[11px] bg-pulse-pink/10 px-2.5 py-0.5 rounded-full border border-pulse-pink/30">
+                <i class="fa-solid fa-fire text-xs animate-pulse"></i> Campaña Especial Tech2026
+            </span>
+            <span class="text-slate-200">¡Obtén hasta un <strong class="text-pulse-cyan">35% OFF</strong> en Desarrollo Web & Cloud Infrastructure!</span>
+            <span class="bg-pulse-purple text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-md font-mono tracking-widest">CÓDIGO: PULSE35</span>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-pulse-border/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- BRAND LOGO -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pulse-purple to-pulse-cyan p-[2px] group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-pulse-bg rounded-[10px] flex items-center justify-center">
+                        <i class="fa-solid fa-bolt text-pulse-purple text-lg"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-title text-2xl font-black tracking-wider text-white">TechPulse<span class="text-pulse-cyan">.</span></span>
+                    <span class="text-[9px] uppercase tracking-[0.25em] text-pulse-muted font-semibold -mt-1">Digital Solutions</span>
+                </div>
+            </a>
+
+            <!-- DESKTOP MENU -->
+            <nav class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-pulse-muted">
+                <a href="#hero" class="text-white hover:text-pulse-purple transition-colors">Inicio</a>
+                <a href="#promocion" class="hover:text-pulse-purple transition-colors text-pulse-pink flex items-center gap-1">
+                    <i class="fa-solid fa-tag"></i> Oferta
+                </a>
+                <a href="#calculadora" class="hover:text-pulse-purple transition-colors">Cotizador</a>
+                <a href="#comparativa" class="hover:text-pulse-purple transition-colors">Antes / Después</a>
+                <a href="#testimonios" class="hover:text-pulse-purple transition-colors">Casos de Éxito</a>
+                <a href="#faq" class="hover:text-pulse-purple transition-colors">FAQ</a>
+            </nav>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex items-center gap-3">
+                <button onclick="openQuoteModal()" class="hidden sm:flex bg-gradient-to-r from-pulse-purple to-pulse-cyan text-white font-title font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-full shadow-lg hover:scale-105 transition-all items-center gap-2">
+                    <i class="fa-solid fa-rocket"></i>
+                    <span>Solicitar Propuesta</span>
+                </button>
+
+                <button onclick="toggleMobileDrawer()" class="md:hidden text-white p-2 text-xl" aria-label="Abrir Menú">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- MOBILE DRAWER -->
+        <div id="mobileDrawer" class="hidden md:hidden glass-panel border-b border-pulse-border px-6 py-6 flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-center">
+            <a href="#hero" onclick="toggleMobileDrawer()" class="py-2 hover:text-pulse-purple">Inicio</a>
+            <a href="#promocion" onclick="toggleMobileDrawer()" class="py-2 text-pulse-pink">Oferta Limitada</a>
+            <a href="#calculadora" onclick="toggleMobileDrawer()" class="py-2 hover:text-pulse-purple">Cotizador Interactivo</a>
+            <a href="#comparativa" onclick="toggleMobileDrawer()" class="py-2 hover:text-pulse-purple">Impacto Digital</a>
+            <a href="#testimonios" onclick="toggleMobileDrawer()" class="py-2 hover:text-pulse-purple">Casos de Éxito</a>
+            <a href="#faq" onclick="toggleMobileDrawer()" class="py-2 hover:text-pulse-purple">Preguntas Frecuentes</a>
+            <button onclick="toggleMobileDrawer(); openQuoteModal();" class="mt-2 bg-gradient-to-r from-pulse-purple to-pulse-cyan text-white py-3 rounded-full">
+                Solicitar Propuesta
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION WITH PROMO COUNTDOWN -->
+    <section id="hero" class="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden">
+        <!-- Glow Blobs -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-pulse-purple/20 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute top-1/3 right-10 w-[350px] h-[350px] bg-pulse-cyan/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-pulse-card border border-pulse-purple/40 px-4 py-2 rounded-full text-xs font-bold text-pulse-purple uppercase tracking-widest">
+                        <span class="w-2 h-2 rounded-full bg-pulse-cyan animate-ping"></span>
+                        <span>Transformación Digital de Alto Impacto</span>
+                    </div>
+
+                    <h1 class="font-title text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-white leading-none">
+                        Escala tu negocio con <span class="gradient-text">software y cloud</span> a medida.
+                    </h1>
+
+                    <p class="text-pulse-muted text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                        Diseñamos plataformas web ultra rápidas, aplicaciones móviles y soluciones en la nube optimizadas para convertir visitas en ingresos recurrentes.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#calculadora" class="w-full sm:w-auto bg-gradient-to-r from-pulse-purple to-pulse-cyan text-white px-8 py-4 rounded-full font-title font-bold uppercase tracking-wider text-sm shadow-xl hover:scale-105 transition-all text-center flex items-center justify-center gap-3 glow-purple">
+                            <span>Calcular Mi Presupuesto</span>
+                            <i class="fa-solid fa-calculator text-xs"></i>
+                        </a>
+                        <button onclick="openQuoteModal()" class="w-full sm:w-auto glass-card border border-pulse-border text-white hover:border-pulse-purple/60 px-8 py-4 rounded-full font-title font-bold uppercase tracking-wider text-sm transition-all">
+                            Agendar Consultoría Gratis
+                        </button>
+                    </div>
+
+                    <!-- Trust Stats -->
+                    <div class="pt-8 border-t border-pulse-border/60 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div>
+                            <p class="font-title text-2xl lg:text-3xl font-black text-white">+180</p>
+                            <p class="text-pulse-muted text-[11px] uppercase tracking-wider">Proyectos Entregados</p>
+                        </div>
+                        <div>
+                            <p class="font-title text-2xl lg:text-3xl font-black text-pulse-cyan">99.8%</p>
+                            <p class="text-pulse-muted text-[11px] uppercase tracking-wider">Uptime & Rendimiento</p>
+                        </div>
+                        <div>
+                            <p class="font-title text-2xl lg:text-3xl font-black text-pulse-purple">4.9/5</p>
+                            <p class="text-pulse-muted text-[11px] uppercase tracking-wider">Calificación Clientes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Countdown Card -->
+                <div class="lg:col-span-5" id="promocion">
+                    <div class="glass-card rounded-3xl p-6 sm:p-8 border border-pulse-border glow-purple relative overflow-hidden">
+                        
+                        <div class="absolute -top-12 -right-12 w-32 h-32 bg-pulse-purple/30 rounded-full blur-2xl"></div>
+
+                        <div class="text-center space-y-3 mb-6">
+                            <span class="bg-rose-500/20 text-rose-400 border border-rose-500/40 text-[10px] font-extrabold uppercase px-3 py-1 rounded-full tracking-widest inline-block">
+                                ⏳ Descuento por Tiempo Limitado
+                            </span>
+                            <h3 class="font-title text-2xl font-black text-white uppercase">Paquete Digital Pro</h3>
+                            <p class="text-xs text-pulse-muted">Incluye Rediseño Web + Auditoría SEO + Optimización Cloud.</p>
+                        </div>
+
+                        <!-- COUNTDOWN TIMER -->
+                        <div class="grid grid-cols-4 gap-2 text-center my-6">
+                            <div class="bg-pulse-bg border border-pulse-border p-3 rounded-2xl">
+                                <span id="days" class="font-title font-black text-2xl text-pulse-purple">02</span>
+                                <span class="block text-[9px] uppercase tracking-wider text-pulse-muted font-bold mt-1">Días</span>
+                            </div>
+                            <div class="bg-pulse-bg border border-pulse-border p-3 rounded-2xl">
+                                <span id="hours" class="font-title font-black text-2xl text-pulse-purple">14</span>
+                                <span class="block text-[9px] uppercase tracking-wider text-pulse-muted font-bold mt-1">Horas</span>
+                            </div>
+                            <div class="bg-pulse-bg border border-pulse-border p-3 rounded-2xl">
+                                <span id="minutes" class="font-title font-black text-2xl text-pulse-purple">38</span>
+                                <span class="block text-[9px] uppercase tracking-wider text-pulse-muted font-bold mt-1">Min</span>
+                            </div>
+                            <div class="bg-pulse-bg border border-pulse-border p-3 rounded-2xl">
+                                <span id="seconds" class="font-title font-black text-2xl text-pulse-cyan">45</span>
+                                <span class="block text-[9px] uppercase tracking-wider text-pulse-muted font-bold mt-1">Seg</span>
+                            </div>
+                        </div>
+
+                        <!-- Pricing Badge -->
+                        <div class="bg-pulse-bg/80 border border-pulse-border p-4 rounded-2xl mb-6 text-center">
+                            <div class="text-xs text-pulse-muted line-through font-bold">$2,800.00 USD</div>
+                            <div class="font-title font-black text-3xl text-white mt-1">
+                                $1,820.00 <span class="text-xs font-bold text-pulse-cyan">USD (-35%)</span>
+                            </div>
+                            <p class="text-[10px] text-emerald-400 font-semibold mt-1">
+                                <i class="fa-solid fa-shield-halved"></i> Garantía de Entrega en 14 Días
+                            </p>
+                        </div>
+
+                        <button onclick="openQuoteModal('Paquete Digital Pro - Promoción')" class="w-full bg-gradient-to-r from-pulse-purple to-pulse-cyan text-white font-title font-bold text-xs uppercase tracking-wider py-4 rounded-full shadow-lg hover:scale-[1.02] transition-transform">
+                            Reclamar Descuento Ahora <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE SERVICE PACK CALCULATOR -->
+    <section id="calculadora" class="py-20 bg-pulse-card/50 border-y border-pulse-border relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-xs font-bold uppercase tracking-widest text-pulse-purple">Transparencia Total</span>
+                <h2 class="font-title text-3xl sm:text-5xl font-black text-white uppercase mt-2">
+                    Cotizador Interactivo de Servicios
+                </h2>
+                <p class="text-pulse-muted text-sm mt-3">
+                    Personaliza las características de tu proyecto y calcula un estimado instantáneo con el descuento promocional aplicado.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Calculator Options -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <!-- Service Type Selector -->
+                    <div class="glass-card p-6 rounded-3xl border border-pulse-border space-y-3">
+                        <label class="block font-title font-bold text-sm text-white uppercase">1. Selecciona el Tipo de Proyecto</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <button onclick="selectServiceType('web', 990)" id="btn-type-web" class="service-type-btn active p-4 rounded-2xl bg-pulse-purple/20 border border-pulse-purple text-left transition-all">
+                                <i class="fa-solid fa-laptop-code text-pulse-purple text-xl mb-2"></i>
+                                <h4 class="font-title font-bold text-xs text-white uppercase">Sitio Web Pro</h4>
+                                <p class="text-[10px] text-pulse-muted mt-1">Desde $990 USD</p>
+                            </button>
+
+                            <button onclick="selectServiceType('app', 1850)" id="btn-type-app" class="service-type-btn p-4 rounded-2xl bg-pulse-bg border border-pulse-border text-left hover:border-pulse-purple/50 transition-all">
+                                <i class="fa-solid fa-mobile-screen text-pulse-cyan text-xl mb-2"></i>
+                                <h4 class="font-title font-bold text-xs text-white uppercase">App Móvil</h4>
+                                <p class="text-[10px] text-pulse-muted mt-1">Desde $1,850 USD</p>
+                            </button>
+
+                            <button onclick="selectServiceType('cloud', 1400)" id="btn-type-cloud" class="service-type-btn p-4 rounded-2xl bg-pulse-bg border border-pulse-border text-left hover:border-pulse-purple/50 transition-all">
+                                <i class="fa-solid fa-server text-pulse-pink text-xl mb-2"></i>
+                                <h4 class="font-title font-bold text-xs text-white uppercase">Cloud & API</h4>
+                                <p class="text-[10px] text-pulse-muted mt-1">Desde $1,400 USD</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Addons / Features Checkboxes -->
+                    <div class="glass-card p-6 rounded-3xl border border-pulse-border space-y-4">
+                        <label class="block font-title font-bold text-sm text-white uppercase">2. Módulos Adicionales</label>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-pulse-bg border border-pulse-border cursor-pointer hover:border-pulse-purple/50">
+                                <input type="checkbox" onchange="calculateTotal()" id="addon-seo" class="accent-pulse-purple w-4 h-4" data-price="350">
+                                <div>
+                                    <span class="font-bold text-white block">Optimización SEO Avanzada</span>
+                                    <span class="text-[10px] text-pulse-muted">+$350 USD</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-pulse-bg border border-pulse-border cursor-pointer hover:border-pulse-purple/50">
+                                <input type="checkbox" onchange="calculateTotal()" id="addon-cms" class="accent-pulse-purple w-4 h-4" data-price="400">
+                                <div>
+                                    <span class="font-bold text-white block">Panel CMS Admin Autogestionable</span>
+                                    <span class="text-[10px] text-pulse-muted">+$400 USD</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-pulse-bg border border-pulse-border cursor-pointer hover:border-pulse-purple/50">
+                                <input type="checkbox" onchange="calculateTotal()" id="addon-payment" class="accent-pulse-purple w-4 h-4" data-price="300">
+                                <div>
+                                    <span class="font-bold text-white block">Pasarela de Pagos (Stripe/PayPal)</span>
+                                    <span class="text-[10px] text-pulse-muted">+$300 USD</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-pulse-bg border border-pulse-border cursor-pointer hover:border-pulse-purple/50">
+                                <input type="checkbox" onchange="calculateTotal()" id="addon-speed" class="accent-pulse-purple w-4 h-4" data-price="250">
+                                <div>
+                                    <span class="font-bold text-white block">Aceleración de Carga CDN</span>
+                                    <span class="text-[10px] text-pulse-muted">+$250 USD</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Urgency Slider -->
+                    <div class="glass-card p-6 rounded-3xl border border-pulse-border space-y-3">
+                        <div class="flex justify-between items-center text-xs">
+                            <label class="font-title font-bold text-white uppercase">3. Tiempo Estimado de Entrega</label>
+                            <span id="urgencyLabel" class="font-bold text-pulse-cyan">Estándar (14 Días)</span>
+                        </div>
+                        <input type="range" min="1" max="3" value="2" id="urgencySlider" oninput="calculateTotal()" class="w-full">
+                        <div class="flex justify-between text-[10px] text-pulse-muted font-bold">
+                            <span>Flexible (21 Días)</span>
+                            <span>Estándar (14 Días)</span>
+                            <span>Express (7 Días +20%)</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Calculator Summary Card -->
+                <div class="lg:col-span-5">
+                    <div class="glass-card p-6 sm:p-8 rounded-3xl border border-pulse-purple/50 glow-purple sticky top-28 space-y-6">
+                        <div class="border-b border-pulse-border pb-4">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-pulse-cyan">Resumen del Presupuesto</span>
+                            <h3 class="font-title text-2xl font-black text-white uppercase mt-1">Estimación en Tiempo Real</h3>
+                        </div>
+
+                        <div class="space-y-3 text-xs">
+                            <div class="flex justify-between text-pulse-muted">
+                                <span>Servicio Base:</span>
+                                <span id="summaryBasePrice" class="font-bold text-white">$990.00 USD</span>
+                            </div>
+                            <div class="flex justify-between text-pulse-muted">
+                                <span>Adicionales Seleccionados:</span>
+                                <span id="summaryAddonsPrice" class="font-bold text-white">$0.00 USD</span>
+                            </div>
+                            <div class="flex justify-between text-pulse-muted">
+                                <span>Ajuste por Tiempo:</span>
+                                <span id="summaryTimePrice" class="font-bold text-white">$0.00 USD</span>
+                            </div>
+                            <div class="flex justify-between text-emerald-400 font-bold border-t border-pulse-border/60 pt-2">
+                                <span>Descuento Promocional (35%):</span>
+                                <span id="summaryDiscount">-$346.50 USD</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-pulse-border pt-4 text-center">
+                            <span class="text-[10px] uppercase tracking-wider text-pulse-muted font-bold">Total Estimado Final</span>
+                            <div class="font-title font-black text-4xl text-white mt-1">
+                                <span id="calculatedTotal">$643.50</span> <span class="text-xs text-pulse-cyan">USD</span>
+                            </div>
+                            <p class="text-[10px] text-pulse-muted mt-2">Sin costos ocultos. Incluye 3 meses de soporte técnico gratis.</p>
+                        </div>
+
+                        <button onclick="requestCalculatedQuote()" class="w-full bg-gradient-to-r from-pulse-purple to-pulse-cyan text-white font-title font-bold text-xs uppercase tracking-wider py-4 rounded-full shadow-lg hover:scale-105 transition-all">
+                            Reservar Esta Cotización <i class="fa-solid fa-check-double ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- BEFORE AND AFTER INTERACTIVE COMPARISON SLIDER -->
+    <section id="comparativa" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="text-xs font-bold uppercase tracking-widest text-pulse-cyan">Resultados Medibles</span>
+            <h2 class="font-title text-3xl sm:text-5xl font-black text-white uppercase mt-2">
+                El Impacto de Trabajar con TechPulse
+            </h2>
+            <p class="text-pulse-muted text-sm mt-3">
+                Desliza la barra interactiva para comparar la velocidad de carga y tasa de conversión antes y después de nuestra intervención.
+            </p>
+        </div>
+
+        <!-- Comparison Slider Widget -->
+        <div class="max-w-4xl mx-auto glass-card rounded-3xl p-4 sm:p-6 border border-pulse-border">
+            
+            <div class="relative w-full h-[320px] sm:h-[420px] rounded-2xl overflow-hidden select-none" id="comparisonContainer">
+                
+                <!-- AFTER IMAGE / STATE (Underneath) -->
+                <div class="absolute inset-0 bg-gradient-to-br from-slate-900 to-pulse-card p-6 sm:p-10 flex flex-col justify-between border-2 border-emerald-500/50">
+                    <div class="flex justify-between items-center">
+                        <span class="bg-emerald-500 text-black text-xs font-black uppercase px-3 py-1 rounded-full">
+                            CON TECHPULSE (DESPUÉS)
+                        </span>
+                        <span class="text-emerald-400 font-title font-bold text-sm"><i class="fa-solid fa-gauge-high"></i> Performance: 99/100</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 text-center my-auto">
+                        <div class="bg-pulse-bg/80 p-4 rounded-2xl border border-emerald-500/30">
+                            <p class="font-title text-2xl sm:text-4xl font-black text-emerald-400">0.8s</p>
+                            <p class="text-[10px] sm:text-xs text-pulse-muted uppercase tracking-wider font-bold mt-1">Tiempo de Carga</p>
+                        </div>
+                        <div class="bg-pulse-bg/80 p-4 rounded-2xl border border-emerald-500/30">
+                            <p class="font-title text-2xl sm:text-4xl font-black text-emerald-400">+310%</p>
+                            <p class="text-[10px] sm:text-xs text-pulse-muted uppercase tracking-wider font-bold mt-1">Tasa Conversión</p>
+                        </div>
+                        <div class="bg-pulse-bg/80 p-4 rounded-2xl border border-emerald-500/30">
+                            <p class="font-title text-2xl sm:text-4xl font-black text-emerald-400">100%</p>
+                            <p class="text-[10px] sm:text-xs text-pulse-muted uppercase tracking-wider font-bold mt-1">Seguridad SSL/Cloud</p>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-emerald-300 text-center font-semibold">Plataforma ultrarrápida optimizada para motores de búsqueda y dispositivos móviles.</p>
+                </div>
+
+                <!-- BEFORE IMAGE / STATE (Clipping Overlay) -->
+                <div class="absolute inset-0 bg-gradient-to-br from-slate-950 to-slate-900 p-6 sm:p-10 flex flex-col justify-between border-2 border-rose-500/50 overflow-hidden" id="beforeOverlay" style="width: 50%;">
+                    <div class="flex justify-between items-center w-[300px] sm:w-[600px]">
+                        <span class="bg-rose-500 text-white text-xs font-black uppercase px-3 py-1 rounded-full">
+                            SITIO TRADICIONAL (ANTES)
+                        </span>
+                        <span class="text-rose-400 font-title font-bold text-sm"><i class="fa-solid fa-triangle-exclamation"></i> Performance: 34/100</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 text-center my-auto w-[300px] sm:w-[600px]">
+                        <div class="bg-black/60 p-4 rounded-2xl border border-rose-500/30">
+                            <p class="font-title text-2xl sm:text-4xl font-black text-rose-500">5.4s</p>
+                            <p class="text-[10px] sm:text-xs text-pulse-muted uppercase tracking-wider font-bold mt-1">Tiempo de Carga</p>
+                        </div>
+                        <div class="bg-black/60 p-4 rounded-2xl border border-rose-500/30">
+                            <p class="font-title text-2xl sm:text-4xl font-black text-rose-500">1.2%</p>
+                            <p class="text-[10px] sm:text-xs text-pulse-muted uppercase tracking-wider font-bold mt-1">Tasa Conversión</p>
+                        </div>
+                        <div class="bg-black/60 p-4 rounded-2xl border border-rose-500/30">
+                            <p class="font-title text-2xl sm:text-4xl font-black text-rose-500">Bajo</p>
+                            <p class="text-[10px] sm:text-xs text-pulse-muted uppercase tracking-wider font-bold mt-1">SEO Rankings</p>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-rose-300 text-center font-semibold w-[300px] sm:w-[600px]">Pérdida constante de clientes potenciales debido a lentitud y errores.</p>
+                </div>
+
+                <!-- Handle bar -->
+                <div class="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-20" id="sliderHandle" style="left: 50%;">
+                    <div class="w-8 h-8 rounded-full bg-pulse-purple border-2 border-white text-white flex items-center justify-center text-xs absolute top-1/2 -translate-y-1/2 -translate-x-1/2 shadow-xl">
+                        <i class="fa-solid fa-arrows-left-right"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS & CASE STUDIES -->
+    <section id="testimonios" class="py-20 bg-pulse-card/30 border-t border-pulse-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-xs font-bold uppercase tracking-widest text-pulse-purple">Prueba Social</span>
+                <h2 class="font-title text-3xl sm:text-5xl font-black text-white uppercase mt-2">
+                    Historias de Éxito de Nuestros Clientes
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="glass-card p-6 rounded-3xl border border-pulse-border hover:border-pulse-purple/50 transition-all flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex text-pulse-cyan text-xs gap-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">
+                            "Rediseñaron nuestra plataforma e-commerce en menos de 2 semanas. Las ventas se triplicaron durante el primer mes de lanzamiento. El equipo es sumamente profesional."
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-pulse-border/60 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-pulse-purple to-pulse-cyan flex items-center justify-center font-title font-bold text-white">
+                            CR
+                        </div>
+                        <div>
+                            <h4 class="font-title font-bold text-xs text-white">Carlos Ramírez</h4>
+                            <p class="text-[10px] text-pulse-muted">CEO en UrbanTech Store</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl border border-pulse-border hover:border-pulse-purple/50 transition-all flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex text-pulse-cyan text-xs gap-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">
+                            "Aprovechamos la promoción de TechPulse Solutions para migrar nuestra infraestructura a la nube. El rendimiento mejoró drásticamente y ahorramos costos mensuales."
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-pulse-border/60 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-pulse-pink to-pulse-purple flex items-center justify-center font-title font-bold text-white">
+                            MA
+                        </div>
+                        <div>
+                            <h4 class="font-title font-bold text-xs text-white">María Alvarado</h4>
+                            <p class="text-[10px] text-pulse-muted">Directora Digital en FinTech Latam</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl border border-pulse-border hover:border-pulse-purple/50 transition-all flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex text-pulse-cyan text-xs gap-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed italic">
+                            "El cotizador en tiempo real nos dio la confianza que necesitábamos. Entregaron todo a tiempo con un diseño oscuro impecable y moderno."
+                        </p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-pulse-border/60 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-pulse-cyan to-emerald-400 flex items-center justify-center font-title font-bold text-white">
+                            JG
+                        </div>
+                        <div>
+                            <h4 class="font-title font-bold text-xs text-white">Javier Gómez</h4>
+                            <p class="text-[10px] text-pulse-muted">Fundador de SaaS Analytics</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ ACCORDION SECTION -->
+    <section id="faq" class="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-14">
+            <span class="text-xs font-bold uppercase tracking-widest text-pulse-cyan">Resuelve tus Dudas</span>
+            <h2 class="font-title text-3xl sm:text-4xl font-black text-white uppercase mt-2">
+                Preguntas Frecuentes
+            </h2>
+        </div>
+
+        <div class="space-y-4" id="faqAccordion">
+            
+            <div class="glass-card rounded-2xl border border-pulse-border overflow-hidden">
+                <button onclick="toggleFaq(1)" class="w-full p-5 text-left font-title font-bold text-sm text-white flex justify-between items-center gap-4">
+                    <span>¿Cómo aplico la promoción del 35% de descuento?</span>
+                    <i class="fa-solid fa-chevron-down text-pulse-purple transition-transform duration-300" id="faq-icon-1"></i>
+                </button>
+                <div class="hidden px-5 pb-5 text-xs text-pulse-muted leading-relaxed" id="faq-content-1">
+                    El descuento del 35% se aplica automáticamente al solicitar tu cotización a través de la web o el cotizador interactivo durante el periodo de campaña. El código promocional es <strong>PULSE35</strong>.
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl border border-pulse-border overflow-hidden">
+                <button onclick="toggleFaq(2)" class="w-full p-5 text-left font-title font-bold text-sm text-white flex justify-between items-center gap-4">
+                    <span>¿Cuánto tiempo toma desarrollar un proyecto web o app?</span>
+                    <i class="fa-solid fa-chevron-down text-pulse-purple transition-transform duration-300" id="faq-icon-2"></i>
+                </button>
+                <div class="hidden px-5 pb-5 text-xs text-pulse-muted leading-relaxed" id="faq-content-2">
+                    Nuestros tiempos estándar varían entre 7 y 21 días laborables dependiendo de los módulos adicionales seleccionados en la cotización.
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl border border-pulse-border overflow-hidden">
+                <button onclick="toggleFaq(3)" class="w-full p-5 text-left font-title font-bold text-sm text-white flex justify-between items-center gap-4">
+                    <span>¿Qué garantía ofrecen en el desarrollo?</span>
+                    <i class="fa-solid fa-chevron-down text-pulse-purple transition-transform duration-300" id="faq-icon-3"></i>
+                </button>
+                <div class="hidden px-5 pb-5 text-xs text-pulse-muted leading-relaxed" id="faq-content-3">
+                    Todos nuestros paquetes incluyen 3 meses de soporte técnico gratuito posterior al lanzamiento, monitoreo de servidor y corrección sin costo de cualquier inconsistencia.
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl border border-pulse-border overflow-hidden">
+                <button onclick="toggleFaq(4)" class="w-full p-5 text-left font-title font-bold text-sm text-white flex justify-between items-center gap-4">
+                    <span>¿Cuáles son las opciones de pago disponibles?</span>
+                    <i class="fa-solid fa-chevron-down text-pulse-purple transition-transform duration-300" id="faq-icon-4"></i>
+                </button>
+                <div class="hidden px-5 pb-5 text-xs text-pulse-muted leading-relaxed" id="faq-content-4">
+                    Aceptamos transferencias bancarias internacionales, tarjetas de crédito/débito a través de Stripe y pagos con criptomonedas estables (USDT/USDC). Manejamos esquema 50% al iniciar y 50% al entregar.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-pulse-card border-t border-pulse-border text-pulse-muted text-xs pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-pulse-border/60">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-pulse-purple flex items-center justify-center font-title font-black text-white">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <span class="font-title text-xl font-black text-white">TechPulse.</span>
+                    </div>
+                    <p class="leading-relaxed">
+                        Agencia de desarrollo de software y transformación digital enfocada en crear soluciones modernas de alto rendimiento.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-title font-bold text-white uppercase text-xs tracking-wider mb-4">Servicios</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#calculadora" class="hover:text-pulse-purple">Desarrollo Web Pro</a></li>
+                        <li><a href="#calculadora" class="hover:text-pulse-purple">Aplicaciones Móviles</a></li>
+                        <li><a href="#calculadora" class="hover:text-pulse-purple">Cloud & Infraestructura</a></li>
+                        <li><a href="#calculadora" class="hover:text-pulse-purple">Auditoría de Velocidad</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-title font-bold text-white uppercase text-xs tracking-wider mb-4">Campañas</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#promocion" class="hover:text-pulse-purple text-pulse-pink">Promoción Tech2026</a></li>
+                        <li><a href="#calculadora" class="hover:text-pulse-purple">Cotizador en Línea</a></li>
+                        <li><a href="#testimonios" class="hover:text-pulse-purple">Casos de Éxito</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-title font-bold text-white uppercase text-xs tracking-wider mb-4">Contacto Directo</h4>
+                    <p class="mb-2"><i class="fa-solid fa-envelope text-pulse-cyan"></i> contacto@techpulse.solutions</p>
+                    <p><i class="fa-brands fa-whatsapp text-emerald-400"></i> +1 (800) 987-TECH</p>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+                <p>&copy; 2026 TechPulse Solutions Inc. Todos los derechos reservados.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white">Privacidad</a>
+                    <a href="#" class="hover:text-white">Términos del Servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INSTANT QUOTE GENERATOR MODAL -->
+    <div id="quoteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="bg-pulse-card border border-pulse-purple/50 max-w-lg w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl glow-purple">
+            
+            <button onclick="closeQuoteModal()" class="absolute top-5 right-5 text-pulse-muted hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="quoteModalForm">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-pulse-purple/20 text-pulse-purple flex items-center justify-center mx-auto text-xl mb-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </div>
+                    <h3 class="font-title font-bold text-2xl text-white uppercase">Solicitar Propuesta</h3>
+                    <p class="text-xs text-pulse-muted mt-1" id="quoteModalSub">Ingresa tus datos para enviarte la cotización formal con el 35% OFF.</p>
+                </div>
+
+                <form onsubmit="submitQuoteForm(event)" class="space-y-4 text-xs">
+                    <div>
+                        <label class="block font-bold text-white mb-1">Nombre Completo</label>
+                        <input type="text" placeholder="Ej. Roberto Gómez" required class="w-full bg-pulse-bg border border-pulse-border rounded-xl p-3 text-white focus:outline-none focus:border-pulse-purple">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-white mb-1">Correo Corporativo</label>
+                            <input type="email" placeholder="roberto@empresa.com" required class="w-full bg-pulse-bg border border-pulse-border rounded-xl p-3 text-white focus:outline-none focus:border-pulse-purple">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-white mb-1">Teléfono / WhatsApp</label>
+                            <input type="tel" placeholder="+1 555 0192" required class="w-full bg-pulse-bg border border-pulse-border rounded-xl p-3 text-white focus:outline-none focus:border-pulse-purple">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-white mb-1">Detalles o Requerimientos del Proyecto</label>
+                        <textarea rows="3" placeholder="Cuéntanos brevemente qué necesitas..." class="w-full bg-pulse-bg border border-pulse-border rounded-xl p-3 text-white focus:outline-none focus:border-pulse-purple"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-pulse-purple to-pulse-cyan text-white font-title font-bold uppercase tracking-wider py-3.5 rounded-full shadow-lg hover:scale-[1.02] transition-transform">
+                        Enviar Solicitud Inmediata <i class="fa-solid fa-bolt ml-1"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- SUCCESS STATE -->
+            <div id="quoteSuccessState" class="hidden text-center py-8 space-y-4">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-3xl animate-bounce">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="font-title text-2xl font-black text-white uppercase">¡Solicitud Recibida!</h3>
+                <p class="text-xs text-pulse-muted leading-relaxed max-w-sm mx-auto">
+                    Un consultor senior revisará tu proyecto y se comunicará en menos de 30 minutos con la propuesta final.
+                </p>
+                <button onclick="closeQuoteModal()" class="bg-pulse-purple text-white font-title font-bold text-xs uppercase px-8 py-3 rounded-full mt-4">
+                    Aceptar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // CALCULATOR STATE
+        let currentBasePrice = 990;
+        let selectedAddonsTotal = 0;
+        let urgencyMultiplier = 1; // 1 = Estándar, 0.9 = Flexible, 1.2 = Express
+
+        function selectServiceType(type, price) {
+            currentBasePrice = price;
+            
+            document.querySelectorAll('.service-type-btn').forEach(btn => {
+                btn.className = 'service-type-btn p-4 rounded-2xl bg-pulse-bg border border-pulse-border text-left hover:border-pulse-purple/50 transition-all';
+            });
+
+            const activeBtn = document.getElementById(`btn-type-${type}`);
+            if (activeBtn) {
+                activeBtn.className = 'service-type-btn active p-4 rounded-2xl bg-pulse-purple/20 border border-pulse-purple text-left transition-all';
+            }
+
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            // Calculate Addons
+            selectedAddonsTotal = 0;
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][data-price]');
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    selectedAddonsTotal += parseFloat(cb.getAttribute('data-price'));
+                }
+            });
+
+            // Calculate Urgency Slider
+            const sliderValue = document.getElementById('urgencySlider').value;
+            const urgencyLabel = document.getElementById('urgencyLabel');
+            
+            let timeAdjustment = 0;
+            if (sliderValue == "1") {
+                urgencyLabel.innerText = "Flexible (21 Días -5%)";
+                timeAdjustment = -(currentBasePrice + selectedAddonsTotal) * 0.05;
+            } else if (sliderValue == "2") {
+                urgencyLabel.innerText = "Estándar (14 Días)";
+                timeAdjustment = 0;
+            } else {
+                urgencyLabel.innerText = "Express (7 Días +20%)";
+                timeAdjustment = (currentBasePrice + selectedAddonsTotal) * 0.20;
+            }
+
+            const subtotal = currentBasePrice + selectedAddonsTotal + timeAdjustment;
+            const discount = subtotal * 0.35;
+            const finalTotal = subtotal - discount;
+
+            // Update UI elements
+            document.getElementById('summaryBasePrice').innerText = `$${currentBasePrice.toFixed(2)} USD`;
+            document.getElementById('summaryAddonsPrice').innerText = `$${selectedAddonsTotal.toFixed(2)} USD`;
+            document.getElementById('summaryTimePrice').innerText = `$${timeAdjustment.toFixed(2)} USD`;
+            document.getElementById('summaryDiscount').innerText = `-$${discount.toFixed(2)} USD`;
+            document.getElementById('calculatedTotal').innerText = `$${finalTotal.toFixed(2)}`;
+        }
+
+        function requestCalculatedQuote() {
+            const total = document.getElementById('calculatedTotal').innerText;
+            openQuoteModal(`Cotización Personalizada: ${total} USD`);
+        }
+
+        // MODAL LOGIC
+        function openQuoteModal(titleText) {
+            document.getElementById('quoteModal').classList.remove('hidden');
+            document.getElementById('quoteModalForm').classList.remove('hidden');
+            document.getElementById('quoteSuccessState').classList.add('hidden');
+
+            if (titleText) {
+                document.getElementById('quoteModalSub').innerText = `Aplicando oferta para: ${titleText}`;
+            }
+        }
+
+        function closeQuoteModal() {
+            document.getElementById('quoteModal').classList.add('hidden');
+        }
+
+        function submitQuoteForm(e) {
+            e.preventDefault();
+            document.getElementById('quoteModalForm').classList.add('hidden');
+            document.getElementById('quoteSuccessState').classList.remove('hidden');
+        }
+
+        // MOBILE DRAWER
+        function toggleMobileDrawer() {
+            document.getElementById('mobileDrawer').classList.toggle('hidden');
+        }
+
+        // FAQ ACCORDION TOGGLE
+        function toggleFaq(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // BEFORE AND AFTER COMPARISON SLIDER DRAG
+        function initComparisonSlider() {
+            const container = document.getElementById('comparisonContainer');
+            const overlay = document.getElementById('beforeOverlay');
+            const handle = document.getElementById('sliderHandle');
+            let isDragging = false;
+
+            if (!container || !overlay || !handle) return;
+
+            function updateSliderPosition(x) {
+                const rect = container.getBoundingClientRect();
+                let position = ((x - rect.left) / rect.width) * 100;
+                if (position < 0) position = 0;
+                if (position > 100) position = 100;
+
+                overlay.style.width = `${position}%`;
+                handle.style.left = `${position}%`;
+            }
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                updateSliderPosition(e.clientX);
+            });
+
+            window.addEventListener('mouseup', () => isDragging = false);
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                updateSliderPosition(e.clientX);
+            });
+
+            // Touch events for mobile responsiveness
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                updateSliderPosition(e.touches[0].clientX);
+            });
+            window.addEventListener('touchend', () => isDragging = false);
+            window.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                updateSliderPosition(e.touches[0].clientX);
+            });
+        }
+
+        // PROMOTIONAL TIMER COUNTDOWN
+        function startCountdown() {
+            let days = 2, hours = 14, minutes = 38, seconds = 45;
+
+            setInterval(() => {
+                seconds--;
+                if (seconds < 0) { seconds = 59; minutes--; }
+                if (minutes < 0) { minutes = 59; hours--; }
+                if (hours < 0) { hours = 23; days--; }
+                if (days < 0) { days = 0; hours = 0; minutes = 0; seconds = 0; }
+
+                document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+                document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+                document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            }, 1000);
+        }
+
+        // INIT ON LOAD
+        window.addEventListener('DOMContentLoaded', () => {
+            calculateTotal();
+            initComparisonSlider();
+            startCountdown();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Portafolio — Tu Nombre</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;900&display=swap">
+<style>*{box-sizing:border-box;margin:0}img{max-width:100%}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--ac);outline-offset:2px}html{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+:root{--bg:#E9F0F2;--tx:#0E2A38;--ac:#FF5C8A}
+body{background:var(--bg);color:var(--tx);font-family:'Schibsted Grotesk',sans-serif;line-height:1.55;padding:0 clamp(1rem,5vw,4rem)}
+header{display:flex;justify-content:space-between;padding:1.5rem 0}header a{color:inherit;margin-left:1.5rem}
+.nombre{font-size:clamp(3.5rem,14vw,11rem);font-weight:900;line-height:.9;letter-spacing:-.04em;margin:4vw 0 1rem}
+.rol{font-size:1.3rem;max-width:34ch}
+.fila{display:grid;grid-template-columns:3rem 1fr auto;gap:1rem;padding:1.4rem 0;border-top:2px solid var(--tx);align-items:baseline;color:inherit;text-decoration:none}
+.fila:hover{background:var(--ac);padding-inline:1rem}.fila h3{font-size:1.6rem}.fila small{display:block;font-weight:400}
+h2{font-size:1rem;margin:5rem 0 1rem}
+.sobre{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:900px}
+.tec{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0}.tec li{border:2px solid var(--tx);padding:.2rem .8rem}
+footer{padding:5rem 0 2rem}footer a{font-size:clamp(1.6rem,5vw,3.5rem);font-weight:900;color:var(--ac)}
+@media(max-width:700px){.sobre{grid-template-columns:1fr}}body{background-image:radial-gradient(#0E2A3828 1px,transparent 1px);background-size:22px 22px}.nombre{display:inline;background:linear-gradient(transparent 62%,var(--ac) 62% 92%,transparent 92%);-webkit-box-decoration-break:clone;box-decoration-break:clone}.rol{margin-top:2rem}h2{font-size:1.1rem;font-weight:800}h2::before{content:'';display:inline-block;width:.8em;height:.8em;background:var(--ac);border-radius:50%;margin-right:.5em}.fila h3{font-weight:900}.tec li{font-weight:600;background:#fff}.tec li:hover{background:var(--tx);color:var(--bg)}footer a{border-bottom:6px solid var(--ac)}</style></head><body>
+<header><b>Tu Nombre</b><nav><a href="#proyectos">Proyectos</a><a href="#sobre">Sobre mí</a><a href="#contacto">Contacto</a></nav></header>
+<main><h1 class="nombre">Hago webs que funcionan.</h1><p class="rol">Desarrollo web y aplicaciones de escritorio para negocios pequeños y proyectos de estudio.</p>
+<h2 id="proyectos">Proyectos</h2>
+<a class="fila" href="#"><span>2026</span><h3>Tienda online <small>HTML, CSS y JavaScript</small></h3><span>Ver</span></a>
+<a class="fila" href="#"><span>2026</span><h3>Catálogo de servicios <small>Sitio de varias páginas</small></h3><span>Ver</span></a>
+<a class="fila" href="#"><span>2025</span><h3>Calculadora de impuestos <small>Python y Tkinter</small></h3><span>Ver</span></a>
+<a class="fila" href="#"><span>2025</span><h3>Carro robot con Bluetooth <small>Arduino y control web</small></h3><span>Ver</span></a>
+<h2 id="sobre">Sobre mí</h2><div class="sobre"><p>Estudio redes, datos y seguridad. Me gusta construir cosas que se puedan abrir, probar y mejorar paso a paso.</p><ul class="tec"><li>Python</li><li>JavaScript</li><li>HTML y CSS</li><li>Arduino</li></ul></div></main>
+<footer id="contacto"><p>¿Tienes un proyecto?</p><a href="mailto:correo@ejemplo.com">correo@ejemplo.com</a></footer></body></html>

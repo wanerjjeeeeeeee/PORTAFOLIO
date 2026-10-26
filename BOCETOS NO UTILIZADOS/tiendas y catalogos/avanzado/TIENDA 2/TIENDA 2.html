@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS Studio | Urban Luxury & Cyberwear Store</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        nexus: {
+                            bg: '#0A0B0E',
+                            card: '#12141A',
+                            border: '#222632',
+                            neon: '#10B981', // Emerald Electric
+                            cyan: '#06B6D4',
+                            gold: '#F59E0B',
+                            text: '#F3F4F6',
+                            muted: '#9CA3AF'
+                        }
+                    },
+                    fontFamily: {
+                        title: ['Space Grotesk', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0A0B0E;
+            color: #F3F4F6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .neon-glow-green {
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .neon-glow-cyan {
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.3);
+        }
+
+        .neon-border-hover:hover {
+            border-color: #10B981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+        }
+
+        .glass-panel {
+            background: rgba(18, 20, 26, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(22, 26, 35, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0A0B0E;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #222632;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #10B981;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-nexus-neon/30 selection:text-nexus-neon">
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="bg-gradient-to-r from-nexus-neon/20 via-nexus-cyan/20 to-nexus-neon/20 border-b border-nexus-neon/30 py-2 px-4 text-center text-xs font-semibold tracking-wider uppercase flex items-center justify-center gap-3">
+        <span class="flex h-2 w-2 rounded-full bg-nexus-neon animate-ping"></span>
+        <span>⚡ LANZAMIENTO EXCLUSIVO COLECCIÓN 2026 — ENVÍO GRATIS EN PEDIDOS SOBRE $99</span>
+        <span class="hidden sm:inline-block bg-nexus-neon text-black font-extrabold px-2 py-0.5 rounded text-[10px]">CÓDIGO: NEXUS26</span>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 glass-panel border-b border-nexus-border/60 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- BRAND LOGO -->
+            <a href="#" class="flex items-center gap-2 group flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-nexus-neon to-nexus-cyan p-[2px] group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-nexus-bg rounded-[10px] flex items-center justify-center">
+                        <span class="font-title font-black text-xl text-nexus-neon">N</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-title text-2xl font-black tracking-wider text-white">NEXUS<span class="text-nexus-neon">.</span></span>
+                    <span class="text-[9px] uppercase tracking-[0.3em] text-nexus-muted -mt-1 font-semibold">Streetwear Lab</span>
+                </div>
+            </a>
+
+            <!-- DESKTOP NAV -->
+            <nav class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-nexus-muted">
+                <a href="#hero" class="text-white hover:text-nexus-neon transition-colors">Inicio</a>
+                <a href="#catalogo" class="hover:text-nexus-neon transition-colors">Colecciones</a>
+                <a href="#flash-sale" class="hover:text-nexus-neon transition-colors flex items-center gap-1.5 text-nexus-gold">
+                    <i class="fa-solid fa-bolt text-xs"></i>
+                    <span>Ofertas Relámpago</span>
+                </a>
+                <a href="#features" class="hover:text-nexus-neon transition-colors">Beneficios</a>
+                <a href="#contacto" class="hover:text-nexus-neon transition-colors">Contacto</a>
+            </nav>
+
+            <!-- SEARCH BAR & CART BUTTON -->
+            <div class="flex items-center gap-3">
+                <!-- Search Input -->
+                <div class="relative hidden sm:block w-48 lg:w-64">
+                    <input type="text" id="searchInput" oninput="searchProducts()" placeholder="Buscar prendas, tech..." class="w-full bg-nexus-card border border-nexus-border/80 rounded-full py-2 pl-9 pr-4 text-xs text-white placeholder-nexus-muted focus:outline-none focus:border-nexus-neon transition-colors">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-nexus-muted text-xs"></i>
+                </div>
+
+                <!-- Favorites Badge Button -->
+                <button onclick="showToast('Tus favoritos se sincronizan automáticamente')" class="w-10 h-10 rounded-full bg-nexus-card border border-nexus-border flex items-center justify-center text-nexus-muted hover:text-rose-500 hover:border-rose-500/50 transition-colors relative" aria-label="Favoritos">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <!-- Cart Button with Counter -->
+                <button onclick="toggleCartDrawer()" class="w-10 h-10 rounded-full bg-gradient-to-r from-nexus-neon to-nexus-cyan text-black font-bold flex items-center justify-center shadow-lg hover:opacity-90 transition-opacity relative group" aria-label="Carrito de Compras">
+                    <i class="fa-solid fa-bag-shopping text-sm"></i>
+                    <span id="cartBadgeCount" class="absolute -top-1 -right-1 bg-rose-500 text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-nexus-bg animate-pulse">0</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-white p-2 text-xl" aria-label="Menú">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- MOBILE MENU -->
+        <div id="mobileMenu" class="hidden md:hidden glass-panel border-b border-nexus-border px-6 py-4 flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-center">
+            <a href="#hero" onclick="toggleMobileMenu()" class="py-2 hover:text-nexus-neon">Inicio</a>
+            <a href="#catalogo" onclick="toggleMobileMenu()" class="py-2 hover:text-nexus-neon">Colecciones</a>
+            <a href="#flash-sale" onclick="toggleMobileMenu()" class="py-2 text-nexus-gold">Ofertas Relámpago</a>
+            <a href="#features" onclick="toggleMobileMenu()" class="py-2 hover:text-nexus-neon">Beneficios</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="py-2 hover:text-nexus-neon">Contacto</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative pt-8 pb-20 lg:pt-16 lg:pb-32 overflow-hidden">
+        <!-- Background Lighting Blobs -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-nexus-neon/15 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute top-1/3 right-10 w-[350px] h-[350px] bg-nexus-cyan/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Content Left -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-nexus-card border border-nexus-neon/40 px-4 py-1.5 rounded-full text-xs font-bold text-nexus-neon tracking-widest uppercase">
+                        <i class="fa-solid fa-fire text-nexus-gold"></i>
+                        <span>DROP 04 / CYBER-URBAN COLLECTION</span>
+                    </div>
+
+                    <h1 class="font-title text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-white leading-tight">
+                        Redefine el <span class="gradient-text">futuro</span> del estilo urbano.
+                    </h1>
+
+                    <p class="text-nexus-muted text-sm sm:text-base max-w-xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Prendas exclusivas de edición limitada con estética cyberpunk, materiales impermeables inteligentes y siluetas oversize diseñadas para destacar.
+                    </p>
+
+                    <!-- CTAs & Trust Stats -->
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#catalogo" class="w-full sm:w-auto bg-gradient-to-r from-nexus-neon to-nexus-cyan text-black px-8 py-4 rounded-full font-title font-bold uppercase tracking-wider text-sm shadow-xl hover:scale-105 transition-all text-center flex items-center justify-center gap-3">
+                            <span>Explorar Catálogo</span>
+                            <i class="fa-solid fa-arrow-right-long text-xs"></i>
+                        </a>
+                        <a href="#flash-sale" class="w-full sm:w-auto glass-card border border-nexus-border text-white hover:border-nexus-neon/60 px-8 py-4 rounded-full font-title font-bold uppercase tracking-wider text-sm transition-all text-center">
+                            Ver Descuentos <span class="text-nexus-neon ml-1"> hasta -40%</span>
+                        </a>
+                    </div>
+
+                    <!-- Metrics Badges -->
+                    <div class="pt-8 border-t border-nexus-border/60 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div>
+                            <p class="font-title text-2xl lg:text-3xl font-black text-white">+15K</p>
+                            <p class="text-nexus-muted text-[11px] uppercase tracking-wider font-medium">Clientes Globales</p>
+                        </div>
+                        <div>
+                            <p class="font-title text-2xl lg:text-3xl font-black text-nexus-neon">100%</p>
+                            <p class="text-nexus-muted text-[11px] uppercase tracking-wider font-medium">Edición Limitada</p>
+                        </div>
+                        <div>
+                            <p class="font-title text-2xl lg:text-3xl font-black text-white">4.9 ★</p>
+                            <p class="text-nexus-muted text-[11px] uppercase tracking-wider font-medium">+2,400 Reviews</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image Showcase Right -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative max-w-md mx-auto lg:max-w-none">
+                        
+                        <!-- Main Product Card Showcase -->
+                        <div class="relative rounded-3xl overflow-hidden glass-card border border-nexus-border p-3 neon-glow-green group">
+                            <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=800" alt="Cyber Hoodie Limited Edition" class="w-full aspect-[4/5] object-cover rounded-2xl group-hover:scale-105 transition-transform duration-700">
+                            
+                            <!-- Overlay Badge -->
+                            <div class="absolute top-6 left-6 bg-black/80 backdrop-blur-md border border-nexus-neon/50 px-3 py-1.5 rounded-full text-[11px] font-bold text-nexus-neon uppercase tracking-wider">
+                                🔥 Top Seller del Mes
+                            </div>
+
+                            <div class="absolute bottom-6 left-6 right-6 p-4 rounded-2xl glass-panel border border-white/10 flex items-center justify-between">
+                                <div>
+                                    <p class="text-xs font-bold uppercase tracking-widest text-nexus-muted">Techwear Hoodies</p>
+                                    <p class="font-title font-bold text-white text-base">Cyber-Matrix Oversize</p>
+                                    <p class="text-xs font-bold text-nexus-neon mt-0.5">$129.00 USD</p>
+                                </div>
+                                <button onclick="quickAddToCart(1)" class="w-10 h-10 rounded-full bg-nexus-neon text-black flex items-center justify-center font-bold hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge -->
+                        <div class="absolute -bottom-6 -left-6 bg-nexus-card border border-nexus-border p-4 rounded-2xl shadow-2xl hidden sm:flex items-center gap-3 animate-bounce" style="animation-duration: 5s;">
+                            <div class="w-10 h-10 rounded-xl bg-nexus-neon/20 text-nexus-neon flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-xs font-bold text-white">Despacho Express</p>
+                                <p class="text-[10px] text-nexus-muted">Entregas en 24/48 Horas</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FLASH SALES SECTION WITH COUNTDOWN -->
+    <section id="flash-sale" class="py-12 bg-gradient-to-r from-nexus-card via-nexus-bg to-nexus-card border-y border-nexus-border relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <div class="flex items-center gap-4 text-center md:text-left">
+                    <div class="w-12 h-12 rounded-2xl bg-nexus-gold/20 border border-nexus-gold/40 text-nexus-gold flex items-center justify-center text-2xl flex-shrink-0">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-nexus-gold">Venta Relámpago</span>
+                        <h3 class="font-title text-2xl font-black text-white uppercase">Drop Exclusivo Cyber Monday</h3>
+                    </div>
+                </div>
+
+                <!-- Timer Counter -->
+                <div class="flex items-center gap-3 font-title">
+                    <div class="text-center bg-nexus-bg border border-nexus-border px-3.5 py-2 rounded-xl min-w-[60px]">
+                        <span id="timerHours" class="font-black text-xl text-nexus-neon">08</span>
+                        <span class="block text-[9px] uppercase tracking-wider text-nexus-muted">Horas</span>
+                    </div>
+                    <span class="text-nexus-muted font-bold text-xl">:</span>
+                    <div class="text-center bg-nexus-bg border border-nexus-border px-3.5 py-2 rounded-xl min-w-[60px]">
+                        <span id="timerMinutes" class="font-black text-xl text-nexus-neon">42</span>
+                        <span class="block text-[9px] uppercase tracking-wider text-nexus-muted">Min</span>
+                    </div>
+                    <span class="text-nexus-muted font-bold text-xl">:</span>
+                    <div class="text-center bg-nexus-bg border border-nexus-border px-3.5 py-2 rounded-xl min-w-[60px]">
+                        <span id="timerSeconds" class="font-black text-xl text-nexus-cyan">15</span>
+                        <span class="block text-[9px] uppercase tracking-wider text-nexus-muted">Seg</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCT CATALOG & CATEGORY TABS -->
+    <section id="catalogo" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header & Category Filters -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-widest text-nexus-neon">Explora la Colección</span>
+                <h2 class="font-title text-3xl sm:text-4xl font-black text-white uppercase mt-1">Catálogo Destacado</h2>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="flex flex-wrap items-center gap-2" id="categoryTabs">
+                <button onclick="filterCategory('all')" class="cat-tab active px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-nexus-neon text-black shadow-lg" data-category="all">
+                    Todos
+                </button>
+                <button onclick="filterCategory('apparel')" class="cat-tab px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-nexus-card border border-nexus-border text-nexus-muted hover:text-white hover:border-nexus-neon" data-category="apparel">
+                    Prendas / Hoodies
+                </button>
+                <button onclick="filterCategory('footwear')" class="cat-tab px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-nexus-card border border-nexus-border text-nexus-muted hover:text-white hover:border-nexus-neon" data-category="footwear">
+                    Calzado Sneakers
+                </button>
+                <button onclick="filterCategory('accessories')" class="cat-tab px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-nexus-card border border-nexus-border text-nexus-muted hover:text-white hover:border-nexus-neon" data-category="accessories">
+                    Accesorios & Tech
+                </button>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="productsGrid">
+            <!-- Dynamically populated via JS -->
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="py-16 bg-nexus-card border-y border-nexus-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-nexus-neon/10 border border-nexus-neon/30 text-nexus-neon flex items-center justify-center text-xl flex-shrink-0">
+                        <i class="fa-solid fa-truck-fast"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-title font-bold text-sm text-white uppercase">Envío Internacional</h4>
+                        <p class="text-xs text-nexus-muted mt-0.5">Gratis en compras superiores a $99 USD.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-nexus-cyan/10 border border-nexus-cyan/30 text-nexus-cyan flex items-center justify-center text-xl flex-shrink-0">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-title font-bold text-sm text-white uppercase">Pago 100% Seguro</h4>
+                        <p class="text-xs text-nexus-muted mt-0.5">Encriptación SSL & Stripe / PayPal.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-nexus-gold/10 border border-nexus-gold/30 text-nexus-gold flex items-center justify-center text-xl flex-shrink-0">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-title font-bold text-sm text-white uppercase">Garantía de Devolución</h4>
+                        <p class="text-xs text-nexus-muted mt-0.5">30 días para cambios sin preguntas.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400 flex items-center justify-center text-xl flex-shrink-0">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-title font-bold text-sm text-white uppercase">Soporte VIP 24/7</h4>
+                        <p class="text-xs text-nexus-muted mt-0.5">Atención en vivo por chat o WhatsApp.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER SUBSCRIPTION -->
+    <section id="contacto" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative rounded-3xl overflow-hidden glass-panel border border-nexus-border p-8 sm:p-14 text-center">
+            <div class="absolute -top-24 -right-24 w-72 h-72 bg-nexus-neon/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-nexus-cyan/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-2xl mx-auto space-y-4">
+                <span class="text-xs font-bold uppercase tracking-widest text-nexus-neon">Comunidad NEXUS</span>
+                <h3 class="font-title text-3xl sm:text-5xl font-black text-white uppercase">Suscríbete y Obtén 15% OFF</h3>
+                <p class="text-nexus-muted text-xs sm:text-sm font-normal">
+                    Accede a lanzamientos secretos antes que nadie, descuentos privados y eventos exclusivos de la marca.
+                </p>
+
+                <form onsubmit="handleNewsletter(event)" class="pt-4 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input type="email" id="newsletterEmail" placeholder="Tu correo electrónico..." required class="flex-grow bg-nexus-card border border-nexus-border rounded-full px-5 py-3.5 text-xs text-white placeholder-nexus-muted focus:outline-none focus:border-nexus-neon">
+                    <button type="submit" class="bg-gradient-to-r from-nexus-neon to-nexus-cyan text-black font-title font-bold uppercase tracking-wider text-xs px-8 py-3.5 rounded-full shadow-lg hover:scale-105 transition-all">
+                        Unirme Ahora
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-nexus-card border-t border-nexus-border text-nexus-muted text-xs pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-nexus-border/60">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-nexus-neon flex items-center justify-center font-title font-black text-black">
+                            N
+                        </div>
+                        <span class="font-title text-xl font-black text-white">NEXUS.</span>
+                    </div>
+                    <p class="leading-relaxed text-nexus-muted">
+                        Marca independiente de streetwear de alta gama combinando diseño futurista, tecnología textil e identidad urbana.
+                    </p>
+                    <div class="flex gap-3 text-base pt-2">
+                        <a href="#" class="w-8 h-8 rounded-full bg-nexus-bg border border-nexus-border flex items-center justify-center hover:text-nexus-neon transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-nexus-bg border border-nexus-border flex items-center justify-center hover:text-nexus-neon transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-nexus-bg border border-nexus-border flex items-center justify-center hover:text-nexus-neon transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-nexus-bg border border-nexus-border flex items-center justify-center hover:text-nexus-neon transition-colors"><i class="fa-brands fa-discord"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-title font-bold text-white uppercase text-xs tracking-wider mb-4">Navegación</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#hero" class="hover:text-nexus-neon transition-colors">Inicio</a></li>
+                        <li><a href="#catalogo" class="hover:text-nexus-neon transition-colors">Novedades</a></li>
+                        <li><a href="#catalogo" class="hover:text-nexus-neon transition-colors">Colecciones Limitadas</a></li>
+                        <li><a href="#flash-sale" class="hover:text-nexus-neon transition-colors">Ofertas Relámpago</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-title font-bold text-white uppercase text-xs tracking-wider mb-4">Atención al Cliente</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="showToast('Guía de Tallas enviada'); return false;" class="hover:text-nexus-neon transition-colors">Guía de Tallas</a></li>
+                        <li><a href="#" onclick="showToast('Rastrea tu pedido ingresando tu código'); return false;" class="hover:text-nexus-neon transition-colors">Rastrear Pedido</a></li>
+                        <li><a href="#" onclick="showToast('Envíos a todo el mundo'); return false;" class="hover:text-nexus-neon transition-colors">Políticas de Envío</a></li>
+                        <li><a href="#" onclick="showToast('Preguntas Frecuentes'); return false;" class="hover:text-nexus-neon transition-colors">Preguntas Frecuentes (FAQ)</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-title font-bold text-white uppercase text-xs tracking-wider mb-4">Métodos de Pago</h4>
+                    <p class="mb-3 text-[11px]">Aceptamos todas las tarjetas principales y activos digitales.</p>
+                    <div class="flex flex-wrap gap-2 text-xl text-nexus-muted">
+                        <i class="fa-brands fa-cc-visa hover:text-white"></i>
+                        <i class="fa-brands fa-cc-mastercard hover:text-white"></i>
+                        <i class="fa-brands fa-cc-apple-pay hover:text-white"></i>
+                        <i class="fa-brands fa-cc-paypal hover:text-white"></i>
+                        <i class="fa-brands fa-bitcoin hover:text-nexus-gold"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+                <p>&copy; 2026 NEXUS Studio Inc. Todos los derechos reservados.</p>
+                <p class="flex items-center gap-1">
+                    <span>Diseñado para marcas de alto impacto</span> <i class="fa-solid fa-bolt text-nexus-neon"></i>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SHOPPING CART DRAWER -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 hidden">
+        <!-- Backdrop -->
+        <div onclick="toggleCartDrawer()" class="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity"></div>
+        
+        <!-- Drawer Panel -->
+        <div class="absolute top-0 right-0 h-full w-full max-w-md bg-nexus-card border-l border-nexus-border shadow-2xl flex flex-col justify-between z-10 transition-transform">
+            
+            <!-- Drawer Header -->
+            <div class="p-5 border-b border-nexus-border flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping text-nexus-neon"></i>
+                    <h3 class="font-title font-bold text-lg text-white uppercase">Tu Carrito</h3>
+                    <span id="cartHeaderCount" class="text-xs bg-nexus-border text-nexus-muted px-2 py-0.5 rounded-full font-bold">0 ítems</span>
+                </div>
+                <button onclick="toggleCartDrawer()" class="text-nexus-muted hover:text-white text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items Container -->
+            <div class="p-5 flex-grow overflow-y-auto custom-scrollbar space-y-4" id="cartItemsList">
+                <!-- Dynamically populated or empty state -->
+            </div>
+
+            <!-- Drawer Footer / Summary -->
+            <div class="p-5 border-t border-nexus-border bg-nexus-bg space-y-3">
+                <div class="space-y-1.5 text-xs">
+                    <div class="flex justify-between text-nexus-muted">
+                        <span>Subtotal</span>
+                        <span id="cartSubtotal" class="font-bold text-white">$0.00 USD</span>
+                    </div>
+                    <div class="flex justify-between text-nexus-muted">
+                        <span>Impuestos est. (8%)</span>
+                        <span id="cartTaxes" class="font-bold text-white">$0.00 USD</span>
+                    </div>
+                    <div class="flex justify-between text-nexus-muted">
+                        <span>Envío</span>
+                        <span class="font-bold text-nexus-neon">GRATIS</span>
+                    </div>
+                    <div class="flex justify-between text-sm font-title font-bold text-white pt-2 border-t border-nexus-border">
+                        <span>Total a Pagar</span>
+                        <span id="cartTotal" class="text-nexus-neon text-base">$0.00 USD</span>
+                    </div>
+                </div>
+
+                <button onclick="openCheckoutModal()" class="w-full bg-gradient-to-r from-nexus-neon to-nexus-cyan text-black font-title font-bold uppercase tracking-wider py-3.5 rounded-full shadow-lg hover:scale-[1.02] transition-transform">
+                    Procesar Compra <i class="fa-solid fa-arrow-right-long ml-1"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CHECKOUT SIMULATION MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="bg-nexus-card border border-nexus-border max-w-lg w-full rounded-3xl p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="closeCheckoutModal()" class="absolute top-5 right-5 text-nexus-muted hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="checkoutFormContent">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 rounded-2xl bg-nexus-neon/20 text-nexus-neon flex items-center justify-center mx-auto text-xl mb-2">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="font-title font-bold text-2xl text-white uppercase">Checkout Seguro</h3>
+                    <p class="text-xs text-nexus-muted mt-1">Completa tus datos para finalizar la simulación de pedido.</p>
+                </div>
+
+                <form onsubmit="submitCheckout(event)" class="space-y-4 text-xs">
+                    <div>
+                        <label class="block font-bold text-white mb-1">Nombre Completo</label>
+                        <input type="text" placeholder="Ej. Carlos Rodríguez" required class="w-full bg-nexus-bg border border-nexus-border rounded-xl p-3 text-white focus:outline-none focus:border-nexus-neon">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-bold text-white mb-1">Correo Electrónico</label>
+                            <input type="email" placeholder="carlos@email.com" required class="w-full bg-nexus-bg border border-nexus-border rounded-xl p-3 text-white focus:outline-none focus:border-nexus-neon">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-white mb-1">Teléfono</label>
+                            <input type="tel" placeholder="+1 555 0192" required class="w-full bg-nexus-bg border border-nexus-border rounded-xl p-3 text-white focus:outline-none focus:border-nexus-neon">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-white mb-1">Dirección de Envío</label>
+                        <input type="text" placeholder="Calle Principal #123, Apto 4B" required class="w-full bg-nexus-bg border border-nexus-border rounded-xl p-3 text-white focus:outline-none focus:border-nexus-neon">
+                    </div>
+
+                    <div>
+                        <label class="block font-bold text-white mb-1">Tarjeta Simulación</label>
+                        <input type="text" value="•••• •••• •••• 4242" disabled class="w-full bg-nexus-bg/50 border border-nexus-border/50 rounded-xl p-3 text-nexus-muted font-mono">
+                    </div>
+
+                    <button type="submit" class="w-full bg-nexus-neon text-black font-title font-bold uppercase tracking-wider py-3.5 rounded-full shadow-lg hover:scale-[1.02] transition-transform mt-2">
+                        Pagar Ahora (<span id="checkoutAmountBtn">$0.00</span>)
+                    </button>
+                </form>
+            </div>
+
+            <!-- SUCCESS CHECKOUT STATE -->
+            <div id="checkoutSuccessState" class="hidden text-center py-8 space-y-4">
+                <div class="w-16 h-16 rounded-full bg-nexus-neon/20 text-nexus-neon flex items-center justify-center mx-auto text-3xl animate-bounce">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="font-title text-2xl font-black text-white uppercase">¡Pedido Recibido!</h3>
+                <p class="text-xs text-nexus-muted leading-relaxed max-w-sm mx-auto">
+                    Tu número de orden es <span class="text-nexus-neon font-bold">#NEXUS-89241</span>. Hemos enviado los detalles de seguimiento a tu correo.
+                </p>
+                <button onclick="closeCheckoutModal()" class="bg-nexus-neon text-black font-title font-bold text-xs uppercase px-8 py-3 rounded-full mt-4">
+                    Volver a la Tienda
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-nexus-card border border-nexus-neon/50 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none text-xs">
+        <i class="fa-solid fa-circle-info text-nexus-neon text-base"></i>
+        <span id="toastMessage">Notificación</span>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // PRODUCTS DATA
+        const productsData = [
+            {
+                id: 1,
+                name: 'Hoodie Cyber-Matrix Oversize',
+                category: 'apparel',
+                price: 129.00,
+                oldPrice: 160.00,
+                rating: 4.9,
+                badge: 'Más Vendido',
+                image: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=600'
+            },
+            {
+                id: 2,
+                name: 'Sneakers Neon Runner X-1',
+                category: 'footwear',
+                price: 185.00,
+                oldPrice: 220.00,
+                rating: 5.0,
+                badge: 'Edición Limitada',
+                image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&q=80&w=600'
+            },
+            {
+                id: 3,
+                name: 'Chaqueta Impermeable Techwear',
+                category: 'apparel',
+                price: 210.00,
+                oldPrice: 250.00,
+                rating: 4.8,
+                badge: '-20% OFF',
+                image: 'https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&q=80&w=600'
+            },
+            {
+                id: 4,
+                name: 'Lentes Futurist Cyber Shield',
+                category: 'accessories',
+                price: 75.00,
+                oldPrice: 95.00,
+                rating: 4.7,
+                badge: 'Nuevo',
+                image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&q=80&w=600'
+            },
+            {
+                id: 5,
+                name: 'Mochila Modular Waterproof',
+                category: 'accessories',
+                price: 115.00,
+                oldPrice: 140.00,
+                rating: 4.9,
+                badge: 'Popular',
+                image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=600'
+            },
+            {
+                id: 6,
+                name: 'Sneakers High Top Stealth',
+                category: 'footwear',
+                price: 195.00,
+                oldPrice: 230.00,
+                rating: 4.9,
+                badge: 'Exclusivo',
+                image: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&q=80&w=600'
+            },
+            {
+                id: 7,
+                name: 'Pantalón Cargo Tactical Reflex',
+                category: 'apparel',
+                price: 98.00,
+                oldPrice: 120.00,
+                rating: 4.6,
+                badge: 'Tendencia',
+                image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=600'
+            },
+            {
+                id: 8,
+                name: 'Smartwatch Cyber-Link V2',
+                category: 'accessories',
+                price: 240.00,
+                oldPrice: 290.00,
+                rating: 5.0,
+                badge: 'Tech Drop',
+                image: 'https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&q=80&w=600'
+            }
+        ];
+
+        // CART STATE
+        let cart = [];
+
+        // RENDER PRODUCTS
+        function renderProducts(items) {
+            const container = document.getElementById('productsGrid');
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-nexus-muted">
+                        <i class="fa-solid fa-ghost text-4xl mb-3 text-nexus-border"></i>
+                        <p class="font-title text-base font-bold text-white">No se encontraron productos</p>
+                        <p class="text-xs">Prueba buscando con otros términos o seleccionando otra categoría.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            items.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-3xl overflow-hidden border border-nexus-border hover:border-nexus-neon/50 transition-all duration-300 flex flex-col justify-between group';
+                card.innerHTML = `
+                    <div>
+                        <!-- Image Frame -->
+                        <div class="relative aspect-square overflow-hidden bg-nexus-bg">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            
+                            <!-- Badge -->
+                            <span class="absolute top-3 left-3 bg-nexus-bg/80 backdrop-blur-md border border-nexus-neon/40 text-nexus-neon text-[10px] font-bold uppercase px-2.5 py-1 rounded-full">
+                                ${product.badge}
+                            </span>
+
+                            <!-- Wishlist Toggle -->
+                            <button onclick="toggleWishlist(this)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white hover:text-rose-500 flex items-center justify-center text-xs transition-colors" aria-label="Favorito">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="p-5">
+                            <div class="flex items-center justify-between text-xs text-nexus-muted mb-1">
+                                <span class="uppercase tracking-wider font-bold text-[10px]">${product.category}</span>
+                                <span class="text-nexus-gold font-bold"><i class="fa-solid fa-star text-[10px]"></i> ${product.rating}</span>
+                            </div>
+                            <h3 class="font-title font-bold text-white text-base line-clamp-1 group-hover:text-nexus-neon transition-colors">${product.name}</h3>
+                            
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="font-title font-black text-nexus-neon text-lg">$${product.price.toFixed(2)}</span>
+                                <span class="text-xs text-nexus-muted line-through">$${product.oldPrice.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Button -->
+                    <div class="px-5 pb-5">
+                        <button onclick="quickAddToCart(${product.id})" class="w-full bg-nexus-card hover:bg-nexus-neon hover:text-black border border-nexus-border text-white font-title font-bold text-xs uppercase tracking-wider py-3 rounded-full transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span>Agregar al Carrito</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // CATEGORY FILTER
+        function filterCategory(category) {
+            document.querySelectorAll('.cat-tab').forEach(tab => {
+                if (tab.dataset.category === category) {
+                    tab.className = 'cat-tab active px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-nexus-neon text-black shadow-lg';
+                } else {
+                    tab.className = 'cat-tab px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all bg-nexus-card border border-nexus-border text-nexus-muted hover:text-white hover:border-nexus-neon';
+                }
+            });
+
+            if (category === 'all') {
+                renderProducts(productsData);
+            } else {
+                const filtered = productsData.filter(p => p.category === category);
+                renderProducts(filtered);
+            }
+        }
+
+        // SEARCH PRODUCTS
+        function searchProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = productsData.filter(p => 
+                p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query)
+            );
+            renderProducts(filtered);
+        }
+
+        // CART LOGIC
+        function quickAddToCart(productId) {
+            const product = productsData.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+            showToast(`Añadido: ${product.name}`);
+        }
+
+        function updateCartQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const listContainer = document.getElementById('cartItemsList');
+            const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+
+            document.getElementById('cartBadgeCount').innerText = totalCount;
+            document.getElementById('cartHeaderCount').innerText = `${totalCount} ítems`;
+
+            if (cart.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="py-16 text-center text-nexus-muted space-y-3">
+                        <i class="fa-solid fa-bag-shopping text-4xl text-nexus-border"></i>
+                        <p class="font-title text-sm font-bold text-white">Tu carrito está vacío</p>
+                        <p class="text-xs">¡Agrega prendas exclusivas de nuestro catálogo!</p>
+                    </div>
+                `;
+            } else {
+                listContainer.innerHTML = '';
+                cart.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = 'flex items-center gap-3 bg-nexus-bg p-3 rounded-2xl border border-nexus-border';
+                    el.innerHTML = `
+                        <img src="${item.image}" class="w-14 h-14 object-cover rounded-xl border border-nexus-border flex-shrink-0" alt="${item.name}">
+                        <div class="flex-grow min-w-0">
+                            <h4 class="font-title font-bold text-xs text-white truncate">${item.name}</h4>
+                            <p class="text-xs font-bold text-nexus-neon mt-0.5">$${(item.price * item.quantity).toFixed(2)}</p>
+                        </div>
+                        <div class="flex items-center gap-2 bg-nexus-card border border-nexus-border rounded-lg px-2 py-1">
+                            <button onclick="updateCartQuantity(${item.id}, -1)" class="text-nexus-muted hover:text-white text-xs font-bold">-</button>
+                            <span class="text-xs font-bold text-white">${item.quantity}</span>
+                            <button onclick="updateCartQuantity(${item.id}, 1)" class="text-nexus-muted hover:text-white text-xs font-bold">+</button>
+                        </div>
+                    `;
+                    listContainer.appendChild(el);
+                });
+            }
+
+            // Calculations
+            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+            const taxes = subtotal * 0.08;
+            const total = subtotal + taxes;
+
+            document.getElementById('cartSubtotal').innerText = `$${subtotal.toFixed(2)} USD`;
+            document.getElementById('cartTaxes').innerText = `$${taxes.toFixed(2)} USD`;
+            document.getElementById('cartTotal').innerText = `$${total.toFixed(2)} USD`;
+            document.getElementById('checkoutAmountBtn').innerText = `$${total.toFixed(2)} USD`;
+        }
+
+        // DRAWER CONTROLS
+        function toggleCartDrawer() {
+            document.getElementById('cartDrawer').classList.toggle('hidden');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        // CHECKOUT MODAL LOGIC
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                showToast('Agrega productos antes de procesar el pago.');
+                return;
+            }
+            toggleCartDrawer();
+            document.getElementById('checkoutModal').classList.remove('hidden');
+            document.getElementById('checkoutFormContent').classList.remove('hidden');
+            document.getElementById('checkoutSuccessState').classList.add('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        function submitCheckout(e) {
+            e.preventDefault();
+            document.getElementById('checkoutFormContent').classList.add('hidden');
+            document.getElementById('checkoutSuccessState').classList.remove('hidden');
+            cart = [];
+            updateCartUI();
+        }
+
+        // UTILS
+        function toggleWishlist(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('fa-regular')) {
+                icon.className = 'fa-solid fa-heart text-rose-500';
+                showToast('Añadido a tus favoritos');
+            } else {
+                icon.className = 'fa-regular fa-heart';
+                showToast('Eliminado de tus favoritos');
+            }
+        }
+
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const email = document.getElementById('newsletterEmail').value;
+            showToast(`¡Gracias por suscribirte con ${email}!`);
+            document.getElementById('newsletterEmail').value = '';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+
+        // TIMER SIMULATION
+        function startTimer() {
+            let s = 15, m = 42, h = 8;
+            setInterval(() => {
+                s--;
+                if (s < 0) { s = 59; m--; }
+                if (m < 0) { m = 59; h--; }
+                if (h < 0) { h = 24; }
+
+                document.getElementById('timerSeconds').innerText = s < 10 ? '0' + s : s;
+                document.getElementById('timerMinutes').innerText = m < 10 ? '0' + m : m;
+                document.getElementById('timerHours').innerText = h < 10 ? '0' + h : h;
+            }, 1000);
+        }
+
+        // INITIALIZE
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts(productsData);
+            updateCartUI();
+            startTimer();
+        });
+    </script>
+</body>
+</html>

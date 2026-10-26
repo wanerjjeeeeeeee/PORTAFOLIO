@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portafolio profesional de Waner Alcequiez Ciriaco: implementación frontend y automatización de procesos.">
+  <title>Waner Alcequiez Ciriaco | Portafolio y CV</title>
+  <style>
+    :root{--navy:#0f382c;--blue:#1e7858;--cyan:#32d398;--ink:#142921;--muted:#547065;--paper:#f3f8f5;--white:#fff;--line:#d3e5dc;--shadow:0 18px 45px rgba(15,56,44,.09)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:88px}
+    body{font-family:Inter,"Segoe UI",Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}
+    a{color:inherit;text-decoration:none}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    .nav{max-width:1120px;margin:auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{font-weight:850;color:var(--navy);letter-spacing:-.03em}.brand span{color:var(--blue)}
+    .nav-links{display:flex;gap:20px;flex-wrap:wrap;font-size:.9rem;color:#3b564b}.nav-links a:hover{color:var(--blue)}
+    .hero{overflow:hidden;position:relative;color:white;background:radial-gradient(circle at 85% 15%,rgba(50,211,152,.28),transparent 26%),linear-gradient(130deg,#0f382c,#165541 62%,#1e7858)}
+    .hero:after{content:"";position:absolute;width:420px;height:420px;border:1px solid rgba(255,255,255,.12);border-radius:50%;right:-100px;bottom:-250px;box-shadow:0 0 0 45px rgba(255,255,255,.035),0 0 0 90px rgba(255,255,255,.025)}
+    .hero-inner{max-width:1120px;margin:auto;padding:86px 24px 100px;position:relative;z-index:1;display:grid;grid-template-columns:1.5fr .8fr;align-items:center;gap:48px}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#c2f7e2;text-transform:uppercase;letter-spacing:.15em;font-size:.76rem;font-weight:800;margin-bottom:18px}.eyebrow:before{content:"";height:2px;width:28px;background:var(--cyan)}
+    h1{font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.04;letter-spacing:-.055em;max-width:740px;margin-bottom:22px}
+    .hero p{font-size:1.12rem;color:#dcf3e8;max-width:670px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+    .btn{display:inline-flex;justify-content:center;align-items:center;gap:9px;padding:12px 18px;border-radius:11px;font-weight:750;font-size:.93rem;border:1px solid transparent;transition:transform .2s,box-shadow .2s,background .2s;cursor:pointer}
+    .btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--cyan);color:#06261c;box-shadow:0 8px 22px rgba(50,211,152,.22)}.btn-light{border-color:rgba(255,255,255,.45);color:white;background:rgba(255,255,255,.07)}.btn-dark{background:var(--navy);color:white}.btn-outline{border-color:#c4e2d4;color:var(--navy);background:white}
+    .hero-panel{padding:25px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.09);backdrop-filter:blur(8px);border-radius:22px;box-shadow:0 20px 60px rgba(0,0,0,.12)}
+    .hero-panel .panel-label{font-size:.76rem;text-transform:uppercase;letter-spacing:.13em;color:#bbf3db;font-weight:800}.hero-panel h2{font-size:1.35rem;margin:9px 0 15px}.focus-list{list-style:none;display:grid;gap:12px}.focus-list li{display:flex;gap:11px;color:#eaf8f2;font-size:.94rem}.check{flex:0 0 23px;height:23px;border-radius:7px;display:grid;place-items:center;background:rgba(50,211,152,.2);color:#9af0cd;font-weight:900}
+    main{max-width:1120px;margin:-30px auto 0;padding:0 24px;position:relative;z-index:2}.section{background:white;border:1px solid #e1eee7;border-radius:20px;padding:clamp(24px,4vw,42px);margin-bottom:24px;box-shadow:var(--shadow)}
+    .section-heading{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:25px}.kicker{font-size:.75rem;text-transform:uppercase;letter-spacing:.14em;color:var(--blue);font-weight:850}.section h2{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.04em;color:var(--navy);line-height:1.2;margin-top:5px}.section-intro{color:var(--muted);max-width:620px;font-size:.96rem;margin-top:9px}
+    .about-grid{display:grid;grid-template-columns:1.35fr .8fr;gap:30px}.about-copy p{color:#486358}.about-copy p+p{margin-top:12px}.quick-facts{display:grid;gap:12px}.fact{padding:15px 16px;border-radius:12px;background:#f2f9f5;border:1px solid #dceee4}.fact strong{display:block;color:var(--navy);font-size:.9rem}.fact span{font-size:.87rem;color:var(--muted)}
+    .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.skill-group{border:1px solid var(--line);border-radius:15px;padding:19px;background:linear-gradient(150deg,#fff,#f5faf7)}.skill-group h3{font-size:1rem;color:var(--navy);margin-bottom:12px}.tags{display:flex;flex-wrap:wrap;gap:8px}.tag{background:#e8f7f0;color:#1c694d;border:1px solid #cfeedf;padding:6px 10px;border-radius:8px;font-size:.82rem;font-weight:700}
+    .timeline{display:grid;grid-template-columns:1fr 1fr;gap:16px}.placeholder-card{border:1px dashed #b2d1c2;border-radius:15px;padding:21px;background: #82e6a0}.placeholder-card h3{color:var(--navy);font-size:1rem;margin-bottom:7px}.placeholder-card p{color:var(--muted);font-size:.89rem}.placeholder-card .field{border-bottom:1px solid #d6e8de;padding:9px 0;color:#6d887b;font-size:.86rem}.placeholder-card .field:last-child{border-bottom:0}
+    .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.cert-card{border:1px solid var(--line);border-radius:15px;padding:19px;background:#fff;min-height:170px}.cert-icon{width:39px;height:39px;border-radius:11px;background:#e6f6ee;color:var(--blue);display:grid;place-items:center;font-size:1.2rem;margin-bottom:13px}.cert-card h3{font-size:.98rem;color:var(--navy);margin-bottom:6px}.cert-card p{font-size:.84rem;color:var(--muted)}.cert-card a{display:inline-block;color:var(--blue);font-weight:750;font-size:.83rem;margin-top:12px}
+    .contact-box{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:25px;border-radius:16px;background:linear-gradient(120deg,#0f382c,#1a6147);color:white}.contact-box h3{font-size:1.35rem;margin-bottom:5px}.contact-box p{color:#d3f0e3;max-width:600px;font-size:.93rem}.contact-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.contact-box .btn-outline{background:transparent;border-color:#6bbfa0;color:white}
+    footer{text-align:center;padding:30px 20px 38px;color:#6b8579;font-size:.85rem}
+    @media(max-width:800px){.hero-inner{grid-template-columns:1fr;padding-top:65px;gap:30px}.hero-panel{max-width:560px}.about-grid{grid-template-columns:1fr}.skills-grid{grid-template-columns:1fr}.cert-grid{grid-template-columns:repeat(2,1fr)}.nav{align-items:flex-start;flex-direction:column}.nav-links{gap:12px}}
+    @media(max-width:600px){.nav-links{font-size:.82rem}.hero-inner{padding-bottom:75px}.timeline,.cert-grid{grid-template-columns:1fr}.section-heading{align-items:flex-start;flex-direction:column}.contact-box{align-items:flex-start;flex-direction:column}main{padding:0 13px}.section{padding:23px;border-radius:16px}}
+  </style>
+</head>
+<body>
+  <nav class="topbar" aria-label="Navegación principal">
+    <div class="nav">
+      <a class="brand" href="#inicio">Waner<span>.</span></a>
+      <div class="nav-links">
+        <a href="Trabajos.html">Proyectos</a><a href="#perfil">Perfil</a><a href="#habilidades">Habilidades</a><a href="#formacion">Formación</a><a href="#certificados">Certificados</a><a href="#contacto">Contacto</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="inicio">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">Portafolio profesional</div>
+        <h1>Frontend e implementación de <span style="color:#7ef3c5">automatizaciones</span>.</h1>
+        <p>Soy Waner Alcequiez Ciriaco. Desarrollo interfaces frontend y mecanismos de automatización de procesos para crear experiencias digitales claras, funcionales y eficientes.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="Trabajos.html">Explorar proyectos <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-light" href="#contacto">Contactarme</a>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <div class="panel-label">Enfoque de trabajo</div>
+        <h2>Soluciones digitales prácticas</h2>
+        <ul class="focus-list">
+          <li><span class="check">✓</span><span>Implementación frontend adaptable y centrada en la experiencia de usuario.</span></li>
+          <li><span class="check">✓</span><span>Automatización de tareas y procesos repetitivos.</span></li>
+          <li><span class="check">✓</span><span>Aplicaciones de escritorio y herramientas de apoyo a la gestión.</span></li>
+        </ul>
+      </aside>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="perfil">
+      <div class="section-heading"><div><div class="kicker">01 / Perfil</div><h2>Sobre mí</h2><p class="section-intro">Un perfil orientado a construir herramientas digitales útiles y fáciles de utilizar.</p></div></div>
+      <div class="about-grid">
+        <div class="about-copy">
+          <p>Me enfoco en la implementación frontend y en el desarrollo de mecanismos de automatización de procesos. Me interesa convertir necesidades concretas en soluciones digitales funcionales, con interfaces claras y flujos de trabajo más eficientes.</p>
+          <p>Trabajo con tecnologías web y herramientas de programación para desarrollar sitios, interfaces y aplicaciones. En este portafolio presentaré funcionalidades implementadas y ejemplos demostrables de mi trabajo.</p>
+        </div>
+        <div class="quick-facts">
+          <div class="fact"><strong>Área principal</strong><span>Frontend e interfaces web</span></div>
+          <div class="fact"><strong>Enfoque complementario</strong><span>Automatización de procesos</span></div>
+          <div class="fact"><strong>Herramientas</strong><span>Web, escritorio y soluciones de gestión</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="habilidades">
+      <div class="section-heading"><div><div class="kicker">02 / Tecnologías</div><h2>Habilidades técnicas</h2><p class="section-intro">Tecnologías mencionadas en mi portafolio actual, organizadas por área.</p></div></div>
+      <div class="skills-grid">
+        <div class="skill-group"><h3>Frontend</h3><div class="tags"><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span></div></div>
+        <div class="skill-group"><h3>Programación y aplicaciones</h3><div class="tags"><span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">Java</span><span class="tag">Node.js</span></div></div>
+        <div class="skill-group"><h3>Herramientas y otros conocimientos</h3><div class="tags"><span class="tag">PyInstaller</span><span class="tag">JSON</span><span class="tag">Contabilidad</span></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="formacion">
+      <div class="section-heading"><div><div class="kicker">03 / Educación</div><h2>Formación académica</h2><p class="section-intro">ESTA SECCION ESTÁ EN DESARROLLO PARA QUE ME CONOZCAN UN POCO MAS</p></div></div>
+      <div class="timeline">
+        <article class="placeholder-card"><h3>Estudios principales</h3><div class="field">Título o programa: EN DESARROLLO</div><div class="field">Institución: EN DESARROLLO</div><div class="field">Periodo: ESPERANDO INFORMACIÓN</div></article>
+        <article class="placeholder-card"><h3>Formación complementaria</h3><div class="field">Curso o programa: EN DESARROLLO</div><div class="field">Institución: EN DESARROLLO</div><div class="field">Periodo: ESPERANDO INFORMACIÓN</div></article>
+      </div>
+    </section>
+
+    <section class="section" id="certificados">
+      <div class="section-heading"><div><div class="kicker">04 / Aprendizaje continuo</div><h2>Cursos y certificaciones</h2><p class="section-intro">ESTA SECCION ESTÁ EN DESARROLLO PARA QUE ME CONOZCAN UN POCO MAS</p></div></div>
+      <div class="cert-grid">
+        <article class="cert-card"><div class="cert-icon">✦</div><h3>Nombre del curso o certificado</h3><p>Institución emisora · Año</p><a href="#">Ver certificado ↗</a></article>
+        <article class="cert-card"><div class="cert-icon">✧</div><h3>Nombre del curso o certificado</h3><p>Institución emisora · Año</p><a href="#">Ver certificado ↗</a></article>
+        <article class="cert-card"><div class="cert-icon">◇</div><h3>Nombre del curso o certificado</h3><p>Institución emisora · Año</p><a href="#">Ver certificado ↗</a></article>
+      </div>
+    </section>
+
+    <section class="section" id="contacto">
+      <div class="section-heading"><div><div class="kicker">05 / Contacto</div><h2>Hablemos de tu proyecto</h2><p class="section-intro">ESTE ESPACIO ES EN CASO DE QUE QUIERAN CONTACTARME PARA ALGUN SERVICIO.</p></div></div>
+      <div class="contact-box">
+        <div><h3>¿Tienes una idea o un proceso que mejorar?</h3><p>Puedo colaborar en la implementación de interfaces frontend y en la construcción de herramientas digitales para automatizar tareas y organizar procesos.</p><div class="contact-links"><a class="btn btn-primary" href="https://github.com/wanerjjeeeeeeee" target="_blank" rel="noopener">Ver mi GitHub ↗</a></div></div>
+      </div>
+    </section>
+  </main>
+  <footer>© <span id="year"></span> Waner Alcequiez Ciriaco · Portafolio profesional</footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

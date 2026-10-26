@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Beauty & Spa | Salon & Reserva de Citas</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aura: {
+                            bg: '#FDFBF7',
+                            text: '#1A1A1A',
+                            gold: '#D4AF37',
+                            rose: '#E0A96D',
+                            mint: '#E8F0EC',
+                            card: '#FFFFFF',
+                            muted: '#686868',
+                            border: '#EFECE6'
+                        }
+                    },
+                    fontFamily: {
+                        title: ['Playfair Display', 'serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #1A1A1A;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #E0A96D 100%);
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #C59B27 0%, #D8924B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .badge-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #FDFBF7;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E0A96D;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-aura-rose/20 selection:text-aura-text">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-aura-text text-aura-bg text-xs md:text-sm py-2 px-4 text-center font-medium tracking-wide flex justify-center items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-aura-gold animate-ping"></span>
+        <span>¡Promoción de Primavera! 20% OFF en tu primera reserva de Balayage o Tratamiento Facial Glow.</span>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-aura-bg/90 backdrop-blur-md border-b border-aura-border transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- LOGO -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 rounded-full gold-gradient flex items-center justify-center text-white font-title text-xl font-bold shadow-md group-hover:scale-105 transition-transform">
+                    A
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-title text-2xl font-bold tracking-tight text-aura-text">AURA</span>
+                    <span class="text-[9px] uppercase tracking-[0.25em] text-aura-gold font-semibold -mt-1">Beauty & Spa</span>
+                </div>
+            </a>
+
+            <!-- DESKTOP MENU -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#inicio" class="text-aura-text hover:text-aura-gold transition-colors">Inicio</a>
+                <a href="#servicios" class="text-aura-text hover:text-aura-gold transition-colors">Servicios</a>
+                <a href="#galeria" class="text-aura-text hover:text-aura-gold transition-colors">Galería</a>
+                <a href="#testimonios" class="text-aura-text hover:text-aura-gold transition-colors">Testimonios</a>
+                <a href="#contacto" class="text-aura-text hover:text-aura-gold transition-colors">Ubicación</a>
+            </nav>
+
+            <!-- CTA BUTTON -->
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="tel:+18005550199" class="text-sm font-semibold text-aura-text hover:text-aura-gold transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-phone text-aura-gold"></i>
+                    <span>(800) 555-0199</span>
+                </a>
+                <button onclick="openBookingModal()" class="gold-gradient text-white px-5 py-2.5 rounded-full text-sm font-semibold shadow-lg shadow-aura-gold/25 hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    <span>Agendar Cita</span>
+                </button>
+            </div>
+
+            <!-- MOBILE MENU TOGGLE -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-aura-text p-2 text-2xl focus:outline-none" aria-label="Abrir menú">
+                <i class="fa-solid fa-bars" id="menuIcon"></i>
+            </button>
+        </div>
+
+        <!-- MOBILE DRAWER -->
+        <div id="mobileMenu" class="hidden md:hidden bg-aura-bg border-b border-aura-border px-6 py-6 flex flex-col gap-4 text-center">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="text-aura-text font-medium py-2 hover:text-aura-gold">Inicio</a>
+            <a href="#servicios" onclick="toggleMobileMenu()" class="text-aura-text font-medium py-2 hover:text-aura-gold">Servicios</a>
+            <a href="#galeria" onclick="toggleMobileMenu()" class="text-aura-text font-medium py-2 hover:text-aura-gold">Galería</a>
+            <a href="#testimonios" onclick="toggleMobileMenu()" class="text-aura-text font-medium py-2 hover:text-aura-gold">Testimonios</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="text-aura-text font-medium py-2 hover:text-aura-gold">Ubicación</a>
+            <button onclick="toggleMobileMenu(); openBookingModal()" class="gold-gradient text-white py-3 rounded-full font-semibold shadow-md w-full flex items-center justify-center gap-2">
+                <i class="fa-regular fa-calendar-check"></i>
+                <span>Agendar Cita Ahora</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-aura-rose/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+        <div class="absolute -top-20 right-0 w-96 h-96 bg-aura-mint/40 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Text Column -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-aura-mint border border-emerald-200/60 px-4 py-1.5 rounded-full text-xs font-semibold text-emerald-800 shadow-sm">
+                        <i class="fa-solid fa-sparkles text-aura-gold"></i>
+                        <span>Experiencia Premium en Estética & Estilo</span>
+                    </div>
+
+                    <h1 class="font-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-aura-text leading-[1.15]">
+                        Resalta tu belleza natural con una <span class="italic font-normal gold-gradient-text">experiencia exclusiva</span>.
+                    </h1>
+
+                    <p class="text-aura-muted text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Reserva tu cita en segundos y regálate el cuidado que mereces con nuestros especialistas en estilitatismo, manicura de alta gama y medicina estética facial.
+                    </p>
+
+                    <!-- CTAs & Social Proof -->
+                    <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <button onclick="openBookingModal()" class="w-full sm:w-auto gold-gradient text-white px-8 py-4 rounded-full text-base font-semibold shadow-xl shadow-aura-gold/20 hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3">
+                            <span>Reservar Mi Cita Ahora</span>
+                            <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </button>
+                        <a href="#servicios" class="w-full sm:w-auto bg-white border border-aura-border text-aura-text hover:bg-aura-mint/50 px-7 py-4 rounded-full text-base font-semibold transition-all duration-300 text-center shadow-sm">
+                            Ver Servicios y Precios
+                        </a>
+                    </div>
+
+                    <!-- Reviews Badge -->
+                    <div class="pt-6 border-t border-aura-border/60 flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                        <div class="flex -space-x-2">
+                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Cliente">
+                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200" alt="Cliente">
+                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200" alt="Cliente">
+                            <img class="inline-block h-10 w-10 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200" alt="Cliente">
+                        </div>
+                        <div class="text-left text-xs">
+                            <div class="flex text-amber-400 gap-1 text-sm">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <span class="text-aura-text font-bold ml-1">4.9 / 5.0</span>
+                            </div>
+                            <span class="text-aura-muted">Basado en <b>+380 clientas felices</b> en Google</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Imagery Grid -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Main Frame Image -->
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/5]">
+                            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800" alt="Aura Salon Studio" class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                            
+                            <div class="absolute bottom-6 left-6 right-6 text-white p-4 rounded-2xl glass-card border border-white/20 text-aura-text">
+                                <p class="text-xs font-semibold text-aura-gold uppercase tracking-wider">Atención personalizada</p>
+                                <p class="text-sm font-medium mt-0.5">Diagnóstico capilar y de piel sin costo adicional en cada cita.</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Stat Badge 1 -->
+                        <div class="absolute -top-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-aura-border hidden sm:flex items-center gap-3 animate-bounce" style="animation-duration: 4s;">
+                            <div class="w-10 h-10 rounded-full bg-aura-mint flex items-center justify-center text-emerald-700">
+                                <i class="fa-solid fa-scissors"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-aura-muted">Especialistas</p>
+                                <p class="text-sm font-bold text-aura-text">Top Certificados</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Stat Badge 2 -->
+                        <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border border-aura-border hidden sm:flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-aura-gold">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-aura-muted">Garantía Aura</p>
+                                <p class="text-sm font-bold text-aura-text">100% Satisfacción</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES / WHY CHOOSE US -->
+    <section class="py-12 bg-white border-y border-aura-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-aura-mint/60 flex items-center justify-center text-emerald-800 text-xl flex-shrink-0">
+                        <i class="fa-solid fa-wine-glass"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-aura-text">Copa de Bienvenida</h4>
+                        <p class="text-xs text-aura-muted">Mimosa, café premium o té de cortesía.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center text-aura-gold text-xl flex-shrink-0">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-aura-text">Productos Veganos</h4>
+                        <p class="text-xs text-aura-muted">100% libre de crueldad animal.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center text-aura-rose text-xl flex-shrink-0">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-aura-text">Sin Esperas</h4>
+                        <p class="text-xs text-aura-muted">Respetamos estrictamente tu horario.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-700 text-xl flex-shrink-0">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-aura-text">Espacio Relax & WiFi</h4>
+                        <p class="text-xs text-aura-muted">Área de trabajo o descanso cómodo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES & PRICING WITH FILTERS -->
+    <section id="servicios" class="py-20 md:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-xs font-bold uppercase tracking-widest text-aura-gold">Menú Exclusivo</span>
+            <h2 class="font-title text-3xl sm:text-4xl md:text-5xl font-bold mt-2 text-aura-text">Nuestros Servicios Premium</h2>
+            <p class="text-aura-muted mt-3 text-sm sm:text-base">Selecciona tu categoría preferida para explorar nuestros tratamientos. Precios transparentes sin sorpresas.</p>
+            
+            <!-- Category Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2 mt-8" id="serviceTabs">
+                <button onclick="filterServices('todos')" class="tab-btn active border px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 bg-aura-text text-white border-aura-text shadow-sm" data-category="todos">
+                    Todos los Servicios
+                </button>
+                <button onclick="filterServices('cabello')" class="tab-btn border px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-aura-text border-aura-border hover:border-aura-gold" data-category="cabello">
+                    <i class="fa-solid fa-scissors mr-1.5 text-aura-gold"></i>Cabello & Estilo
+                </button>
+                <button onclick="filterServices('unas')" class="tab-btn border px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-aura-text border-aura-border hover:border-aura-gold" data-category="unas">
+                    <i class="fa-solid fa-hand-sparkles mr-1.5 text-aura-gold"></i>Uñas & Manicura
+                </button>
+                <button onclick="filterServices('faciales')" class="tab-btn border px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 bg-white text-aura-text border-aura-border hover:border-aura-gold" data-category="faciales">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1.5 text-aura-gold"></i>Faciales & Piel
+                </button>
+            </div>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="servicesContainer">
+            <!-- Dynamically populated via JS -->
+        </div>
+    </section>
+
+    <!-- BANNER: INTERACTIVE APPOINTMENT PROMO -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="relative rounded-3xl overflow-hidden gold-gradient text-white p-8 sm:p-12 md:p-16 shadow-2xl">
+            <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="relative z-10 max-w-2xl">
+                <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">¿Primera vez en Aura?</span>
+                <h3 class="font-title text-3xl sm:text-4xl md:text-5xl font-bold mt-4 leading-tight">
+                    Recibe un Diagnóstico Capilar o Facial Gratuito en tu Visita.
+                </h3>
+                <p class="mt-4 text-white/90 text-sm sm:text-base font-normal">
+                    Nuestros expertos analizarán la salud de tu fibra capilar o piel con aparatología especializada antes de realizar cualquier servicio.
+                </p>
+                <div class="mt-8">
+                    <button onclick="openBookingModal()" class="bg-white text-aura-text hover:bg-aura-bg px-8 py-4 rounded-full font-bold text-sm shadow-lg hover:scale-105 transition-all">
+                        Agendar Diagnóstico Cita <i class="fa-solid fa-calendar-days ml-2 text-aura-gold"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="galeria" class="py-20 bg-white border-t border-aura-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-aura-gold">Portafolio</span>
+                    <h2 class="font-title text-3xl sm:text-4xl font-bold mt-2 text-aura-text">Resultados Reales</h2>
+                    <p class="text-aura-muted text-sm mt-1">Explora las transformaciones hechas por nuestro equipo de estilistas.</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <a href="https://instagram.com" target="_blank" class="inline-flex items-center gap-2 text-sm font-semibold text-aura-gold hover:underline">
+                        <i class="fa-brands fa-instagram text-lg"></i>
+                        <span>Síguenos @aura.beautyspa</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="group relative overflow-hidden rounded-2xl aspect-square bg-aura-border">
+                    <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=600" alt="Balayage Resultado" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-center p-4">
+                        <div>
+                            <p class="font-title text-lg font-bold">Balayage Honey Gold</p>
+                            <p class="text-xs text-white/80">Por Sofía M.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group relative overflow-hidden rounded-2xl aspect-square bg-aura-border">
+                    <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&q=80&w=600" alt="Manicura Gel Design" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-center p-4">
+                        <div>
+                            <p class="font-title text-lg font-bold">Nail Art Minimal</p>
+                            <p class="text-xs text-white/80">Por Camila R.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group relative overflow-hidden rounded-2xl aspect-square bg-aura-border">
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=600" alt="Tratamiento Facial" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-center p-4">
+                        <div>
+                            <p class="font-title text-lg font-bold">Facial HydroGlow</p>
+                            <p class="text-xs text-white/80">Por Dra. Elena G.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group relative overflow-hidden rounded-2xl aspect-square bg-aura-border">
+                    <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=600" alt="Corte & Peinado" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-center p-4">
+                        <div>
+                            <p class="font-title text-lg font-bold">Corte Bob Textured</p>
+                            <p class="text-xs text-white/80">Por Lucas B.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonios" class="py-20 md:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-xs font-bold uppercase tracking-widest text-aura-gold">Opiniones</span>
+            <h2 class="font-title text-3xl sm:text-4xl font-bold mt-2 text-aura-text">Lo Que Dicen Nuestras Clientas</h2>
+            <p class="text-aura-muted text-sm mt-2">La experiencia Aura contada por quienes nos visitan mes a mes.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Review 1 -->
+            <div class="bg-white p-8 rounded-3xl border border-aura-border shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex text-amber-400 gap-1 text-sm mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-aura-text text-sm leading-relaxed italic">
+                        "¡Increíble atención! Agendar mi cita desde la página web fue facilísimo. Me hice un Balayage con Sofía y superó totalmente mis expectativas. El café de bienvenida es un detallazo."
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 mt-6 pt-6 border-t border-aura-border/60">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="Mariana V." class="w-11 h-11 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-sm text-aura-text">Mariana Valenzuela</h4>
+                        <p class="text-xs text-aura-muted">Cliente habitual - Balayage</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="bg-white p-8 rounded-3xl border border-aura-border shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex text-amber-400 gap-1 text-sm mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-aura-text text-sm leading-relaxed italic">
+                        "Buscaba un lugar limpio, puntual y con buena energía para mis uñas. El tratamiento de Gel Ruso dura intacto más de 3 semanas. 100% recomendado."
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 mt-6 pt-6 border-t border-aura-border/60">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=150" alt="Carolina G." class="w-11 h-11 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-sm text-aura-text">Carolina Gutiérrez</h4>
+                        <p class="text-xs text-aura-muted">Cliente verifcada - Manicura</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="bg-white p-8 rounded-3xl border border-aura-border shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex text-amber-400 gap-1 text-sm mb-4">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-aura-text text-sm leading-relaxed italic">
+                        "El Facial HydroGlow te deja la piel radiante al instante. Salí sintiéndome totalmente renovada. El ambiente es super relajante."
+                    </p>
+                </div>
+                <div class="flex items-center gap-3 mt-6 pt-6 border-t border-aura-border/60">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150" alt="Andrea M." class="w-11 h-11 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold text-sm text-aura-text">Andrea Morales</h4>
+                        <p class="text-xs text-aura-muted">Cliente verificada - Faciales</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="contacto" class="py-20 bg-white border-t border-aura-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Info Column -->
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-aura-gold">Visítanos</span>
+                    <h2 class="font-title text-3xl sm:text-4xl font-bold text-aura-text">Ubicación & Horarios</h2>
+                    <p class="text-aura-muted text-sm leading-relaxed">
+                        Nos encontramos en un punto exclusivo de la ciudad con estacionamiento privado con valet parking gratuito para todas nuestras clientas.
+                    </p>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-aura-mint flex items-center justify-center text-emerald-800 flex-shrink-0 mt-1">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-aura-text">Dirección</h4>
+                                <p class="text-xs text-aura-muted">Av. Las Mercedes #450, Plaza Las Condes - Local 12B</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-aura-gold flex-shrink-0 mt-1">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-aura-text">Horarios de Atención</h4>
+                                <p class="text-xs text-aura-muted">Lunes a Sábado: 09:00 AM - 08:00 PM</p>
+                                <p class="text-xs text-aura-muted">Domingos: 10:00 AM - 04:00 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center text-aura-rose flex-shrink-0 mt-1">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-aura-text">Contacto Directo</h4>
+                                <p class="text-xs text-aura-muted">hola@aurabeautyspa.com | +1 (800) 555-0199</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Map Frame -->
+                <div class="lg:col-span-7">
+                    <div class="rounded-3xl overflow-hidden shadow-lg border border-aura-border bg-aura-bg relative min-h-[350px] flex items-center justify-center">
+                        <!-- Simulated Map Visual -->
+                        <iframe class="w-full h-[380px] rounded-3xl" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.83543450937!2d144.9537353153166!3d-37.81627977975171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-aura-text text-aura-bg pt-16 pb-12 border-t border-aura-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+                
+                <!-- Col 1: Brand -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-9 h-9 rounded-full gold-gradient flex items-center justify-center text-white font-title text-lg font-bold">
+                            A
+                        </div>
+                        <span class="font-title text-xl font-bold tracking-tight text-white">AURA</span>
+                    </div>
+                    <p class="text-xs text-aura-bg/70 leading-relaxed">
+                        Tu espacio de desconexión y belleza integral. Ofrecemos tratamientos capilares, estética facial y uñas con estándares internacionales.
+                    </p>
+                    <div class="flex gap-3 text-sm pt-2">
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-aura-gold flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-aura-gold flex items-center justify-center transition-colors"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-aura-gold flex items-center justify-center transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 hover:bg-aura-gold flex items-center justify-center transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Navigation -->
+                <div>
+                    <h4 class="font-title text-base font-bold text-white mb-4">Navegación</h4>
+                    <ul class="space-y-2 text-xs text-aura-bg/70">
+                        <li><a href="#inicio" class="hover:text-aura-gold transition-colors">Inicio</a></li>
+                        <li><a href="#servicios" class="hover:text-aura-gold transition-colors">Menú de Servicios</a></li>
+                        <li><a href="#galeria" class="hover:text-aura-gold transition-colors">Galería de Fotos</a></li>
+                        <li><a href="#testimonios" class="hover:text-aura-gold transition-colors">Testimonios de Clientes</a></li>
+                        <li><a href="#contacto" class="hover:text-aura-gold transition-colors">Ubicación y Mapa</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Popular Services -->
+                <div>
+                    <h4 class="font-title text-base font-bold text-white mb-4">Especialidades</h4>
+                    <ul class="space-y-2 text-xs text-aura-bg/70">
+                        <li><span>Balayage & Colorimetría</span></li>
+                        <li><span>Tratamiento de Keratina Orgánica</span></li>
+                        <li><span>Manicura Rusa Gel Finish</span></li>
+                        <li><span>Limpieza Facial HydroGlow</span></li>
+                        <li><span>Diseño de Cejas & Microblading</span></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Newsletter -->
+                <div>
+                    <h4 class="font-title text-base font-bold text-white mb-4">Únete al Club Aura</h4>
+                    <p class="text-xs text-aura-bg/70 mb-3">Recibe ofertas exclusivas y consejos de cuidado directamente en tu correo.</p>
+                    <form onsubmit="event.preventDefault(); showToast('¡Gracias por suscribirte!');" class="space-y-2">
+                        <input type="email" placeholder="Tu correo electrónico" required class="w-full px-4 py-2.5 rounded-xl bg-white/10 border border-white/20 text-xs text-white placeholder-white/50 focus:outline-none focus:border-aura-gold">
+                        <button type="submit" class="w-full gold-gradient text-white py-2.5 rounded-xl font-bold text-xs hover:opacity-90 transition-opacity">
+                            Suscribirme
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Bottom Credits -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-aura-bg/50 gap-4">
+                <p>&copy; 2026 Aura Beauty & Spa. Todos los derechos reservados.</p>
+                <p class="flex items-center gap-1">
+                    <span>Diseñado con</span> <i class="fa-solid fa-heart text-rose-400"></i> <span>para salones de alto rendimiento</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE BOOKING MODAL (3 STEPS) -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl border border-aura-border relative">
+            
+            <!-- Close Button -->
+            <button onclick="closeBookingModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-aura-bg hover:bg-aura-border text-aura-text flex items-center justify-center transition-colors z-10">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="p-6 sm:p-8">
+                <!-- Modal Header -->
+                <div class="text-center mb-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-aura-gold">Reserva Online</span>
+                    <h3 class="font-title text-2xl sm:text-3xl font-bold text-aura-text">Agenda Tu Experiencia</h3>
+                    
+                    <!-- Progress Bar Steps -->
+                    <div class="flex items-center justify-center gap-2 sm:gap-4 mt-6">
+                        <div id="stepIndicator1" class="flex items-center gap-2 text-xs font-bold text-aura-gold">
+                            <span class="w-6 h-6 rounded-full bg-aura-gold text-white flex items-center justify-center text-xs">1</span>
+                            <span>Servicio</span>
+                        </div>
+                        <div class="w-8 h-[2px] bg-aura-border"></div>
+                        <div id="stepIndicator2" class="flex items-center gap-2 text-xs font-medium text-aura-muted">
+                            <span class="w-6 h-6 rounded-full bg-aura-border text-aura-text flex items-center justify-center text-xs">2</span>
+                            <span>Fecha & Hora</span>
+                        </div>
+                        <div class="w-8 h-[2px] bg-aura-border"></div>
+                        <div id="stepIndicator3" class="flex items-center gap-2 text-xs font-medium text-aura-muted">
+                            <span class="w-6 h-6 rounded-full bg-aura-border text-aura-text flex items-center justify-center text-xs">3</span>
+                            <span>Tus Datos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 1: SERVICE & STYLIST SELECTION -->
+                <div id="step1" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-aura-text mb-2">1. Selecciona tu Servicio</label>
+                        <select id="modalServiceSelect" class="w-full p-3.5 rounded-2xl border border-aura-border bg-aura-bg text-sm font-medium text-aura-text focus:outline-none focus:border-aura-gold">
+                            <option value="" disabled selected>Elige un tratamiento...</option>
+                            <optgroup label="Cabello & Estilo">
+                                <option value="Balayage Signature" data-price="120" data-time="180 min">Balayage Signature & Olaplex - $120 (180 min)</option>
+                                <option value="Corte & Styling Premium" data-price="45" data-time="60 min">Corte & Styling Premium - $45 (60 min)</option>
+                                <option value="Tratamiento Keratina Orgánica" data-price="95" data-time="120 min">Tratamiento Keratina Orgánica - $95 (120 min)</option>
+                            </optgroup>
+                            <optgroup label="Uñas">
+                                <option value="Manicura Rusa + Gel Polish" data-price="35" data-time="75 min">Manicura Rusa + Gel Polish - $35 (75 min)</option>
+                                <option value="Pedicura SPA Spa Relax" data-price="40" data-time="60 min">Pedicura SPA Spa Relax - $40 (60 min)</option>
+                            </optgroup>
+                            <optgroup label="Faciales">
+                                <option value="Facial HydroGlow Profundo" data-price="65" data-time="60 min">Facial HydroGlow Profundo - $65 (60 min)</option>
+                                <option value="Lifting de Pestañas & Cejas" data-price="50" data-time="60 min">Lifting de Pestañas & Cejas - $50 (60 min)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-aura-text mb-2">2. Elige tu Estilista Favorita</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="stylist" value="Cualquier Profesional" class="peer hidden" checked>
+                                <div class="border border-aura-border p-3 rounded-2xl text-center peer-checked:border-aura-gold peer-checked:bg-amber-50/50 hover:bg-aura-bg transition-all">
+                                    <div class="w-10 h-10 rounded-full bg-aura-mint mx-auto flex items-center justify-center text-emerald-800 text-sm font-bold mb-1">
+                                        <i class="fa-solid fa-users"></i>
+                                    </div>
+                                    <p class="text-xs font-bold text-aura-text">Cualquiera</p>
+                                    <p class="text-[10px] text-aura-muted">Primer disponible</p>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer">
+                                <input type="radio" name="stylist" value="Sofía Martínez" class="peer hidden">
+                                <div class="border border-aura-border p-3 rounded-2xl text-center peer-checked:border-aura-gold peer-checked:bg-amber-50/50 hover:bg-aura-bg transition-all">
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150" class="w-10 h-10 rounded-full object-cover mx-auto mb-1" alt="Sofía">
+                                    <p class="text-xs font-bold text-aura-text">Sofía M.</p>
+                                    <p class="text-[10px] text-aura-muted">Especialista Color</p>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer">
+                                <input type="radio" name="stylist" value="Camila Rodríguez" class="peer hidden">
+                                <div class="border border-aura-border p-3 rounded-2xl text-center peer-checked:border-aura-gold peer-checked:bg-amber-50/50 hover:bg-aura-bg transition-all">
+                                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=150" class="w-10 h-10 rounded-full object-cover mx-auto mb-1" alt="Camila">
+                                    <p class="text-xs font-bold text-aura-text">Camila R.</p>
+                                    <p class="text-[10px] text-aura-muted">Especialista Uñas</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-end">
+                        <button onclick="goToStep(2)" class="gold-gradient text-white px-7 py-3 rounded-full font-bold text-sm shadow-md hover:scale-105 transition-all">
+                            Siguiente: Fecha & Hora <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: DATE & TIME SELECTION -->
+                <div id="step2" class="space-y-5 hidden">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-aura-text mb-2">Selecciona la Fecha</label>
+                        <input type="date" id="bookingDate" class="w-full p-3.5 rounded-2xl border border-aura-border bg-aura-bg text-sm font-medium text-aura-text focus:outline-none focus:border-aura-gold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-aura-text mb-2">Turnos Disponibles</label>
+                        <div class="grid grid-cols-3 sm:grid-cols-4 gap-2.5" id="timeSlots">
+                            <button onclick="selectTimeSlot(this)" class="time-slot p-2.5 rounded-xl border border-aura-border text-xs font-semibold hover:border-aura-gold transition-all text-center">09:00 AM</button>
+                            <button onclick="selectTimeSlot(this)" class="time-slot p-2.5 rounded-xl border border-aura-border text-xs font-semibold hover:border-aura-gold transition-all text-center">10:30 AM</button>
+                            <button onclick="selectTimeSlot(this)" class="time-slot p-2.5 rounded-xl border border-aura-border text-xs font-semibold hover:border-aura-gold transition-all text-center">12:00 PM</button>
+                            <button onclick="selectTimeSlot(this)" class="time-slot p-2.5 rounded-xl border border-aura-border text-xs font-semibold hover:border-aura-gold transition-all text-center">02:30 PM</button>
+                            <button onclick="selectTimeSlot(this)" class="time-slot p-2.5 rounded-xl border border-aura-border text-xs font-semibold hover:border-aura-gold transition-all text-center">04:00 PM</button>
+                            <button onclick="selectTimeSlot(this)" class="time-slot p-2.5 rounded-xl border border-aura-border text-xs font-semibold hover:border-aura-gold transition-all text-center">05:30 PM</button>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-between items-center">
+                        <button onclick="goToStep(1)" class="text-aura-muted hover:text-aura-text font-semibold text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-left"></i> Volver
+                        </button>
+                        <button onclick="goToStep(3)" class="gold-gradient text-white px-7 py-3 rounded-full font-bold text-sm shadow-md hover:scale-105 transition-all">
+                            Siguiente: Tus Datos <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: CONTACT FORM & CONFIRMATION -->
+                <div id="step3" class="space-y-4 hidden">
+                    <!-- Booking Summary Box -->
+                    <div class="bg-aura-mint/50 p-4 rounded-2xl border border-emerald-200/60 text-xs space-y-1">
+                        <p class="font-bold text-emerald-900 uppercase text-[10px] tracking-wider">Resumen de la reserva:</p>
+                        <p class="text-aura-text font-semibold" id="summaryService">Servicio: Seleccionando...</p>
+                        <p class="text-aura-muted" id="summaryDateTime">Fecha: Por definir</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-aura-text mb-1">Nombre Completo *</label>
+                        <input type="text" id="clientName" placeholder="Ej. Sofía Mendoza" required class="w-full p-3 rounded-xl border border-aura-border text-xs focus:outline-none focus:border-aura-gold">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-aura-text mb-1">Teléfono / WhatsApp *</label>
+                            <input type="tel" id="clientPhone" placeholder="+1 555 000-0000" required class="w-full p-3 rounded-xl border border-aura-border text-xs focus:outline-none focus:border-aura-gold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-aura-text mb-1">Correo Electrónico *</label>
+                            <input type="email" id="clientEmail" placeholder="tu@email.com" required class="w-full p-3 rounded-xl border border-aura-border text-xs focus:outline-none focus:border-aura-gold">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-aura-text mb-1">Notas especiales (opcional)</label>
+                        <textarea id="clientNotes" placeholder="Alergias, preferencias específicas..." rows="2" class="w-full p-3 rounded-xl border border-aura-border text-xs focus:outline-none focus:border-aura-gold"></textarea>
+                    </div>
+
+                    <div class="pt-4 flex justify-between items-center">
+                        <button onclick="goToStep(2)" class="text-aura-muted hover:text-aura-text font-semibold text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-left"></i> Volver
+                        </button>
+                        <button onclick="confirmBooking()" class="gold-gradient text-white px-8 py-3.5 rounded-full font-bold text-sm shadow-xl hover:scale-105 transition-all">
+                            Confirmar Mi Cita <i class="fa-solid fa-check ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SUCCESS MESSAGE STATE -->
+                <div id="stepSuccess" class="py-8 text-center space-y-4 hidden">
+                    <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-3xl animate-bounce">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3 class="font-title text-2xl font-bold text-aura-text">¡Reserva Confirmada!</h3>
+                    <p class="text-aura-muted text-xs sm:text-sm max-w-md mx-auto">
+                        Hemos enviado un mensaje de confirmación con los detalles de tu cita. ¡Estamos ansiosos por atenderte en Aura Spa!
+                    </p>
+                    <div class="pt-4">
+                        <button onclick="closeBookingModal()" class="gold-gradient text-white px-8 py-3 rounded-full font-bold text-xs uppercase tracking-wider">
+                            Entendido, Gracias
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/18005550199?text=Hola,%20quisiera%20consultar%20sobre%20disponibilidad%20de%20citas" target="_blank" class="fixed bottom-6 right-6 z-40 bg-emerald-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:scale-110 transition-transform duration-300 group" aria-label="Contacto por WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span class="absolute right-16 bg-aura-text text-white text-xs font-bold px-3 py-1.5 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
+            ¿Dudas? Chatea con nosotros
+        </span>
+    </a>
+
+    <!-- LIVE POP-UP NOTIFICATION (DISCREET RECENT BOOKING) -->
+    <div id="bookingToast" class="fixed bottom-6 left-6 z-40 bg-white border border-aura-border rounded-2xl p-4 shadow-2xl flex items-center gap-3.5 max-w-sm transition-all duration-500 transform translate-y-20 opacity-0 pointer-events-none">
+        <div class="w-10 h-10 rounded-full bg-amber-50 text-aura-gold flex items-center justify-center font-bold text-sm flex-shrink-0">
+            <i class="fa-solid fa-sparkles"></i>
+        </div>
+        <div class="text-xs">
+            <p class="font-bold text-aura-text" id="toastText">Valeria M. acaba de agendar una cita</p>
+            <p class="text-aura-muted mt-0.5" id="toastSub">Balayage Signature • Hace 4 minutos</p>
+        </div>
+        <button onclick="dismissToast()" class="text-aura-muted hover:text-aura-text text-sm ml-auto">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // DATA SOURCE FOR SERVICES
+        const servicesData = [
+            {
+                id: '1',
+                title: 'Balayage & Olaplex Signature',
+                category: 'cabello',
+                price: '$120',
+                duration: '180 min',
+                desc: 'Técnica de degradado suave personalizado, incluye baño de brillo, tratamiento reparador y modelado profesional.',
+                image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=500'
+            },
+            {
+                id: '2',
+                title: 'Manicura Rusa + Gel Finish',
+                category: 'unas',
+                price: '$35',
+                duration: '75 min',
+                desc: 'Limpieza profunda de cutícula con torno, nivelación de uñas con base rubber y esmaltado de máxima duración.',
+                image: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&q=80&w=500'
+            },
+            {
+                id: '3',
+                title: 'Facial HydroGlow Profundo',
+                category: 'faciales',
+                price: '$65',
+                duration: '60 min',
+                desc: 'Higienización con espátula ultrasónica, microdermoabrasión, infusión de ácido hialurónico y terapia de luz LED.',
+                image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=500'
+            },
+            {
+                id: '4',
+                title: 'Corte & Styling Personalizado',
+                category: 'cabello',
+                price: '$45',
+                duration: '60 min',
+                desc: 'Lavado sensorial con masaje capilar, diagnóstico de forma de rostro, corte técnico y peinado con ondas o liso.',
+                image: 'https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=500'
+            },
+            {
+                id: '5',
+                title: 'Pedicura SPA Spa Relax',
+                category: 'unas',
+                price: '$40',
+                duration: '60 min',
+                desc: 'Exfoliación con sales marinas, mascarilla hidratante, masaje podológico relajante y esmaltado de larga duración.',
+                image: 'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&q=80&w=500'
+            },
+            {
+                id: '6',
+                title: 'Lifting de Pestañas + Nutrición',
+                category: 'faciales',
+                price: '$50',
+                duration: '60 min',
+                desc: 'Curvatura natural permanente para tus pestañas con tinte negro intenso y tratamiento de queratina nutritiva.',
+                image: 'https://images.unsplash.com/photo-1583001809873-a1284d5da326?auto=format&fit=crop&q=80&w=500'
+            }
+        ];
+
+        // RENDER SERVICES GRID
+        function renderServices(filter = 'todos') {
+            const container = document.getElementById('servicesContainer');
+            container.innerHTML = '';
+
+            const filtered = filter === 'todos' 
+                ? servicesData 
+                : servicesData.filter(s => s.category === filter);
+
+            filtered.forEach(service => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-3xl overflow-hidden border border-aura-border shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group';
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${service.image}" alt="${service.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-aura-text font-bold text-xs px-3 py-1.5 rounded-full shadow-sm">
+                                ${service.duration}
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-title text-xl font-bold text-aura-text">${service.title}</h3>
+                                <span class="font-bold text-lg gold-gradient-text">${service.price}</span>
+                            </div>
+                            <p class="text-aura-muted text-xs leading-relaxed mt-2">${service.desc}</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-0">
+                        <button onclick="openBookingModalFor('${service.title}')" class="w-full border border-aura-text hover:bg-aura-text hover:text-white text-aura-text font-bold text-xs py-3 rounded-full transition-colors flex items-center justify-center gap-2">
+                            <span>Agendar Servicio</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // FILTER TABS LOGIC
+        function filterServices(category) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if(btn.dataset.category === category) {
+                    btn.classList.add('bg-aura-text', 'text-white', 'border-aura-text');
+                    btn.classList.remove('bg-white', 'text-aura-text', 'border-aura-border');
+                } else {
+                    btn.classList.remove('bg-aura-text', 'text-white', 'border-aura-text');
+                    btn.classList.add('bg-white', 'text-aura-text', 'border-aura-border');
+                }
+            });
+            renderServices(category);
+        }
+
+        // MOBILE MENU TOGGLE
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // BOOKING MODAL WIZARD STATE MANAGEMENT
+        let currentStep = 1;
+        let selectedTime = '';
+
+        function openBookingModal() {
+            document.getElementById('bookingModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // Set default date to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('bookingDate').value = tomorrow.toISOString().split('T')[0];
+        }
+
+        function openBookingModalFor(serviceTitle) {
+            openBookingModal();
+            const select = document.getElementById('modalServiceSelect');
+            for(let option of select.options) {
+                if(option.value === serviceTitle) {
+                    option.selected = true;
+                    break;
+                }
+            }
+        }
+
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                goToStep(1);
+                document.getElementById('stepSuccess').classList.add('hidden');
+            }, 300);
+        }
+
+        function goToStep(step) {
+            if(step === 2) {
+                const service = document.getElementById('modalServiceSelect').value;
+                if(!service) {
+                    alert('Por favor selecciona un servicio antes de continuar.');
+                    return;
+                }
+            }
+
+            if(step === 3) {
+                const service = document.getElementById('modalServiceSelect').value;
+                const date = document.getElementById('bookingDate').value;
+                document.getElementById('summaryService').innerText = `Servicio: ${service}`;
+                document.getElementById('summaryDateTime').innerText = `Fecha/Hora: ${date} a las ${selectedTime || '10:30 AM'}`;
+            }
+
+            currentStep = step;
+            document.getElementById('step1').classList.toggle('hidden', step !== 1);
+            document.getElementById('step2').classList.toggle('hidden', step !== 2);
+            document.getElementById('step3').classList.toggle('hidden', step !== 3);
+            document.getElementById('stepSuccess').classList.add('hidden');
+
+            // Update Header Progress UI
+            updateStepIndicator(1, step >= 1);
+            updateStepIndicator(2, step >= 2);
+            updateStepIndicator(3, step >= 3);
+        }
+
+        function updateStepIndicator(stepNum, isActive) {
+            const el = document.getElementById(`stepIndicator${stepNum}`);
+            if(isActive) {
+                el.className = "flex items-center gap-2 text-xs font-bold text-aura-gold";
+                el.children[0].className = "w-6 h-6 rounded-full bg-aura-gold text-white flex items-center justify-center text-xs";
+            } else {
+                el.className = "flex items-center gap-2 text-xs font-medium text-aura-muted";
+                el.children[0].className = "w-6 h-6 rounded-full bg-aura-border text-aura-text flex items-center justify-center text-xs";
+            }
+        }
+
+        function selectTimeSlot(btn) {
+            document.querySelectorAll('.time-slot').forEach(b => {
+                b.classList.remove('bg-aura-gold', 'text-white', 'border-aura-gold');
+                b.classList.add('border-aura-border');
+            });
+            btn.classList.add('bg-aura-gold', 'text-white', 'border-aura-gold');
+            btn.classList.remove('border-aura-border');
+            selectedTime = btn.innerText;
+        }
+
+        function confirmBooking() {
+            const name = document.getElementById('clientName').value;
+            const phone = document.getElementById('clientPhone').value;
+            
+            if(!name || !phone) {
+                alert('Por favor completa los campos obligatorios (*)');
+                return;
+            }
+
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('stepSuccess').classList.remove('hidden');
+        }
+
+        // LIVE TOAST NOTIFICATIONS (SOCIAL PROOF)
+        const toastNotifications = [
+            { name: "Sofía M.", service: "Balayage Signature", time: "Hace 2 minutos" },
+            { name: "Camila R.", service: "Manicura Rusa Gel", time: "Hace 8 minutos" },
+            { name: "Elena G.", service: "Facial HydroGlow", time: "Hace 15 minutos" },
+            { name: "Lucía P.", service: "Corte & Styling", time: "Hace 20 minutos" }
+        ];
+
+        let toastIndex = 0;
+
+        function triggerLiveToast() {
+            const toast = document.getElementById('bookingToast');
+            const textEl = document.getElementById('toastText');
+            const subEl = document.getElementById('toastSub');
+
+            const item = toastNotifications[toastIndex];
+            textEl.innerText = `${item.name} acaba de agendar una cita`;
+            subEl.innerText = `${item.service} • ${item.time}`;
+
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+
+            setTimeout(() => {
+                dismissToast();
+            }, 5000);
+
+            toastIndex = (toastIndex + 1) % toastNotifications.length;
+        }
+
+        function dismissToast() {
+            const toast = document.getElementById('bookingToast');
+            toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+        }
+
+        // INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            renderServices();
+
+            // Trigger first toast after 4 seconds, then periodically
+            setTimeout(triggerLiveToast, 4000);
+            setInterval(triggerLiveToast, 22000);
+        });
+    </script>
+</body>
+</html>

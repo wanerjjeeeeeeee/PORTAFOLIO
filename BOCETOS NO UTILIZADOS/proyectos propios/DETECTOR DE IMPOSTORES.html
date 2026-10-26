@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Among Us - Impostor Detector & Eliminator HUD</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Plus+Jakarta+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        hud: {
+                            bg: '#030712',
+                            card: '#0F172A',
+                            border: '#1E293B',
+                            red: '#FF0055',
+                            redGlow: 'rgba(255, 0, 85, 0.4)',
+                            cyan: '#00F0FF',
+                            cyanGlow: 'rgba(0, 240, 255, 0.3)',
+                            gold: '#FFD700',
+                            goldGlow: 'rgba(255, 215, 0, 0.5)',
+                            sus: '#FF8800',
+                            cleared: '#00FF87',
+                            dead: '#64748B'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom HUD Neon Shadow Effects */
+        .neon-border-red {
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.3), inset 0 0 10px rgba(255, 0, 85, 0.15);
+            border-color: #FF0055 !important;
+        }
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3), inset 0 0 10px rgba(0, 240, 255, 0.15);
+            border-color: #00F0FF !important;
+        }
+        .neon-text-cyan {
+            text-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+        }
+        .neon-text-red {
+            text-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
+        }
+
+        /* Top 3 Glowing Card Effect */
+        @keyframes top3Pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(0, 240, 255, 0.4);
+                border-color: #FFD700;
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(255, 215, 0, 1), 0 0 60px rgba(0, 240, 255, 0.7);
+                border-color: #00F0FF;
+            }
+        }
+        .top3-glow {
+            animation: top3Pulse 1.5s infinite ease-in-out;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.12), rgba(15, 23, 42, 0.95)) !important;
+        }
+
+        /* Radar Scanning Line */
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(1000%); }
+        }
+        .scanline-effect::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: rgba(0, 240, 255, 0.6);
+            box-shadow: 0 0 12px #00F0FF;
+            opacity: 0.4;
+            animation: scanline 4s linear infinite;
+            pointer-events: none;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00F0FF;
+        }
+    </style>
+</head>
+<body class="bg-hud-bg text-slate-100 font-sans min-h-screen antialiased selection:bg-hud-cyan selection:text-black relative scanline-effect overflow-x-hidden">
+
+    <!-- SPACE HUD BACKGROUND GRID -->
+    <div class="fixed inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0"></div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- NAVIGATION HEADER -->
+        <header class="border-b border-hud-border bg-hud-card/90 backdrop-blur-xl sticky top-0 z-40 px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3 shadow-xl">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-hud-red to-hud-cyan flex items-center justify-center text-white shadow-lg shadow-hud-redGlow">
+                    <i data-lucide="shield-alert" class="w-6 h-6 stroke-[2.5]"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-orbitron font-black text-lg sm:text-xl tracking-wider text-white">AMONG US <span class="text-hud-cyan neon-text-cyan">HUD</span></span>
+                        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-hud-red/20 text-hud-red border border-hud-red/40">SUS-DETECTOR v4.0</span>
+                    </div>
+                    <p class="text-[11px] font-mono text-slate-400 hidden sm:block">Descartador de Impostores & Tracker de Coartadas en Tiempo Real</p>
+                </div>
+            </div>
+
+            <!-- MODE SWITCHER & AUDIO CONTROLS -->
+            <div class="flex items-center gap-3">
+                <!-- Mode Selector Toggle -->
+                <div class="bg-hud-bg p-1 rounded-xl border border-hud-border flex items-center gap-1">
+                    <button onclick="setMode('simple')" id="modeBtnSimple" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all bg-hud-cyan text-black shadow-md">
+                        ⚡ Descartador Simple
+                    </button>
+                    <button onclick="setMode('datos')" id="modeBtnDatos" class="px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all text-slate-400 hover:text-white">
+                        📝 Con Datos (Razones)
+                    </button>
+                </div>
+
+                <!-- Emergency Sound FX Toggle -->
+                <button onclick="toggleAudio()" id="audioBtn" title="Sonido FX" class="p-2.5 rounded-xl border border-hud-border bg-hud-card hover:border-hud-cyan text-slate-400 hover:text-hud-cyan transition-all">
+                    <i data-lucide="volume-2" id="audioIcon" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Reset Game Button -->
+                <button onclick="resetGame()" class="p-2.5 rounded-xl border border-hud-red/40 bg-hud-red/10 text-hud-red hover:bg-hud-red/20 transition-all font-mono text-xs flex items-center gap-1.5 font-bold" title="Reiniciar Partida">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    <span class="hidden md:inline">REINICIAR</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT -->
+        <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+
+            <!-- TOP BANNER & ROLE-DETECTION TABS -->
+            <div class="space-y-4">
+                
+                <!-- TOP 3 WARNING BANNER (HIDDEN BY DEFAULT) -->
+                <div id="top3Banner" class="hidden p-4 rounded-2xl bg-gradient-to-r from-hud-gold/20 via-hud-cyan/20 to-hud-red/20 border-2 border-hud-gold text-center space-y-1 shadow-2xl top3-glow">
+                    <div class="flex items-center justify-center gap-2 text-hud-gold font-orbitron font-black text-sm sm:text-base tracking-widest">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 animate-bounce"></i>
+                        <span>¡AMENAZA CRÍTICA! QUEDAN EXACTAMENTE 3 CANDIDATOS EN JUEGO</span>
+                        <i data-lucide="alert-triangle" class="w-5 h-5 animate-bounce"></i>
+                    </div>
+                    <p class="text-xs font-mono text-slate-200">
+                        Aplica una votación decisiva o expulsión estratégica antes del próximo asesinato. Revisa la coartada final.
+                    </p>
+                </div>
+
+                <!-- ROLE SELECTION TABS -->
+                <div class="bg-hud-card border border-hud-border rounded-2xl p-2 flex flex-wrap items-center justify-between gap-2 shadow-xl">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="setRoleTab('standard')" id="roleTabStandard" class="px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all bg-hud-red text-white shadow-lg shadow-hud-redGlow">
+                            <i data-lucide="user-x" class="w-4 h-4"></i>
+                            <span>Impostor Estándar</span>
+                        </button>
+                        <button onclick="setRoleTab('shapeshifter')" id="roleTabShapeshifter" class="px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all text-slate-400 hover:text-white">
+                            <i data-lucide="dna" class="w-4 h-4"></i>
+                            <span>Shapeshifter / Mutante</span>
+                        </button>
+                        <button onclick="setRoleTab('phantom')" id="roleTabPhantom" class="px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all text-slate-400 hover:text-white">
+                            <i data-lucide="ghost" class="w-4 h-4"></i>
+                            <span>Phantom / Invisible</span>
+                        </button>
+                    </div>
+
+                    <!-- Filter / Stats Indicator -->
+                    <div class="px-3 py-1.5 rounded-xl bg-hud-bg border border-hud-border text-xs font-mono text-slate-400 flex items-center gap-3">
+                        <span>Activos: <strong id="activeCountText" class="text-hud-cyan">18</strong></span>
+                        <span>Descartados: <strong id="clearedCountText" class="text-hud-cleared">0</strong></span>
+                        <span>Impostores: <strong id="impostorCountText" class="text-hud-red">0</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUS-O-METER & METRICS OVERVIEW -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- SUS-O-METER GAUGE -->
+                <div class="bg-hud-card border border-hud-border rounded-2xl p-5 flex flex-col items-center justify-center space-y-3 shadow-xl relative">
+                    <div class="text-center">
+                        <span class="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">Nivel de Riesgo Global</span>
+                        <p id="roleDescriptionText" class="text-[11px] text-slate-500 font-mono">Peligro promedio en la nave</p>
+                    </div>
+
+                    <div class="relative w-40 h-40 flex items-center justify-center">
+                        <canvas id="susMeterChart"></canvas>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                            <span id="globalSusScore" class="font-orbitron font-black text-2xl text-white">0%</span>
+                            <span class="text-[9px] font-mono text-slate-400">PROB. IMPOSTOR</span>
+                        </div>
+                    </div>
+
+                    <!-- Role-Specific Clue Hint -->
+                    <div id="roleClueBox" class="w-full p-2.5 rounded-xl bg-hud-bg border border-hud-border text-[11px] text-slate-300 font-mono space-y-1">
+                        <span class="text-hud-cyan font-bold flex items-center gap-1">
+                            <i data-lucide="info" class="w-3.5 h-3.5"></i> Foco del Rol Estándar:
+                        </span>
+                        <p id="roleClueText">Monitorea ejecuciones de tareas falsas, movimientos imposibles por ventilación y votaciones inconsistentes.</p>
+                    </div>
+                </div>
+
+                <!-- EMERGENCY MEETING STRATEGY HELPER -->
+                <div class="bg-hud-card border border-hud-border rounded-2xl p-5 flex flex-col justify-between space-y-4 shadow-xl">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between border-b border-hud-border pb-2.5">
+                            <div class="flex items-center gap-2 text-hud-red">
+                                <i data-lucide="siren" class="w-5 h-5 animate-pulse"></i>
+                                <h3 class="font-orbitron font-bold text-xs uppercase tracking-wider text-white">Estrategia de Reunión de Emergencia</h3>
+                            </div>
+                            <button onclick="playEmergencySFX()" class="text-[10px] font-mono px-2 py-0.5 rounded bg-hud-red/20 text-hud-red border border-hud-red/40 hover:bg-hud-red/30">
+                                🔔 Alarma
+                            </button>
+                        </div>
+
+                        <div id="emergencyRecommendation" class="space-y-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Quick Incident logger Trigger -->
+                    <button onclick="openIncidentModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-hud-cyan/20 to-indigo-600/20 border border-hud-cyan/40 hover:border-hud-cyan text-hud-cyan font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>Registrar Incidente / Sospecha</span>
+                    </button>
+                </div>
+
+                <!-- INCIDENT & LOG FEED -->
+                <div class="bg-hud-card border border-hud-border rounded-2xl p-5 flex flex-col justify-between space-y-3 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-hud-border pb-2.5">
+                        <div class="flex items-center gap-2 text-hud-cyan">
+                            <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                            <h3 class="font-orbitron font-bold text-xs uppercase tracking-wider text-white">Bitácora de Eventos</h3>
+                        </div>
+                        <span id="incidentCountText" class="text-[10px] font-mono text-slate-400">0 Registros</span>
+                    </div>
+
+                    <div id="incidentLogList" class="space-y-2 overflow-y-auto max-h-44 pr-1 text-xs font-mono">
+                        <p class="text-slate-500 text-center py-4">No hay incidentes registrados aún.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CREWMATE GRID (18 OFFICIAL COLORS) -->
+            <section class="space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <h2 class="font-orbitron font-bold text-base text-white flex items-center gap-2">
+                        <i data-lucide="users" class="w-5 h-5 text-hud-cyan"></i>
+                        <span>Panel de Tripulantes & Estado</span>
+                    </h2>
+                    
+                    <span class="text-xs font-mono text-slate-400">
+                        Haz clic en los botones para cambiar de estado rápidamente.
+                    </span>
+                </div>
+
+                <!-- CARDS GRID -->
+                <div id="crewmatesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+                    <!-- Dynamic Crewmate Cards (18 colors) -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-hud-border bg-hud-card/60 py-4 px-6 text-center text-xs font-mono text-slate-500">
+            Among Us Impostor Detector & Eliminator HUD &copy; 2026 - Herramienta de Análisis Estratégico.
+        </footer>
+    </div>
+
+    <!-- MODAL: DATOS / REASON ENTRY -->
+    <div id="reasonModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-hud-card border border-hud-cyan/50 rounded-2xl p-6 space-y-5 shadow-2xl relative">
+            <div class="flex justify-between items-center border-b border-hud-border pb-3">
+                <div class="flex items-center gap-2 text-hud-cyan">
+                    <i data-lucide="edit-3" class="w-5 h-5"></i>
+                    <h3 class="font-orbitron font-bold text-sm text-white">Registrar Razón del Cambio</h3>
+                </div>
+                <button onclick="closeReasonModal()" class="text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 font-mono text-xs">
+                <div id="reasonPlayerHeader" class="flex items-center gap-3 p-3 rounded-xl bg-hud-bg border border-hud-border">
+                    <!-- Dynamically populated header -->
+                </div>
+
+                <div class="space-y-1">
+                    <label class="text-slate-300 font-bold">Razón o Evidencia de la decisión:</label>
+                    <textarea id="reasonInputText" rows="3" placeholder="Ej: Visto fingiendo descarga corta, movimiento imposible de Reactor a Electricidad, o mutación en masa..." class="w-full bg-hud-bg border border-hud-border rounded-xl p-3 text-slate-200 focus:outline-none focus:border-hud-cyan transition-colors resize-none"></textarea>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2">
+                <button onclick="closeReasonModal()" class="px-4 py-2 rounded-xl bg-hud-border text-xs font-mono text-slate-300 hover:text-white">
+                    Cancelar
+                </button>
+                <button onclick="confirmReasonChange()" class="px-5 py-2 rounded-xl bg-hud-cyan text-black font-orbitron font-bold text-xs shadow-lg shadow-hud-cyanGlow">
+                    Confirmar Cambio
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD INCIDENT -->
+    <div id="incidentModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-hud-card border border-hud-red/50 rounded-2xl p-6 space-y-5 shadow-2xl relative">
+            <div class="flex justify-between items-center border-b border-hud-border pb-3">
+                <div class="flex items-center gap-2 text-hud-red">
+                    <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                    <h3 class="font-orbitron font-bold text-sm text-white">Registrar Evento Sospechoso</h3>
+                </div>
+                <button onclick="closeIncidentModal()" class="text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 font-mono text-xs">
+                <div>
+                    <label class="text-slate-300 font-bold block mb-1">Tripulante Sospechoso:</label>
+                    <select id="incidentPlayerSelect" class="w-full bg-hud-bg border border-hud-border rounded-xl p-3 text-slate-200 focus:outline-none focus:border-hud-cyan">
+                        <!-- Populated dynamically -->
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-slate-300 font-bold block mb-1">Tipo de Evento:</label>
+                    <select id="incidentTypeSelect" class="w-full bg-hud-bg border border-hud-border rounded-xl p-3 text-slate-200 focus:outline-none focus:border-hud-cyan">
+                        <option value="Fake Task">Tarea Falsa / MedBay Scan Cancelado</option>
+                        <option value="Vent/Location">Salto por Alcantarilla (Vent)</option>
+                        <option value="Shapeshifting">Avistamiento de Transformación</option>
+                        <option value="Invisibility">Sonido de Invisibilidad / Desaparición</option>
+                        <option value="Voting Pattern">Voto Sospechoso / Inconsistente</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-slate-300 font-bold block mb-1">Detalle / Ubicación:</label>
+                    <input type="text" id="incidentDetailInput" placeholder="Ej: Visto en Electricidad sin alibi" class="w-full bg-hud-bg border border-hud-border rounded-xl p-3 text-slate-200 focus:outline-none focus:border-hud-cyan">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2">
+                <button onclick="closeIncidentModal()" class="px-4 py-2 rounded-xl bg-hud-border text-xs font-mono text-slate-300 hover:text-white">
+                    Cancelar
+                </button>
+                <button onclick="saveIncident()" class="px-5 py-2 rounded-xl bg-hud-red text-white font-orbitron font-bold text-xs shadow-lg shadow-hud-redGlow">
+                    Guardar Incidente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO SYNTHESIZER SCRIPT -->
+    <script>
+        let audioEnabled = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playTone(freq, type = 'sine', duration = 0.15, volume = 0.05) {
+            if (!audioEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function playEmergencySFX() {
+            if (!audioEnabled) return;
+            playTone(800, 'sawtooth', 0.2, 0.08);
+            setTimeout(() => playTone(600, 'sawtooth', 0.2, 0.08), 150);
+            setTimeout(() => playTone(800, 'sawtooth', 0.3, 0.1), 300);
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const icon = document.getElementById('audioIcon');
+            icon.setAttribute('data-lucide', audioEnabled ? 'volume-2' : 'volume-x');
+            lucide.createIcons();
+        }
+    </script>
+
+    <!-- CORE LOGIC & DATA SCRIPT -->
+    <script>
+        // OFFICIAL 18 AMONG US COLORS & DATA
+        const COLOR_DATA = [
+            { id: 'red', name: 'Rojo', hex: '#C61111', visor: '#99D5EA' },
+            { id: 'blue', name: 'Azul', hex: '#132ED2', visor: '#99D5EA' },
+            { id: 'green', name: 'Verde', hex: '#117F2D', visor: '#99D5EA' },
+            { id: 'pink', name: 'Rosa', hex: '#ED54BA', visor: '#99D5EA' },
+            { id: 'orange', name: 'Naranja', hex: '#EF7D0D', visor: '#99D5EA' },
+            { id: 'yellow', name: 'Amarillo', hex: '#F5F557', visor: '#99D5EA' },
+            { id: 'black', name: 'Negro', hex: '#3F474E', visor: '#99D5EA' },
+            { id: 'white', name: 'Blanco', hex: '#D6E0F0', visor: '#99D5EA' },
+            { id: 'purple', name: 'Púrpura', hex: '#6B2FBC', visor: '#99D5EA' },
+            { id: 'cyan', name: 'Cian', hex: '#38FEDC', visor: '#99D5EA' },
+            { id: 'lime', name: 'Lima', hex: '#50EF39', visor: '#99D5EA' },
+            { id: 'brown', name: 'Marrón', hex: '#71491E', visor: '#99D5EA' },
+            { id: 'rose', name: 'Rose', hex: '#ECC0D3', visor: '#99D5EA' },
+            { id: 'banana', name: 'Banana', hex: '#FFFF8F', visor: '#99D5EA' },
+            { id: 'coral', name: 'Coral', hex: '#D76464', visor: '#99D5EA' },
+            { id: 'tan', name: 'Tan', hex: '#928776', visor: '#99D5EA' },
+            { id: 'gray', name: 'Gris', hex: '#8397A7', visor: '#99D5EA' },
+            { id: 'maroon', name: 'Granate', hex: '#5F1226', visor: '#99D5EA' }
+        ];
+
+        // GLOBAL APP STATE
+        let crewState = {};
+        let currentMode = 'simple'; // 'simple' or 'datos'
+        let currentRoleTab = 'standard'; // 'standard', 'shapeshifter', 'phantom'
+        let pendingStatusChange = null;
+        let incidentLog = [];
+        let susChartInstance = null;
+
+        // SVG GENERATOR FOR CREWMATE AVATAR
+        function getCrewmateSVG(colorHex, size = 48) {
+            return `
+                <svg width="${size}" height="${size}" viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Backpack -->
+                    <rect x="15" y="45" width="22" height="42" rx="8" fill="${colorHex}" stroke="#000" stroke-width="6"/>
+                    <!-- Main Body -->
+                    <rect x="30" y="20" width="55" height="75" rx="27" fill="${colorHex}" stroke="#000" stroke-width="6"/>
+                    <!-- Legs -->
+                    <rect x="35" y="85" width="18" height="25" rx="7" fill="${colorHex}" stroke="#000" stroke-width="6"/>
+                    <rect x="62" y="85" width="18" height="25" rx="7" fill="${colorHex}" stroke="#000" stroke-width="6"/>
+                    <!-- Visor Glass -->
+                    <rect x="52" y="32" width="38" height="24" rx="12" fill="#99D5EA" stroke="#000" stroke-width="5"/>
+                    <ellipse cx="65" cy="38" rx="10" ry="4" fill="white" opacity="0.7"/>
+                </svg>
+            `;
+        }
+
+        // INITIALIZE APP DATA
+        function initData() {
+            COLOR_DATA.forEach(c => {
+                crewState[c.id] = {
+                    ...c,
+                    status: 'active', // 'active', 'sus', 'impostor', 'cleared', 'dead'
+                    susPoints: 0,
+                    reason: 'En juego sin incidentes',
+                    history: []
+                };
+            });
+
+            renderGrid();
+            initChart();
+            updateDashboard();
+        }
+
+        // RENDER CREWMATE CARDS GRID
+        function renderGrid() {
+            const grid = document.getElementById('crewmatesGrid');
+            grid.innerHTML = '';
+
+            const activeOrSus = Object.values(crewState).filter(c => c.status === 'active' || c.status === 'sus');
+            const isTop3 = activeOrSus.length === 3;
+
+            // Toggle top 3 banner
+            const banner = document.getElementById('top3Banner');
+            if (isTop3) {
+                banner.classList.remove('hidden');
+            } else {
+                banner.classList.add('hidden');
+            }
+
+            COLOR_DATA.forEach(c => {
+                const player = crewState[c.id];
+                const isCandidateTop3 = isTop3 && (player.status === 'active' || player.status === 'sus');
+
+                let statusBadge = '';
+                let borderStyle = 'border-hud-border';
+
+                if (player.status === 'sus') {
+                    statusBadge = `<span class="px-2 py-0.5 rounded bg-hud-sus/20 text-hud-sus border border-hud-sus/40 text-[10px] font-bold">SOSPECHOSO</span>`;
+                    borderStyle = 'border-hud-sus';
+                } else if (player.status === 'impostor') {
+                    statusBadge = `<span class="px-2 py-0.5 rounded bg-hud-red/20 text-hud-red border border-hud-red/40 text-[10px] font-bold">IMPOSTOR</span>`;
+                    borderStyle = 'neon-border-red';
+                } else if (player.status === 'cleared') {
+                    statusBadge = `<span class="px-2 py-0.5 rounded bg-hud-cleared/20 text-hud-cleared border border-hud-cleared/40 text-[10px] font-bold">DESCARTADO</span>`;
+                    borderStyle = 'border-hud-cleared/50';
+                } else if (player.status === 'dead') {
+                    statusBadge = `<span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 text-[10px] font-bold">NO ESTÁ / MUERTO</span>`;
+                    borderStyle = 'border-slate-800 opacity-60';
+                } else {
+                    statusBadge = `<span class="px-2 py-0.5 rounded bg-hud-cyan/10 text-hud-cyan border border-hud-cyan/30 text-[10px] font-bold">EN JUEGO</span>`;
+                }
+
+                const cardHtml = `
+                    <div class="bg-hud-card border ${borderStyle} ${isCandidateTop3 ? 'top3-glow' : ''} rounded-2xl p-3.5 flex flex-col justify-between space-y-3 shadow-lg transition-all relative overflow-hidden">
+                        
+                        <!-- Top Header -->
+                        <div class="flex items-center justify-between">
+                            <span class="font-orbitron font-bold text-xs text-white">${player.name}</span>
+                            ${statusBadge}
+                        </div>
+
+                        <!-- Crewmate Avatar & Sus Score -->
+                        <div class="flex items-center justify-between py-1">
+                            <div>${getCrewmateSVG(player.hex, 50)}</div>
+                            <div class="text-right font-mono">
+                                <span class="text-[10px] text-slate-500 block">Probabilidad</span>
+                                <span class="font-orbitron font-bold text-sm ${player.susPoints > 50 ? 'text-hud-red' : 'text-hud-cyan'}">${player.susPoints}%</span>
+                            </div>
+                        </div>
+
+                        <!-- Reason Snippet -->
+                        <p class="text-[10px] font-mono text-slate-400 line-clamp-1 italic bg-hud-bg p-1.5 rounded border border-hud-border">
+                            "${player.reason}"
+                        </p>
+
+                        <!-- Action Buttons Row -->
+                        <div class="grid grid-cols-4 gap-1 pt-1 font-mono text-[10px]">
+                            <button onclick="requestStatusChange('${player.id}', 'sus')" title="Marcar Sospechoso" class="p-1.5 rounded bg-hud-sus/20 hover:bg-hud-sus/40 text-hud-sus border border-hud-sus/40 font-bold text-center">
+                                SUS
+                            </button>
+                            <button onclick="requestStatusChange('${player.id}', 'impostor')" title="Confirmar Impostor" class="p-1.5 rounded bg-hud-red/20 hover:bg-hud-red/40 text-hud-red border border-hud-red/40 font-bold text-center">
+                                IMP
+                            </button>
+                            <button onclick="requestStatusChange('${player.id}', 'cleared')" title="Descartar / Limpio" class="p-1.5 rounded bg-hud-cleared/20 hover:bg-hud-cleared/40 text-hud-cleared border border-hud-cleared/40 font-bold text-center">
+                                OK
+                            </button>
+                            <button onclick="requestStatusChange('${player.id}', 'dead')" title="Muerto o No está" class="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold text-center">
+                                OFF
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                grid.innerHTML += cardHtml;
+            });
+        }
+
+        // REQUEST STATUS CHANGE (HANDLES SIMPLE VS DATOS MODE)
+        function requestStatusChange(playerId, newStatus) {
+            playTone(newStatus === 'impostor' ? 300 : 700, 'sine', 0.1);
+
+            if (currentMode === 'datos') {
+                pendingStatusChange = { playerId, newStatus };
+                openReasonModal(playerId, newStatus);
+            } else {
+                // Simple Mode: Auto reason assignment
+                const defaultReasons = {
+                    sus: 'Marcado sospechoso en ronda rápida',
+                    impostor: 'Confirmado impostor en votación',
+                    cleared: 'Coartada confirmada / Tarea visual vista',
+                    dead: 'Reportado cadáver / Desconectado',
+                    active: 'Reintegrado a tripulación'
+                };
+                applyStatusChange(playerId, newStatus, defaultReasons[newStatus] || 'Cambio manual');
+            }
+        }
+
+        function applyStatusChange(playerId, newStatus, reason) {
+            const p = crewState[playerId];
+            p.status = newStatus;
+            p.reason = reason;
+
+            // Recalculate Sus Points based on status
+            if (newStatus === 'impostor') p.susPoints = 99;
+            else if (newStatus === 'sus') p.susPoints = Math.max(p.susPoints, 65);
+            else if (newStatus === 'cleared') p.susPoints = 0;
+            else if (newStatus === 'dead') p.susPoints = 0;
+            else p.susPoints = 15;
+
+            p.history.unshift({ time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}), status: newStatus, reason });
+
+            renderGrid();
+            updateDashboard();
+        }
+
+        // MODE TOGGLES
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('modeBtnSimple').className = mode === 'simple' 
+                ? 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all bg-hud-cyan text-black shadow-md'
+                : 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all text-slate-400 hover:text-white';
+
+            document.getElementById('modeBtnDatos').className = mode === 'datos'
+                ? 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all bg-hud-cyan text-black shadow-md'
+                : 'px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all text-slate-400 hover:text-white';
+            
+            playTone(900, 'triangle', 0.1);
+        }
+
+        // ROLE TAB SELECTION
+        function setRoleTab(role) {
+            currentRoleTab = role;
+
+            ['standard', 'shapeshifter', 'phantom'].forEach(r => {
+                const btn = document.getElementById(`roleTab${r.charAt(0).toUpperCase() + r.slice(1)}`);
+                if (r === role) {
+                    btn.className = 'px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all bg-hud-red text-white shadow-lg shadow-hud-redGlow';
+                } else {
+                    btn.className = 'px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all text-slate-400 hover:text-white';
+                }
+            });
+
+            const clues = {
+                standard: "Monitorea ejecuciones de tareas falsas, movimientos imposibles por ventilación y votaciones inconsistentes.",
+                shapeshifter: "Busca rastros de masa mutante en pasillos, duplicados de colores en la misma sala y animaciones de transformación interrumpidas.",
+                phantom: "Atento a sonidos estáticos de invisibilidad, humo de humo púrpura en esquinas y jugadores que se esfuman sin usar rejilla."
+            };
+
+            document.getElementById('roleClueText').innerText = clues[role];
+            playTone(650, 'sine', 0.1);
+            updateDashboard();
+        }
+
+        // REASON MODAL HANDLERS
+        function openReasonModal(playerId, newStatus) {
+            const p = crewState[playerId];
+            const header = document.getElementById('reasonPlayerHeader');
+            header.innerHTML = `
+                ${getCrewmateSVG(p.hex, 36)}
+                <div>
+                    <span class="font-orbitron font-bold text-white text-xs">${p.name}</span>
+                    <span class="text-[10px] text-slate-400 block font-mono">Cambiando estado a: <strong class="text-hud-cyan uppercase">${newStatus}</strong></span>
+                </div>
+            `;
+            document.getElementById('reasonInputText').value = '';
+            document.getElementById('reasonModal').classList.remove('hidden');
+        }
+
+        function closeReasonModal() {
+            document.getElementById('reasonModal').classList.add('hidden');
+            pendingStatusChange = null;
+        }
+
+        function confirmReasonChange() {
+            if (!pendingStatusChange) return;
+            const reason = document.getElementById('reasonInputText').value.trim() || 'Sin razón especificada';
+            applyStatusChange(pendingStatusChange.playerId, pendingStatusChange.newStatus, reason);
+            closeReasonModal();
+        }
+
+        // INCIDENT MODAL HANDLERS
+        function openIncidentModal() {
+            const select = document.getElementById('incidentPlayerSelect');
+            select.innerHTML = '';
+            COLOR_DATA.forEach(c => {
+                select.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+            });
+            document.getElementById('incidentModal').classList.remove('hidden');
+        }
+
+        function closeIncidentModal() {
+            document.getElementById('incidentModal').classList.add('hidden');
+        }
+
+        function saveIncident() {
+            const playerId = document.getElementById('incidentPlayerSelect').value;
+            const type = document.getElementById('incidentTypeSelect').value;
+            const detail = document.getElementById('incidentDetailInput').value.trim() || 'Sin detalles extra';
+
+            const player = crewState[playerId];
+            player.susPoints = Math.min(95, player.susPoints + 25);
+            if (player.status === 'active') player.status = 'sus';
+            player.reason = `${type}: ${detail}`;
+
+            incidentLog.unshift({
+                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+                player: player.name,
+                type,
+                detail
+            });
+
+            renderGrid();
+            renderIncidents();
+            updateDashboard();
+            closeIncidentModal();
+            playTone(400, 'sawtooth', 0.2);
+        }
+
+        function renderIncidents() {
+            const container = document.getElementById('incidentLogList');
+            document.getElementById('incidentCountText').innerText = `${incidentLog.length} Registros`;
+
+            if (incidentLog.length === 0) {
+                container.innerHTML = `<p class="text-slate-500 text-center py-4">No hay incidentes registrados aún.</p>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            incidentLog.forEach(inc => {
+                container.innerHTML += `
+                    <div class="p-2 rounded-xl bg-hud-bg border border-hud-border flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-hud-red">${inc.player}</span>
+                            <span class="text-slate-400 block text-[10px]">${inc.type} - ${inc.detail}</span>
+                        </div>
+                        <span class="text-[9px] text-slate-500">${inc.time}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // UPDATE DASHBOARD METRICS & EMERGENCY STRATEGY
+        function updateDashboard() {
+            const players = Object.values(crewState);
+            const active = players.filter(p => p.status === 'active' || p.status === 'sus');
+            const cleared = players.filter(p => p.status === 'cleared');
+            const impostors = players.filter(p => p.status === 'impostor');
+
+            document.getElementById('activeCountText').innerText = active.length;
+            document.getElementById('clearedCountText').innerText = cleared.length;
+            document.getElementById('impostorCountText').innerText = impostors.length;
+
+            // Global Sus Score
+            const avgSus = active.length > 0 
+                ? Math.round(active.reduce((acc, p) => acc + p.susPoints, 0) / active.length)
+                : 0;
+
+            document.getElementById('globalSusScore').innerText = `${avgSus}%`;
+            updateChart(avgSus);
+
+            // Emergency Strategy Helper Recommendation
+            const topSuspects = active.sort((a,b) => b.susPoints - a.susPoints).slice(0, 2);
+            const recContainer = document.getElementById('emergencyRecommendation');
+
+            if (impostors.length > 0) {
+                recContainer.innerHTML = `
+                    <div class="p-2.5 rounded-xl bg-hud-red/10 border border-hud-red/40 text-hud-red text-xs font-mono font-bold">
+                        🚨 VOTO DECISIVO: Expulsar a <span class="underline">${impostors.map(i => i.name).join(', ')}</span> (Impostores Confirmados).
+                    </div>
+                `;
+            } else if (topSuspects.length > 0 && topSuspects[0].susPoints > 40) {
+                recContainer.innerHTML = `
+                    <div class="p-2.5 rounded-xl bg-hud-sus/10 border border-hud-sus/40 text-hud-sus text-xs font-mono">
+                        ⚠️ Sospechosos principales: <strong>${topSuspects[0].name}</strong> (${topSuspects[0].susPoints}%) ${topSuspects[1] ? `y <strong>${topSuspects[1].name}</strong>` : ''}.
+                        <span class="block text-[10px] text-slate-400 mt-1">Sugerencia: Solicitar alibi visual o saltear voto si quedan pocas bajas.</span>
+                    </div>
+                `;
+            } else {
+                recContainer.innerHTML = `
+                    <div class="p-2.5 rounded-xl bg-hud-cyan/10 border border-hud-cyan/30 text-hud-cyan text-xs font-mono">
+                        ✅ Sin amenaza inminente. Continuar completando tareas y monitorear cámaras / sensores.
+                    </div>
+                `;
+            }
+        }
+
+        // CHART INIT & UPDATE
+        function initChart() {
+            const ctx = document.getElementById('susMeterChart').getContext('2d');
+            susChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [0, 100],
+                        backgroundColor: ['#00F0FF', '#1E293B'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '80%',
+                    rotation: -90,
+                    circumference: 180,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { tooltip: { enabled: false } }
+                }
+            });
+        }
+
+        function updateChart(score) {
+            if (!susChartInstance) return;
+            let color = '#00F0FF';
+            if (score > 60) color = '#FF0055';
+            else if (score > 35) color = '#FF8800';
+
+            susChartInstance.data.datasets[0].backgroundColor = [color, '#1E293B'];
+            susChartInstance.data.datasets[0].data = [score, 100 - score];
+            susChartInstance.update();
+        }
+
+        // RESET GAME STATE
+        function resetGame() {
+            initData();
+            incidentLog = [];
+            renderIncidents();
+            playTone(800, 'sine', 0.2);
+        }
+
+        // ON LOAD INITIALIZATION
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initData();
+        });
+    </script>
+</body>
+</html>

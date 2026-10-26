@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Casa Pétalo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;600;800&display=swap">
+<style>
+:root{--fondo:#FFF4F6;--texto:#3A1F2B;--acento:#B3194F;--sobre:#ffffff;--suave:#FBD3DC;--tarjeta:#ffffff;--hero:#FBD3DC;--hero-tx:#3A1F2B;--f:'Gabarito'}
+*{box-sizing:border-box;margin:0}
+body{background:var(--fondo);color:var(--texto);font-family:var(--f),system-ui,sans-serif;line-height:1.5}
+.aviso{background:var(--texto);color:var(--fondo);text-align:center;padding:.4rem 1rem;font-size:.9rem}
+header,.hero,.tienda,footer{padding:clamp(1rem,4vw,3rem)}
+header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;position:sticky;top:0;background:var(--fondo);z-index:5}
+.logo{font-size:1.5rem;font-weight:800}
+.hero{background:var(--hero);color:var(--hero-tx)}
+h1,h2{line-height:1.05;font-weight:800}
+h1{font-size:clamp(2.2rem,6vw,4.6rem);max-width:15ch}
+.hero p{max-width:44ch;margin:1rem 0 1.4rem}
+.btn{display:inline-block;background:var(--acento);color:var(--sobre);padding:.65rem 1.2rem;border:0;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
+.tienda{display:block}
+.filtros{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0}
+.filtros button,.filtros input,select{border:1.5px solid var(--texto);background:none;color:inherit;padding:.4rem .9rem;font:inherit}
+.filtros button{cursor:pointer}
+.filtros button[aria-pressed=true]{background:var(--texto);color:var(--fondo)}
+.cuadricula{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.2rem}
+.item{background:var(--tarjeta);display:flex;flex-direction:column;position:relative}
+.foto{aspect-ratio:4/5;background:var(--suave);display:grid;place-items:center;font-size:.85rem}
+.etq{position:absolute;top:.6rem;left:.6rem;background:var(--acento);color:var(--sobre);padding:.15rem .6rem;font-size:.8rem;font-weight:700}
+.info{padding:.9rem;display:flex;flex-direction:column;gap:.4rem;flex:1}
+.info .btn{margin-top:auto}
+.precio{font-weight:800}
+#carrito{position:fixed;top:0;right:0;height:100%;width:min(380px,100%);background:var(--fondo);color:var(--texto);box-shadow:-8px 0 30px #0003;transform:translateX(105%);transition:transform .25s;z-index:10;display:flex;flex-direction:column;padding:1.2rem}
+#carrito.abierto{transform:none}
+#lineas{flex:1;overflow:auto;margin:1rem 0;display:grid;gap:.8rem;align-content:start;list-style:none;padding:0}
+#lineas li{display:grid;grid-template-columns:1fr auto;gap:.2rem .8rem;border-bottom:1px solid var(--suave);padding-bottom:.6rem}
+.cant button{width:1.8rem;height:1.8rem;border:1.5px solid var(--texto);background:none;color:inherit;cursor:pointer}
+.total{font-size:1.3rem;font-weight:800;display:flex;justify-content:space-between;margin-bottom:.8rem}
+.vacio{margin-top:.6rem;background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;font:inherit}
+footer{background:var(--texto);color:var(--fondo)}
+footer a{color:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acento);outline-offset:2px}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;align-items:center}.hero::after{content:'';aspect-ratio:1;background:var(--suave);filter:brightness(.93);border-radius:50% 50% 50% 8%;grid-column:2;grid-row:1/3}.item{border-radius:28px;overflow:hidden}.foto{aspect-ratio:1}.btn{border-radius:999px}.cuadricula{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}@media(max-width:700px){.hero{grid-template-columns:1fr}.hero::after{display:none}}
+@media(prefers-reduced-motion:no-preference){.item,.btn{transition:transform .2s,box-shadow .2s}.item:hover{transform:translateY(-6px)}.btn:hover{transform:translateY(-2px)}}.aviso{background:linear-gradient(90deg,#B3194F,#E5557F);color:#fff;font-weight:600}.hero::after{background:radial-gradient(circle at 32% 30%,#fff9 0 16%,transparent 17%),radial-gradient(circle at 68% 66%,#B3194F 0 24%,transparent 25%),radial-gradient(circle at 70% 25%,#fff5 0 10%,transparent 11%),#F6A9BC;filter:none}.etq{border-radius:999px}.item{box-shadow:0 14px 34px #B3194F22}.precio{color:var(--acento);font-size:1.25rem}.logo{color:var(--acento)}.hero h1{font-size:clamp(2.6rem,7vw,5.2rem)}</style></head><body>
+<div class="aviso">Entrega el mismo día si pides antes de las 2 p. m.</div>
+<header><span class="logo">Casa Pétalo</span><button class="btn" id="abrir" aria-controls="carrito">Carrito (<span id="contador">0</span>)</button></header>
+<section class="hero"><h1>Flores y regalos que llegan a tiempo</h1><p>Arreglos florales, cajas de regalo y peluches. Elige el tamaño y escribe tu mensaje por WhatsApp.</p><a class="btn" href="#tienda">Ver arreglos</a></section>
+<main class="tienda" id="tienda"><h2>Tienda</h2>
+<div class="filtros" id="filtros"></div>
+<div class="cuadricula" id="cuadricula"></div></main>
+<aside id="carrito" aria-label="Carrito de compras"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Tu pedido</h2><button class="btn" id="cerrar">Cerrar</button></div>
+<ul id="lineas"></ul><div class="total"><span>Total</span><span id="total">RD$ 0</span></div>
+<a class="btn" id="enviar" target="_blank" rel="noopener" style="text-align:center">Enviar pedido por WhatsApp</a><button class="vacio" id="vaciar">Vaciar carrito</button></aside>
+<footer><h2>Contacto</h2><p>WhatsApp: <a href="https://wa.me/18090000000">809-000-0000</a> · Entregas de lunes a domingo</p></footer>
+<script>
+const NUMERO="18090000000";
+const categorias=["Todos", "Flores", "Cajas de regalo", "Peluches"];
+const productos=[{"n": "Ramo de rosas", "c": "Flores", "p": 1800, "d": "12 rosas con follaje", "o": ["Rojo", "Rosado", "Blanco"], "e": "Más pedido"}, {"n": "Arreglo de girasoles", "c": "Flores", "p": 2200, "d": "En base de cerámica"}, {"n": "Caja de regalo clásica", "c": "Cajas de regalo", "p": 2900, "d": "Chocolates, vela y tarjeta", "o": ["Pequeña", "Grande"]}, {"n": "Caja de cumpleaños", "c": "Cajas de regalo", "p": 3400, "d": "Globo, dulces y detalle", "e": "Nuevo"}, {"n": "Oso de peluche", "c": "Peluches", "p": 1200, "d": "Suave, 40 cm", "o": ["Café", "Blanco"]}, {"n": "Oso con corazón", "c": "Peluches", "p": 1500, "d": "Con mensaje bordado"}];
+let categoriaActiva="Todos",textoBusqueda="",carrito=[];
+try{carrito=JSON.parse(localStorage.getItem("carrito_petalo"))||[]}catch(e){}
+const $=id=>document.getElementById(id);
+const dinero=n=>"RD$ "+n.toLocaleString("es-DO");
+function pintarFiltros(){
+  $("filtros").innerHTML="";
+  categorias.forEach(c=>{const b=document.createElement("button");b.textContent=c;b.setAttribute("aria-pressed",c===categoriaActiva);
+    b.onclick=()=>{categoriaActiva=c;pintarFiltros();pintarProductos()};$("filtros").appendChild(b)});
+}
+function pintarProductos(){
+  const lista=productos.map((p,i)=>({...p,i})).filter(p=>(categoriaActiva==="Todos"||p.c===categoriaActiva)&&p.n.toLowerCase().includes(textoBusqueda));
+  $("cuadricula").innerHTML=lista.length?lista.map(p=>`<article class="item">${p.e?`<span class="etq">${p.e}</span>`:""}<div class="foto">Foto del producto</div><div class="info"><h3>${p.n}</h3><p>${p.d}</p>${p.o?`<select id="o${p.i}" aria-label="Opción">${p.o.map(x=>`<option>${x}</option>`).join("")}</select>`:""}<p class="precio">${dinero(p.p)}</p><button class="btn" data-add="${p.i}">Agregar al carrito</button></div></article>`).join(""):"<p>No hay productos con ese filtro. Prueba con otra categoría.</p>";
+}
+function guardar(){try{localStorage.setItem("carrito_petalo",JSON.stringify(carrito))}catch(e){}pintarCarrito()}
+function pintarCarrito(){
+  const total=carrito.reduce((s,l)=>s+l.p*l.q,0),cant=carrito.reduce((s,l)=>s+l.q,0);
+  $("contador").textContent=cant;$("total").textContent=dinero(total);
+  $("lineas").innerHTML=carrito.length?carrito.map((l,j)=>`<li><span>${l.n}${l.o?` (${l.o})`:""}</span><b>${dinero(l.p*l.q)}</b><span class="cant"><button data-menos="${j}" aria-label="Quitar uno">−</button> ${l.q} <button data-mas="${j}" aria-label="Agregar uno">+</button></span></li>`).join(""):"<li>Tu carrito está vacío. Agrega un producto para empezar.</li>";
+  const txt="Hola, quiero hacer este pedido:\n"+carrito.map(l=>`- ${l.q} x ${l.n}${l.o?` (${l.o})`:""} = ${dinero(l.p*l.q)}`).join("\n")+`\nTotal: ${dinero(total)}`;
+  $("enviar").href=carrito.length?`https://wa.me/${NUMERO}?text=${encodeURIComponent(txt)}`:"#";
+}
+$("cuadricula").onclick=e=>{const i=e.target.dataset.add;if(i===undefined)return;
+  const p=productos[i],o=$("o"+i)?$("o"+i).value:"",l=carrito.find(x=>x.id==i&&x.o===o);
+  l?l.q++:carrito.push({id:+i,n:p.n,o,p:p.p,q:1});guardar();$("carrito").classList.add("abierto")};
+$("lineas").onclick=e=>{const d=e.target.dataset;
+  if(d.mas!==undefined)carrito[d.mas].q++;
+  if(d.menos!==undefined&&--carrito[d.menos].q<1)carrito.splice(d.menos,1);guardar()};
+$("vaciar").onclick=()=>{carrito=[];guardar()};
+$("abrir").onclick=()=>$("carrito").classList.add("abierto");
+$("cerrar").onclick=()=>$("carrito").classList.remove("abierto");
+document.onkeydown=e=>{if(e.key==="Escape")$("carrito").classList.remove("abierto")};
+const caja=$("busqueda");if(caja)caja.oninput=e=>{textoBusqueda=e.target.value.toLowerCase();pintarProductos()};
+pintarFiltros();pintarProductos();pintarCarrito();
+</script></body></html>

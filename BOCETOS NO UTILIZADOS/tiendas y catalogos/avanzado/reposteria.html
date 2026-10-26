@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dulce Encanto | Boceto de catálogo</title>
+<style>:root{--patron:radial-gradient(circle at 1px 1px,rgba(229,143,166,.4) 2px,transparent 2.5px) 0 0/22px 22px}
+:root{--p:#6b3a2e;--a:#e58fa6;--s:#fde8ec;--bg:#fffaf8;--t:#3b2a26;--r:16px;--fh:Georgia,'Times New Roman',serif}
+*{box-sizing:border-box}
+html,body{margin:0;max-width:100%;overflow-x:clip}
+body{font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--t);background:var(--bg)}
+h1,h2,h3,p,ul,ol{margin:0}ul,ol{padding:0;list-style:none}
+h1,h2,h3{font-family:var(--fh);line-height:1.1;color:var(--p)}
+a{color:inherit}
+.i{width:1.3em;height:1.3em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.w{width:100%;max-width:1100px;margin-inline:auto;padding-inline:1rem}
+.aviso{background:#111;color:#ffd;text-align:center;font-size:.75rem;padding:.3rem}
+.top{background:var(--p);color:#fff;text-align:center;padding:.55rem 1rem;font-weight:800;letter-spacing:.12em;font-size:.85rem}
+header{position:sticky;top:0;z-index:5;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.1)}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;padding:.6rem 0}
+.logo{display:flex;align-items:center;gap:.55rem;margin-right:auto;font:700 1.3rem var(--fh);color:var(--p);text-decoration:none}
+.logo b{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--p);color:#fff;font-size:1.3rem}
+.buscar{order:3;flex:1 1 100%;min-width:0;display:flex;height:44px;border:2px solid var(--p);border-radius:999px;overflow:hidden;background:#fff}
+.buscar span{display:flex;align-items:center;padding:0 .8rem;background:var(--s);color:var(--p);font-weight:700;font-size:.8rem;white-space:nowrap}
+.buscar input{flex:1;width:0;min-width:0;border:0;padding:0 .7rem;font:inherit;font-size:.9rem}
+.buscar i{display:grid;place-items:center;width:48px;background:var(--p);color:#fff}
+.acc{display:flex;gap:.3rem}
+.acc a{position:relative;display:grid;place-items:center;width:44px;height:44px;color:var(--p)}
+.acc em{position:absolute;top:2px;right:0;min-width:18px;height:18px;border-radius:9px;background:var(--a);color:#fff;font:700 .7rem/18px system-ui;text-align:center}
+nav{display:flex;flex-wrap:wrap;gap:.3rem 1.2rem;padding:0 0 .6rem;font-weight:600;font-size:.9rem}
+.hero{padding:2.2rem 0 3.6rem;background:var(--patron),linear-gradient(180deg,var(--s),var(--bg));border-radius:0 0 40px 40px}
+.hero .w{display:grid;gap:1.6rem;align-items:center}
+.hero h1{font-size:clamp(2.3rem,9vw,4.2rem)}
+.hero p{margin:.8rem 0 1.2rem;font-size:1.15rem;max-width:34ch}
+.btns{display:flex;flex-wrap:wrap;gap:.7rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:0 1.4rem;border:2px solid var(--p);border-radius:999px;background:var(--p);color:#fff;font-weight:800;text-decoration:none;box-shadow:4px 4px 0 var(--a)}
+.btn.o{background:#fff;color:var(--p)}
+.foto{display:grid;place-items:center;aspect-ratio:4/3;padding:.5rem;border:2px dashed var(--a);border-radius:var(--r);background:rgba(255,255,255,.75);color:var(--p);font-weight:700;font-size:.85rem;text-align:center}
+.conf{display:grid;gap:.8rem;margin-top:-2.4rem;position:relative}
+.conf li{display:flex;align-items:center;gap:.9rem;padding:1rem;background:#fff;border:2px solid var(--s);border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.conf .i{width:2.6rem;height:2.6rem;padding:.6rem;border-radius:50%;background:var(--p);color:#fff}
+.conf strong{display:block;color:var(--p)}.conf span{font-size:.92rem}
+.sec{padding-block:2.2rem}.sec>h2,.sec .cab h2{font-size:clamp(1.6rem,5vw,2.3rem);margin-bottom:1.1rem}
+.sec>h2::after,.sec .cab h2::after{content:"✦ ✦ ✦";display:block;margin-top:.3rem;font:.7rem system-ui;letter-spacing:.5em;color:var(--a)}
+.cats{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.cats li{text-align:center;font-weight:800;color:var(--p)}
+.cats .foto{aspect-ratio:1;border-radius:50%;margin-bottom:.5rem}
+.g{display:grid;gap:1rem}.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}.g4{grid-template-columns:repeat(2,1fr)}
+.card{position:relative;display:flex;flex-direction:column;gap:.5rem;padding:.8rem;background:#fff;border:1px solid rgba(0,0,0,.1);border-radius:var(--r)}
+.card h3{font-size:1.15rem}.card ul{font-size:.92rem;display:grid;gap:.2rem}
+.card li::before{content:"✓ ";color:var(--a);font-weight:800}
+.precio{font-weight:800;color:var(--p);font-size:1.1rem}
+.tag{position:absolute;top:1.2rem;left:1.2rem;z-index:1;padding:.15rem .7rem;border-radius:999px;background:var(--a);color:#fff;font-size:.75rem;font-weight:800}
+.card .btn{width:100%;min-height:42px;box-shadow:none;margin-top:auto}
+.band{background:var(--s);padding:2.2rem 0;margin-block:1rem}
+.cab{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.5rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.chips span{padding:.4rem 1rem;border:1.5px solid var(--p);border-radius:999px;font-weight:800;font-size:.9rem;color:var(--p);background:#fff}
+.chips span:first-child{background:var(--p);color:#fff}
+.pasos{display:grid;gap:1rem;counter-reset:n}
+.pasos li{padding:1.2rem;text-align:center;background:#fff;border:2px solid var(--s);border-radius:20px}
+.pasos li::before{counter-increment:n;content:counter(n);display:grid;place-items:center;width:2.6rem;height:2.6rem;margin:0 auto .6rem;border-radius:50%;background:var(--p);color:#fff;font:700 1.3rem var(--fh)}
+.pasos h3{font-size:1.1rem;margin-bottom:.2rem}
+.contacto{display:grid;gap:1.2rem;padding:1.2rem;background:#fff;border:2px solid var(--p);border-radius:22px}
+.burbuja{padding:.8rem 1rem;background:#d9fdd3;color:#1f2c34;border-radius:14px 14px 4px 14px;font-size:.92rem}
+.prev{padding:1rem;background:var(--s);border-radius:18px}.prev>p{font-weight:800;color:var(--p);margin:.2rem 0 .6rem}
+form{display:grid;gap:.8rem}
+label{display:block;font-weight:800;color:var(--p);margin-bottom:.25rem}
+.campo{width:100%;min-height:46px;padding:.6rem 1rem;border:2px solid var(--p);border-radius:14px;background:#fff;font:inherit}
+footer{margin-top:2rem;padding:2rem 0 5rem;background:var(--p);color:#fff}
+footer .w{display:grid;gap:1rem;grid-template-columns:repeat(2,1fr)}footer h3{color:var(--a);font-size:1rem;margin-bottom:.4rem}
+footer p{font-size:.92rem;opacity:.9}
+.wa{position:fixed;right:14px;bottom:14px;z-index:6;display:flex;align-items:center;gap:.4rem;height:52px;padding:0 16px;border-radius:999px;background:#167a42;color:#fff;font-weight:800;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+@media(min-width:640px){.cats{grid-template-columns:repeat(4,1fr)}.conf{grid-template-columns:repeat(3,1fr)}.pasos{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:760px){.g4{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:900px){.hero .w{grid-template-columns:1.1fr 1fr}.buscar{order:0;flex:1;margin-inline:1rem}.contacto{grid-template-columns:5fr 7fr;padding:2rem;gap:2rem}footer .w{grid-template-columns:2fr 1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></symbol><symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M3 4h2l2.5 11h11L21 7H6"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8L4 20z"/><path d="M9 10h6M9 13h4"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></symbol></svg>
+<div class="aviso">BOCETO · textos, precios y fotos de ejemplo</div>
+<div class="top">PASTELES Y DULCES HECHOS CON AMOR</div>
+
+<header><div class="w">
+  <div class="bar">
+    <a class="logo" href="#"><b>D</b>Dulce Encanto</a>
+    <div class="buscar"><span>Todas ▾</span><input placeholder="Buscar pasteles…" aria-label="Buscar"><i><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg></i></div>
+    <div class="acc"><a href="#" aria-label="Favoritos"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-heart"/></svg><em>0</em></a><a href="#" aria-label="Mi pedido"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cart"/></svg><em>0</em></a></div>
+  </div>
+  <nav><a href="#">Inicio</a><a href="#">Pasteles</a><a href="#">Cupcakes</a><a href="#">Encargos</a><a href="#">Contacto</a></nav>
+</div></header>
+
+<section class="hero"><div class="w">
+  <div><h1>Pasteles para cada celebración</h1><p>Elige sabor, tamaño y decoración. Pide con anticipación por WhatsApp.</p>
+    <div class="btns"><a class="btn" href="#catalogo">Ver pasteles</a><a class="btn o" href="#contacto">Hacer un encargo</a></div></div>
+  <div class="foto">Foto o video de portada</div>
+</div></section>
+
+<ul class="w conf"><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg><div><strong>Hecho por encargo</strong><span>Confirmamos fecha y detalles contigo</span></div></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chat"/></svg><div><strong>Atención por WhatsApp</strong><span>Te ayudamos a elegir sabor y tamaño</span></div></li><li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg><div><strong>Preparado para tu fecha</strong><span>Coordinamos la entrega contigo</span></div></li></ul>
+
+<section class="w sec"><h2>Explora por categoría</h2><ul class="cats"><li><div class="foto">Foto</div>Pasteles</li><li><div class="foto">Foto</div>Cupcakes</li><li><div class="foto">Foto</div>Postres</li><li><div class="foto">Foto</div>Bocaditos</li></ul></section>
+
+<div class="band"><section class="w"><div class="cab"><h2>Lo más pedido</h2></div><div class="g g3"><article class="card"><span class="tag">Más pedido</span><div class="foto">Foto</div><h3>Pastel de cumpleaños</h3><ul><li>Bizcocho a elegir</li><li>Relleno y cobertura</li><li>Decoración temática</li></ul><p class="precio">RD$ 1,800</p><a class="btn" href="#">Pedir</a></article><article class="card"><span class="tag">Nuevo</span><div class="foto">Foto</div><h3>Caja de 12 cupcakes</h3><ul><li>Sabores surtidos</li><li>Decoración sencilla</li><li>Caja de regalo</li></ul><p class="precio">RD$ 900</p><a class="btn" href="#">Pedir</a></article><article class="card"><span class="tag">Para fiestas</span><div class="foto">Foto</div><h3>Mesa de dulces</h3><ul><li>Variedad de postres</li><li>Para 20 personas</li><li>Montaje incluido</li></ul><p class="precio">RD$ 3,500</p><a class="btn" href="#">Pedir</a></article></div></section></div>
+
+<section class="w sec" id="catalogo"><div class="cab"><h2>Todo el catálogo</h2></div>
+  <div class="chips"><span>Todos</span><span>Pasteles</span><span>Cupcakes</span><span>Postres</span><span>Bocaditos</span></div>
+  <div class="g g4"><article class="card"><div class="foto">Foto</div><h3>Pastel de chocolate</h3><p class="precio">RD$ 1,600</p><a class="btn" href="#">Pedir</a></article><article class="card"><div class="foto">Foto</div><h3>Pastel de vainilla</h3><p class="precio">RD$ 1,500</p><a class="btn" href="#">Pedir</a></article><article class="card"><div class="foto">Foto</div><h3>Pastel de zanahoria</h3><p class="precio">RD$ 1,700</p><a class="btn" href="#">Pedir</a></article><article class="card"><div class="foto">Foto</div><h3>Tres leches</h3><p class="precio">RD$ 1,400</p><a class="btn" href="#">Pedir</a></article><article class="card"><div class="foto">Foto</div><h3>Cheesecake</h3><p class="precio">RD$ 1,800</p><a class="btn" href="#">Pedir</a></article><article class="card"><div class="foto">Foto</div><h3>Cupcakes x6</h3><p class="precio">RD$ 500</p><a class="btn" href="#">Pedir</a></article><article class="card"><div class="foto">Foto</div><h3>Galletas decoradas</h3><p class="precio">RD$ 650</p><a class="btn" href="#">Pedir</a></article><article class="card"><div class="foto">Foto</div><h3>Brownies x9</h3><p class="precio">RD$ 600</p><a class="btn" href="#">Pedir</a></article></div></section>
+
+<section class="w sec"><h2>Pide en tres pasos</h2><ol class="pasos"><li><h3>Elige tu pastel</h3><p>Mira sabores y tamaños</p></li><li><h3>Cuéntanos la fecha</h3><p>Para reservar tu encargo</p></li><li><h3>Confirma por WhatsApp</h3><p>Se abre el mensaje ya escrito</p></li></ol></section>
+
+<section class="w sec" id="contacto"><div class="contacto">
+  <div class="prev"><h2>Escríbenos</h2><p>Llena el formulario y mira cómo va tu mensaje.</p>
+    <div class="burbuja">Hola, soy María.<br>Motivo: Hacer un encargo<br>- 1 x Pastel de chocolate (RD$ 1,600)<br>Total: RD$ 1,600</div></div>
+  <form onsubmit="return false">
+    <div><label>Tu nombre</label><input class="campo" placeholder="Nombre"></div>
+    <div><label>Motivo</label><select class="campo"><option>Selecciona un motivo</option><option>Hacer un encargo</option><option>Consultar sabores</option><option>Cotizar una fiesta</option><option>Otro motivo</option></select></div>
+    <div><label>Tu selección</label><div class="campo" style="color:#777">Aquí aparece lo que elegiste</div></div>
+    <div><label>Mensaje (opcional)</label><textarea class="campo" rows="3"></textarea></div>
+    <a class="btn" href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chat"/></svg> Enviar por WhatsApp</a>
+  </form>
+</div></section>
+
+<footer><div class="w">
+  <div><h3>Dulce Encanto</h3><p>Pasteles y dulces hechos con amor</p></div>
+  <div><h3>Tienda</h3><p>Catálogo<br>Destacados</p></div>
+  <div><h3>Ayuda</h3><p>Cómo pedir<br>Preguntas</p></div>
+  <div><h3>Contacto</h3><p>Formulario<br>Redes</p></div>
+</div></footer>
+<a class="wa" href="#contacto"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chat"/></svg> WhatsApp</a>
+</body>
+</html>

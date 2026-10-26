@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniDesk | Dashboard & CRM Empresarial</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        },
+                        dark: {
+                            bg: '#0B0F17',
+                            card: '#111827',
+                            border: '#1F2937',
+                            hover: '#1F2937'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        title: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Glassmorphism custom effects */
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4B5563;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg text-slate-800 dark:text-slate-100 font-sans min-h-screen antialiased transition-colors duration-200">
+
+    <!-- APP WRAPPER -->
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="w-64 bg-white dark:bg-dark-card border-r border-slate-200 dark:border-dark-border flex flex-col justify-between shrink-0 transition-all duration-300 z-30 absolute md:relative -translate-x-full md:translate-x-0 h-full">
+            <div>
+                <!-- BRAND LOGO -->
+                <div class="h-16 px-6 flex items-center justify-between border-b border-slate-200 dark:border-dark-border">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-title font-bold text-xl tracking-tight text-slate-900 dark:text-white">Omni<span class="text-indigo-500">Desk</span></span>
+                    </div>
+                    <button onclick="toggleSidebar()" class="md:hidden text-slate-500 hover:text-slate-700 dark:hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- NAVIGATION LINKS -->
+                <nav class="p-4 space-y-1.5 text-sm font-semibold">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 transition-colors">
+                        <i data-lucide="line-chart" class="w-4 h-4"></i>
+                        <span>Dashboard</span>
+                    </button>
+
+                    <button onclick="switchTab('crm')" id="nav-crm" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-hover transition-colors">
+                        <i data-lucide="users" class="w-4 h-4"></i>
+                        <span>Clientes & CRM</span>
+                    </button>
+
+                    <button onclick="switchTab('quotes')" id="nav-quotes" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-hover transition-colors">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                        <span>Cotizaciones</span>
+                    </button>
+
+                    <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-hover transition-colors">
+                        <i data-lucide="pie-chart" class="w-4 h-4"></i>
+                        <span>Reportes & Analytics</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- SIDEBAR FOOTER -->
+            <div class="p-4 border-t border-slate-200 dark:border-dark-border space-y-3">
+                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-100 dark:bg-slate-800/60">
+                    <div class="flex items-center gap-2 text-xs font-semibold">
+                        <i data-lucide="moon" class="w-4 h-4 text-slate-500 dark:text-indigo-400"></i>
+                        <span>Modo Oscuro</span>
+                    </div>
+                    <button onclick="toggleDarkMode()" class="w-9 h-5 bg-slate-300 dark:bg-indigo-600 rounded-full relative p-0.5 transition-colors">
+                        <div id="themeDot" class="w-4 h-4 bg-white rounded-full shadow-md transform translate-x-0 dark:translate-x-4 transition-transform"></div>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-3 px-2 pt-2">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" alt="Avatar" class="w-9 h-9 rounded-full object-cover border-2 border-indigo-500">
+                    <div class="flex flex-col text-xs truncate">
+                        <span class="font-bold text-slate-900 dark:text-white truncate">Elena Rostova</span>
+                        <span class="text-slate-500 dark:text-slate-400 truncate">Administrador SaaS</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+            
+            <!-- TOP NAVBAR -->
+            <header class="h-16 border-b border-slate-200 dark:border-dark-border bg-white/80 dark:bg-dark-card/80 glass-panel px-4 sm:px-8 flex items-center justify-between shrink-0 z-20">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleSidebar()" class="md:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-dark-hover rounded-xl">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                    <h1 id="pageTitle" class="font-title font-bold text-lg text-slate-900 dark:text-white">Panel Principal</h1>
+                </div>
+
+                <!-- NAVBAR ACTIONS -->
+                <div class="flex items-center gap-3">
+                    <button onclick="showToast('Notificaciones sincronizadas correctamente')" class="p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white relative rounded-xl hover:bg-slate-100 dark:hover:bg-dark-hover">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full animate-pulse"></span>
+                    </button>
+                    <button onclick="openModal('customerModal')" class="hidden sm:flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-lg shadow-indigo-500/25 transition-all">
+                        <i data-lucide="user-plus" class="w-4 h-4"></i>
+                        <span>Nuevo Cliente</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- MAIN VIEW CONTAINER -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6">
+
+                <!-- TAB 1: DASHBOARD MAIN -->
+                <div id="tab-dashboard" class="tab-content space-y-6">
+                    
+                    <!-- METRICS CARDS GRID -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border shadow-sm">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Ingresos Mensuales</p>
+                                    <h3 class="text-2xl font-black text-slate-900 dark:text-white mt-1">$48,250.00</h3>
+                                </div>
+                                <div class="p-2.5 bg-emerald-500/10 text-emerald-500 rounded-xl">
+                                    <i data-lucide="dollar-sign" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-emerald-500 font-bold mt-4">
+                                <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                                <span>+14.2% respecto al mes pasado</span>
+                            </div>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border shadow-sm">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Clientes Activos</p>
+                                    <h3 class="text-2xl font-black text-slate-900 dark:text-white mt-1">1,284</h3>
+                                </div>
+                                <div class="p-2.5 bg-indigo-500/10 text-indigo-500 rounded-xl">
+                                    <i data-lucide="users" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-emerald-500 font-bold mt-4">
+                                <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                                <span>+8.4% de retención</span>
+                            </div>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border shadow-sm">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Cotizaciones Pendientes</p>
+                                    <h3 class="text-2xl font-black text-slate-900 dark:text-white mt-1">24</h3>
+                                </div>
+                                <div class="p-2.5 bg-amber-500/10 text-amber-500 rounded-xl">
+                                    <i data-lucide="file-clock" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-amber-500 font-bold mt-4">
+                                <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                                <span>$18,400.00 en negociación</span>
+                            </div>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border shadow-sm">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">Tasa de Conversión</p>
+                                    <h3 class="text-2xl font-black text-slate-900 dark:text-white mt-1">68.5%</h3>
+                                </div>
+                                <div class="p-2.5 bg-cyan-500/10 text-cyan-500 rounded-xl">
+                                    <i data-lucide="target" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-emerald-500 font-bold mt-4">
+                                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                                <span>Meta trimestral alcanzada</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CHARTS GRID -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Main Revenue Chart -->
+                        <div class="lg:col-span-2 p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border shadow-sm space-y-4">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="font-title font-bold text-base text-slate-900 dark:text-white">Proyección de Ventas</h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400">Comparativa trimestral de ingresos</p>
+                                </div>
+                                <span class="text-xs font-bold px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-600 dark:text-slate-300">Año 2026</span>
+                            </div>
+                            <div class="h-64 relative">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Service Distribution Doughnut -->
+                        <div class="p-6 rounded-2xl bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border shadow-sm space-y-4">
+                            <div>
+                                <h3 class="font-title font-bold text-base text-slate-900 dark:text-white">Servicios Más Vendidos</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Distribución por categoría</p>
+                            </div>
+                            <div class="h-64 relative flex items-center justify-center">
+                                <canvas id="servicesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- TAB 2: CRM / CLIENTS LIST -->
+                <div id="tab-crm" class="tab-content hidden space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="relative w-full sm:w-80">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+                            <input type="text" id="crmSearch" onkeyup="filterCRM()" placeholder="Buscar cliente o empresa..." class="w-full bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl pl-10 pr-4 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+                        </div>
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <select id="crmStatusFilter" onchange="filterCRM()" class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none">
+                                <option value="ALL">Todos los Estados</option>
+                                <option value="Activo">Activos</option>
+                                <option value="En Negociación">En Negociación</option>
+                                <option value="Inactivo">Inactivos</option>
+                            </select>
+                            <button onclick="openModal('customerModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs px-4 py-2 rounded-xl shadow-md transition-all flex items-center gap-2">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Agregar</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CUSTOMERS TABLE -->
+                    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-2xl overflow-hidden shadow-sm">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                                <thead class="bg-slate-50 dark:bg-slate-800/50 uppercase text-[10px] tracking-wider text-slate-400 font-bold border-b border-slate-200 dark:border-dark-border">
+                                    <tr>
+                                        <th class="px-6 py-4">Cliente</th>
+                                        <th class="px-6 py-4">Empresa</th>
+                                        <th class="px-6 py-4">Contacto</th>
+                                        <th class="px-6 py-4">Estado</th>
+                                        <th class="px-6 py-4">Monto Total</th>
+                                        <th class="px-6 py-4 text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="crmTableBody" class="divide-y divide-slate-100 dark:divide-dark-border font-medium">
+                                    <!-- Dynamic Rows Rendered by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: QUOTATION GENERATOR -->
+                <div id="tab-quotes" class="tab-content hidden space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        
+                        <!-- QUOTE CREATOR FORM -->
+                        <div class="lg:col-span-7 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border p-6 rounded-2xl space-y-4">
+                            <h3 class="font-title font-bold text-base text-slate-900 dark:text-white">Generador de Cotización</h3>
+                            
+                            <form onsubmit="addQuoteItem(event)" class="space-y-4 text-xs">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Cliente Seleccionado</label>
+                                        <select id="quoteClientSelect" required class="w-full bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-xl p-3 text-slate-900 dark:text-white focus:outline-none">
+                                            <!-- Dynamically populated from CRM -->
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Fecha de Emisión</label>
+                                        <input type="date" id="quoteDate" required class="w-full bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-xl p-3 text-slate-900 dark:text-white focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <div class="p-4 rounded-xl bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border space-y-3">
+                                    <span class="font-bold text-slate-800 dark:text-slate-200 block">Agregar Servicio o Producto</span>
+                                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                                        <div class="sm:col-span-6">
+                                            <input type="text" id="itemDesc" placeholder="Descripción del servicio" required class="w-full bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl p-2.5 text-slate-900 dark:text-white focus:outline-none">
+                                        </div>
+                                        <div class="sm:col-span-3">
+                                            <input type="number" id="itemPrice" placeholder="Precio ($)" step="0.01" required class="w-full bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl p-2.5 text-slate-900 dark:text-white focus:outline-none">
+                                        </div>
+                                        <div class="sm:col-span-3">
+                                            <input type="number" id="itemQty" placeholder="Cant." min="1" value="1" required class="w-full bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border rounded-xl p-2.5 text-slate-900 dark:text-white focus:outline-none">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-xl transition-colors">
+                                        + Añadir Ítem a la Cotización
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- LIVE PREVIEW CARD -->
+                        <div class="lg:col-span-5 bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border p-6 rounded-2xl flex flex-col justify-between space-y-4">
+                            <div>
+                                <div class="flex justify-between items-start border-b border-slate-100 dark:border-dark-border pb-4">
+                                    <div>
+                                        <h4 class="font-title font-bold text-lg text-slate-900 dark:text-white">COTIZACIÓN</h4>
+                                        <span id="previewQuoteCode" class="text-xs text-indigo-500 font-mono font-bold">#ORD-8921</span>
+                                    </div>
+                                    <span class="text-[10px] font-bold px-2.5 py-1 bg-amber-500/10 text-amber-500 rounded-full">Borrador</span>
+                                </div>
+
+                                <div class="py-3 text-xs space-y-1">
+                                    <p class="text-slate-500">Para: <strong id="previewClientName" class="text-slate-900 dark:text-white">Selecciona un cliente</strong></p>
+                                    <p class="text-slate-500">Fecha: <span id="previewQuoteDate" class="text-slate-900 dark:text-white">-</span></p>
+                                </div>
+
+                                <!-- ITEMS TABLE -->
+                                <div class="mt-4 border-t border-slate-100 dark:border-dark-border pt-3">
+                                    <table class="w-full text-left text-xs">
+                                        <thead class="text-slate-400 font-bold uppercase text-[9px]">
+                                            <tr>
+                                                <th class="py-2">Ítem</th>
+                                                <th class="py-2 text-center">Cant</th>
+                                                <th class="py-2 text-right">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="quoteItemsTable" class="divide-y divide-slate-100 dark:divide-dark-border text-slate-700 dark:text-slate-300">
+                                            <tr>
+                                                <td colspan="3" class="py-4 text-center text-slate-400 italic">No hay ítems agregados</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- TOTALS SUMMARY -->
+                            <div class="border-t border-slate-200 dark:border-dark-border pt-4 space-y-2 text-xs">
+                                <div class="flex justify-between text-slate-500">
+                                    <span>Subtotal:</span>
+                                    <span id="quoteSubtotal" class="font-bold text-slate-900 dark:text-white">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-slate-500">
+                                    <span>Impuestos (ITBIS 18%):</span>
+                                    <span id="quoteTax" class="font-bold text-slate-900 dark:text-white">$0.00</span>
+                                </div>
+                                <div class="flex justify-between text-base font-black text-slate-900 dark:text-white border-t border-slate-100 dark:border-dark-border pt-2">
+                                    <span>Total:</span>
+                                    <span id="quoteTotal" class="text-indigo-500">$0.00</span>
+                                </div>
+
+                                <button onclick="saveAndEmitQuote()" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-emerald-500/20">
+                                    Guardar y Emitir Cotización
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- TAB 4: ANALYTICS -->
+                <div id="tab-analytics" class="tab-content hidden space-y-6">
+                    <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border p-6 rounded-2xl">
+                        <h3 class="font-title font-bold text-base text-slate-900 dark:text-white mb-2">Resumen Ejecutivo</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Métricas de conversión y rendimiento general del negocio.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border">
+                                <span class="text-xs text-slate-500">Promedio por Transacción</span>
+                                <h4 class="text-xl font-bold text-slate-900 dark:text-white mt-1">$2,140.00</h4>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border">
+                                <span class="text-xs text-slate-500">Tiempo Medio de Cierre</span>
+                                <h4 class="text-xl font-bold text-slate-900 dark:text-white mt-1">4.2 Días</h4>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border">
+                                <span class="text-xs text-slate-500">Satisfacción de Cliente</span>
+                                <h4 class="text-xl font-bold text-emerald-500 mt-1">98.4%</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD NEW CUSTOMER -->
+    <div id="customerModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-white dark:bg-dark-card border border-slate-200 dark:border-dark-border max-w-md w-full rounded-2xl p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 dark:border-dark-border pb-3">
+                <h3 class="font-title font-bold text-base text-slate-900 dark:text-white">Nuevo Cliente CRM</h3>
+                <button onclick="closeModal('customerModal')" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleNewCustomerSubmit(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Nombre Completo</label>
+                    <input type="text" id="custName" required placeholder="Ej. Carlos Mendoza" class="w-full bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-xl p-2.5 text-slate-900 dark:text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Empresa</label>
+                    <input type="text" id="custCompany" required placeholder="Ej. TechCorp SRL" class="w-full bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-xl p-2.5 text-slate-900 dark:text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Correo Electrónico</label>
+                    <input type="email" id="custEmail" required placeholder="carlos@techcorp.com" class="w-full bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-xl p-2.5 text-slate-900 dark:text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Estado Inicial</label>
+                    <select id="custStatus" class="w-full bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-xl p-2.5 text-slate-900 dark:text-white focus:outline-none">
+                        <option value="Activo">Activo</option>
+                        <option value="En Negociación">En Negociación</option>
+                        <option value="Inactivo">Inactivo</option>
+                    </select>
+                </div>
+
+                <div class="pt-2 flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('customerModal')" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold">Guardar Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // APP INITIAL STATE / MOCK DATA
+        let customers = [
+            { id: 1, name: "Sofia Morales", company: "Aura Beauty SRL", email: "sofia@aurabeauty.com", status: "Activo", total: 12450.00 },
+            { id: 2, name: "Marcus Vance", company: "NEXUS Studio", email: "marcus@nexus.io", status: "En Negociación", total: 8900.00 },
+            { id: 3, name: "Elena Rostova", company: "FinTech Latam", email: "elena@fintech.com", status: "Activo", total: 24100.00 },
+            { id: 4, name: "Gabriel Silva", company: "BioHealth Group", email: "gabriel@biohealth.org", status: "Inactivo", total: 3200.00 }
+        ];
+
+        let quoteItems = [];
+
+        // RENDER CRM TABLE
+        function renderCRMTable(dataToRender = customers) {
+            const tbody = document.getElementById('crmTableBody');
+            tbody.innerHTML = '';
+
+            if (dataToRender.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-6 text-center text-slate-400">No se encontraron clientes</td></tr>`;
+                return;
+            }
+
+            dataToRender.forEach(cust => {
+                let statusBadge = '';
+                if(cust.status === 'Activo') {
+                    statusBadge = `<span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-500 rounded-full text-[10px] font-bold">Activo</span>`;
+                } else if(cust.status === 'En Negociación') {
+                    statusBadge = `<span class="px-2.5 py-1 bg-amber-500/10 text-amber-500 rounded-full text-[10px] font-bold">En Negociación</span>`;
+                } else {
+                    statusBadge = `<span class="px-2.5 py-1 bg-slate-500/10 text-slate-400 rounded-full text-[10px] font-bold">Inactivo</span>`;
+                }
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 dark:hover:bg-dark-hover transition-colors">
+                        <td class="px-6 py-4 font-bold text-slate-900 dark:text-white">${cust.name}</td>
+                        <td class="px-6 py-4">${cust.company}</td>
+                        <td class="px-6 py-4 text-slate-400">${cust.email}</td>
+                        <td class="px-6 py-4">${statusBadge}</td>
+                        <td class="px-6 py-4 font-bold text-slate-900 dark:text-white">$${cust.total.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="deleteCustomer(${cust.id})" class="text-rose-500 hover:text-rose-700 p-1">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            lucide.createIcons();
+            populateQuoteClientSelect();
+        }
+
+        // FILTER CRM
+        function filterCRM() {
+            const query = document.getElementById('crmSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('crmStatusFilter').value;
+
+            const filtered = customers.filter(c => {
+                const matchesQuery = c.name.toLowerCase().includes(query) || c.company.toLowerCase().includes(query);
+                const matchesStatus = statusFilter === 'ALL' || c.status === statusFilter;
+                return matchesQuery && matchesStatus;
+            });
+
+            renderCRMTable(filtered);
+        }
+
+        // POPULATE CLIENT SELECT IN QUOTES
+        function populateQuoteClientSelect() {
+            const select = document.getElementById('quoteClientSelect');
+            select.innerHTML = '<option value="">-- Seleccionar Cliente --</option>';
+            customers.forEach(c => {
+                select.innerHTML += `<option value="${c.name}">${c.name} (${c.company})</option>`;
+            });
+        }
+
+        // ADD QUOTE ITEM
+        function addQuoteItem(e) {
+            e.preventDefault();
+            const desc = document.getElementById('itemDesc').value;
+            const price = parseFloat(document.getElementById('itemPrice').value);
+            const qty = parseInt(document.getElementById('itemQty').value);
+
+            quoteItems.push({ desc, price, qty, total: price * qty });
+            
+            document.getElementById('itemDesc').value = '';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('itemQty').value = '1';
+
+            renderQuotePreview();
+            showToast("Ítem agregado a la cotización");
+        }
+
+        // RENDER QUOTE PREVIEW
+        function renderQuotePreview() {
+            const tbody = document.getElementById('quoteItemsTable');
+            const clientSelect = document.getElementById('quoteClientSelect').value;
+            const quoteDate = document.getElementById('quoteDate').value;
+
+            document.getElementById('previewClientName').innerText = clientSelect || 'Selecciona un cliente';
+            document.getElementById('previewQuoteDate').innerText = quoteDate || '-';
+
+            if(quoteItems.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-slate-400 italic">No hay ítems agregados</td></tr>`;
+                document.getElementById('quoteSubtotal').innerText = '$0.00';
+                document.getElementById('quoteTax').innerText = '$0.00';
+                document.getElementById('quoteTotal').innerText = '$0.00';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            let subtotal = 0;
+
+            quoteItems.forEach((item, index) => {
+                subtotal += item.total;
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="py-2 font-medium">${item.desc}</td>
+                        <td class="py-2 text-center font-bold">${item.qty}</td>
+                        <td class="py-2 text-right font-bold">$${item.total.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            const tax = subtotal * 0.18;
+            const total = subtotal + tax;
+
+            document.getElementById('quoteSubtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('quoteTax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('quoteTotal').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function saveAndEmitQuote() {
+            if(quoteItems.length === 0) {
+                showToast("Agrega al menos un ítem antes de emitir", "error");
+                return;
+            }
+            showToast("Cotización guardada y lista para descargar");
+            quoteItems = [];
+            renderQuotePreview();
+        }
+
+        // NEW CUSTOMER SUBMIT
+        function handleNewCustomerSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            const company = document.getElementById('custCompany').value;
+            const email = document.getElementById('custEmail').value;
+            const status = document.getElementById('custStatus').value;
+
+            customers.unshift({
+                id: Date.now(),
+                name, company, email, status, total: 0.00
+            });
+
+            renderCRMTable();
+            closeModal('customerModal');
+            showToast(`Cliente ${name} agregado exitosamente`);
+
+            document.getElementById('custName').value = '';
+            document.getElementById('custCompany').value = '';
+            document.getElementById('custEmail').value = '';
+        }
+
+        function deleteCustomer(id) {
+            customers = customers.filter(c => c.id !== id);
+            renderCRMTable();
+            showToast("Cliente eliminado de la base de datos");
+        }
+
+        // TABS SWITCHER
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                el.className = 'nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-dark-hover transition-colors';
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            activeNav.className = 'nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 transition-colors';
+
+            const titles = {
+                dashboard: 'Panel Principal',
+                crm: 'Gestión de Clientes (CRM)',
+                quotes: 'Cotizaciones y Facturación',
+                analytics: 'Reportes y Analítica'
+            };
+            document.getElementById('pageTitle').innerText = titles[tabId];
+        }
+
+        // DARK MODE TOGGLE
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // SIDEBAR TOGGLE MOBILE
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
+
+        // MODAL HELPERS
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        // TOAST NOTIFICATIONS
+        function showToast(msg) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 pointer-events-auto transform translate-y-2 transition-all duration-200';
+            toast.innerHTML = `<i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i><span>${msg}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // CHART.JS INITIALIZATION
+        function initCharts() {
+            const ctx1 = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Ingresos ($)',
+                        data: [28000, 32000, 39000, 34000, 42000, 48250],
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { grid: { color: 'rgba(156, 163, 175, 0.1)' } }
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('servicesChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Desarrollo Web', 'App Móvil', 'Cloud Infrastructure'],
+                    datasets: [{
+                        data: [55, 25, 20],
+                        backgroundColor: ['#6366f1', '#06b6d4', '#ec4899']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+        }
+
+        // ON LOAD
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            renderCRMTable();
+            initCharts();
+            document.getElementById('quoteClientSelect').addEventListener('change', renderQuotePreview);
+            document.getElementById('quoteDate').addEventListener('change', renderQuotePreview);
+        });
+    </script>
+</body>
+</html>

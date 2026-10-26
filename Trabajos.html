@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bocetos de Catálogo & Soluciones Web | Waner Alcequiez</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#04070d',
+                            card: 'rgba(11, 19, 32, 0.75)',
+                            border: 'rgba(0, 255, 136, 0.18)',
+                            green: '#00ff88',
+                            greenGlow: 'rgba(0, 255, 136, 0.35)',
+                            cyan: '#00e5ff',
+                            cyanGlow: 'rgba(0, 229, 255, 0.3)',
+                            dark: '#080d16'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Cyber Grid Background Effect */
+        .bg-cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(0, 255, 136, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 255, 136, 0.04) 1px, transparent 1px);
+            background-size: 2.5rem 2.5rem;
+        }
+
+        /* Neon Glow Effects */
+        .neon-glow-green {
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.25), inset 0 0 10px rgba(0, 255, 136, 0.1);
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.25), inset 0 0 10px rgba(0, 229, 255, 0.1);
+        }
+        .text-neon-green {
+            color: #00ff88;
+            text-shadow: 0 0 12px rgba(0, 255, 136, 0.6);
+        }
+        .text-neon-cyan {
+            color: #00e5ff;
+            text-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+        }
+
+        /* Floating Light Animation */
+        @keyframes ambientFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.35; }
+            50% { transform: translateY(-20px) rotate(5deg); opacity: 0.6; }
+        }
+        .ambient-orb {
+            animation: ambientFloat 8s ease-in-out infinite;
+        }
+
+        /* Glassmorphism Card Hover Effects */
+        .card-cyber {
+            background: rgba(11, 19, 32, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 255, 136, 0.15);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card-cyber:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: #00ff88;
+            box-shadow: 0 12px 30px -10px rgba(0, 255, 136, 0.3), inset 0 0 15px rgba(0, 255, 136, 0.08);
+        }
+
+        .card-cyber-cyan:hover {
+            border-color: #00e5ff;
+            box-shadow: 0 12px 30px -10px rgba(0, 229, 255, 0.3), inset 0 0 15px rgba(0, 229, 255, 0.08);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #04070d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 136, 0.3);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00ff88;
+        }
+    </style>
+</head>
+<body class="bg-cyber-bg text-slate-100 font-sans min-h-screen antialiased relative overflow-x-hidden bg-cyber-grid selection:bg-cyber-green selection:text-black">
+
+    <!-- AMBIENT NEON GLOW ORBS -->
+    <div class="fixed -top-32 -left-32 w-96 h-96 bg-cyber-green/15 rounded-full blur-[120px] pointer-events-none ambient-orb z-0"></div>
+    <div class="fixed top-1/2 -right-32 w-96 h-96 bg-cyber-cyan/15 rounded-full blur-[140px] pointer-events-none ambient-orb z-0" style="animation-delay: -4s;"></div>
+
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- HEADER SECTION -->
+        <header class="border-b border-cyber-border/40 bg-cyber-bg/80 backdrop-blur-xl sticky top-0 z-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyber-green to-cyber-cyan flex items-center justify-center text-black font-orbitron font-black text-lg shadow-lg shadow-cyber-greenGlow">
+                        WA
+                    </div>
+                    <div>
+                        <h1 class="font-orbitron font-bold text-lg sm:text-xl text-white tracking-wider flex items-center gap-2">
+                            BOCETOS <span class="text-neon-green">CATÁLOGO</span>
+                        </h1>
+                        <p class="text-xs font-mono text-slate-400">Demostraciones Interactivas & Plantillas Web</p>
+                    </div>
+                </div>
+
+                <!-- SEARCH & FILTER BAR -->
+                <div class="relative w-full sm:w-72">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Buscar boceto o rubro..." class="w-full pl-10 pr-4 py-2 rounded-xl bg-cyber-dark/80 border border-cyber-border text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyber-green focus:ring-1 focus:ring-cyber-green transition-all">
+                </div>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
+
+            <!-- INTRO HERO BANNER -->
+            <section class="p-6 sm:p-8 rounded-3xl card-cyber neon-glow-green relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-3 max-w-2xl text-center md:text-left">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-green/10 border border-cyber-green/30 text-cyber-green text-xs font-mono font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-cyber-green animate-ping"></span>
+                        Catálogo de Diseños Adaptables v2026
+                    </div>
+                    <h2 class="font-orbitron font-extrabold text-2xl sm:text-3xl text-white tracking-tight">
+                        Explora los <span class="text-neon-green">Prototipos e-Commerce</span> y Páginas de Servicios
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                        Misma estructura base con alta optimización para diferentes nichos de mercado. Selecciona un modelo para visualizar el boceto interactivo completo.
+                    </p>
+                </div>
+                
+                <div class="flex items-center gap-3 shrink-0">
+                    <div class="p-4 rounded-2xl bg-cyber-dark/90 border border-cyber-border text-center font-mono space-y-1">
+                        <span class="text-2xl font-bold font-orbitron text-neon-green" id="totalCount">9</span>
+                        <span class="text-[10px] text-slate-400 block uppercase">Modelos En Vivo</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN 1: CATÁLOGOS Y TIENDAS ADAPTABLES -->
+            <section class="space-y-5">
+                <div class="flex items-center justify-between border-b border-cyber-border/40 pb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 rounded-xl bg-cyber-green/10 text-cyber-green border border-cyber-green/20">
+                            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-orbitron font-bold text-base sm:text-lg text-white tracking-wide">
+                                Catálogos & Tiendas Especializadas
+                            </h2>
+                            <p class="text-xs text-slate-400 font-mono">Basados en la estructura Ciriaco Makeup Bag</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono text-cyber-green bg-cyber-green/10 px-2.5 py-1 rounded-lg border border-cyber-green/20 hidden sm:inline-block">5 Plantillas</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="sectionCatalogos">
+                    
+                    <!-- Dulce Encanto -->
+                    <a href="../BOCETOS NO UTILIZADOS/tiendas y catalogos/avanzado/reposteria.html" class="c-card card-cyber rounded-2xl p-5 block group" data-keywords="dulce encanto reposteria pasteles postres comidas">
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform">
+                                <i data-lucide="cake" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/30">Repostería</span>
+                        </div>
+                        <b class="font-orbitron font-bold text-base text-white group-hover:text-cyber-green transition-colors block mb-1">Dulce Encanto</b>
+                        <span class="text-xs text-slate-400 block line-clamp-2">Repostería artesanal, bocadillos finos y pedidos de pasteles por encargo.</span>
+                        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-cyber-green">
+                            <span>Ver boceto</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- Moda Aurora -->
+                    <a href="../BOCETOS NO UTILIZADOS/tiendas y catalogos/avanzado/boutique.html" class="c-card card-cyber rounded-2xl p-5 block group" data-keywords="moda aurora boutique ropa accesorios calzado tienda">
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <div class="p-3 rounded-xl bg-pink-500/10 border border-pink-500/20 text-pink-400 group-hover:scale-110 transition-transform">
+                                <i data-lucide="shirt" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/30">Boutique</span>
+                        </div>
+                        <b class="font-orbitron font-bold text-base text-white group-hover:text-cyber-green transition-colors block mb-1">Moda Aurora</b>
+                        <span class="text-xs text-slate-400 block line-clamp-2">Tienda de ropa moderna, prendas exclusivas y catálogo de accesorios.</span>
+                        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-cyber-green">
+                            <span>Ver boceto</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- Corte Fino -->
+                    <a href="../BOCETOS NO UTILIZADOS/tiendas y catalogos/avanzado/barberia.html" class="c-card card-cyber rounded-2xl p-5 block group" data-keywords="corte fino barberia estilo belleza cuidado estetica">
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <div class="p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 group-hover:scale-110 transition-transform">
+                                <i data-lucide="scissors" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/30">Barbería</span>
+                        </div>
+                        <b class="font-orbitron font-bold text-base text-white group-hover:text-cyber-green transition-colors block mb-1">Corte Fino</b>
+                        <span class="text-xs text-slate-400 block line-clamp-2">Barbería, estilismo profesional y catálogo de productos de cuidado masculino.</span>
+                        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-cyber-green">
+                            <span>Ver boceto</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- TecnoPlus -->
+                    <a href="../BOCETOS NO UTILIZADOS/tiendas y catalogos/avanzado/tecnologia.html" class="c-card card-cyber rounded-2xl p-5 block group" data-keywords="tecnoplus tecnologia celulares gadgets accesorios gadgets">
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <div class="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 group-hover:scale-110 transition-transform">
+                                <i data-lucide="smartphone" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/30">Tecnología</span>
+                        </div>
+                        <b class="font-orbitron font-bold text-base text-white group-hover:text-cyber-green transition-colors block mb-1">TecnoPlus</b>
+                        <span class="text-xs text-slate-400 block line-clamp-2">Accesorios para smartphones, gadgets electrónicos y equipos de audio.</span>
+                        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-cyber-green">
+                            <span>Ver boceto</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- Sabor Criollo -->
+                    <a href="../BOCETOS NO UTILIZADOS/tiendas y catalogos/avanzado/restaurante.html" class="c-card card-cyber rounded-2xl p-5 block group" data-keywords="sabor criollo restaurante comida menu domicilio gastronomia">
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
+                                <i data-lucide="utensils" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-green/10 text-cyber-green border border-cyber-green/30">Restaurante</span>
+                        </div>
+                        <b class="font-orbitron font-bold text-base text-white group-hover:text-cyber-green transition-colors block mb-1">Sabor Criollo</b>
+                        <span class="text-xs text-slate-400 block line-clamp-2">Menú gastronómico interactivo, comida casera y sistema de pedidos.</span>
+                        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-cyber-green">
+                            <span>Ver boceto</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- SECCIÓN 2: E-COMMERCE Y PORTALES DE RESERVAS -->
+            <section class="space-y-5">
+                <div class="flex items-center justify-between border-b border-cyber-border/40 pb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 rounded-xl bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/20">
+                            <i data-lucide="calendar-check" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-orbitron font-bold text-base sm:text-lg text-white tracking-wide">
+                                E-Commerce Avanzado & Portales de Reservas
+                            </h2>
+                            <p class="text-xs text-slate-400 font-mono">Interfaces dinámicas con carrito y citas en línea</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono text-cyber-cyan bg-cyber-cyan/10 px-2.5 py-1 rounded-lg border border-cyber-cyan/20 hidden sm:inline-block">2 Plantillas</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="sectionEcommerce">
+                    
+                    <!-- NEXUS -->
+                    <a href="../BOCETOS NO UTILIZADOS/tiendas y catalogos/avanzado/TIENDA 2/TIENDA 2.html" class="c-card card-cyber card-cyber-cyan rounded-2xl p-5 block group" data-keywords="nexus tienda e-commerce carrito compras adaptable streetwear">
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <div class="p-3 rounded-xl bg-cyber-cyan/10 border border-cyber-cyan/30 text-cyber-cyan group-hover:scale-110 transition-transform">
+                                <i data-lucide="store" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30">E-Commerce Dark</span>
+                        </div>
+                        <b class="font-orbitron font-bold text-base text-white group-hover:text-cyber-cyan transition-colors block mb-1">NEXUS Store</b>
+                        <span class="text-xs text-slate-400 block leading-relaxed mb-2">Tienda virtual interactiva de alto impacto visual, carrito lateral deslizable, ofertas relámpago con temporizador y simulación de checkout.</span>
+                        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-cyber-cyan">
+                            <span>Explorar tienda</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- Reservas Directas -->
+                    <a href="../BOCETOS NO UTILIZADOS/otros/RESERVAS/avanzado/ESTABLECIMIENTOS.html" class="c-card card-cyber card-cyber-cyan rounded-2xl p-5 block group" data-keywords="reservas directas citas eventos hoteles establecimientos salon spa">
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 group-hover:scale-110 transition-transform">
+                                <i data-lucide="clock" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/30">Reserva 24/7</span>
+                        </div>
+                        <b class="font-orbitron font-bold text-base text-white group-hover:text-cyber-cyan transition-colors block mb-1">Reservas Directas</b>
+                        <span class="text-xs text-slate-400 block leading-relaxed mb-2">Página y sistema de agendamiento de citas en vivo para salones de belleza, spas, consultorios o reserva de eventos en línea.</span>
+                        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-cyber-cyan">
+                            <span>Agendar / Probar</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- SECCIÓN 3: SOLUCIONES EMPRESARIALES & SAAS -->
+            <section class="space-y-5">
+                <div class="flex items-center justify-between border-b border-cyber-border/40 pb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h2 class="font-orbitron font-bold text-base sm:text-lg text-white tracking-wide">
+                                Soluciones Empresariales & Sistemas SaaS
+                            </h2>
+                            <p class="text-xs text-slate-400 font-mono">Paneles de control, auditorías y cotizadores inteligentes</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-mono text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-lg border border-blue-500/20 hidden sm:inline-block">2 Herramientas</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="sectionEmpresariales">
+                    
+                    <!-- Gestión de Clientes -->
+                    <a href="otros/PAGINA-EMPRESA/avanzado/GESTION.html" class="c-card card-cyber rounded-2xl p-5 block group" data-keywords="gestion clientes cotizaciones omnidesk crm saas panel dashboard ventas">
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <div class="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 group-hover:scale-110 transition-transform">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/30">SaaS Admin</span>
+                        </div>
+                        <b class="font-orbitron font-bold text-base text-white group-hover:text-cyber-green transition-colors block mb-1">OmniDesk - Gestión CRM</b>
+                        <span class="text-xs text-slate-400 block leading-relaxed mb-2">Panel administrativo completo para control de clientes, creación instantánea de cotizaciones con cálculo de impuestos y métricas financieras.</span>
+                        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-cyber-green">
+                            <span>Abrir Dashboard</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                    <!-- Evaluador de Servicios / Auditoría -->
+                    <a href="otros/PAGINA-EMPRESA/avanzado/DIVERSO.html" class="c-card card-cyber rounded-2xl p-5 block group" data-keywords="evaluador servicios auditoria techpulse veritas ciberseguridad desarrollo cotizador">
+                        <div class="flex items-start justify-between gap-3 mb-3">
+                            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
+                                <i data-lucide="shield-check" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Cyber-Audit</span>
+                        </div>
+                        <b class="font-orbitron font-bold text-base text-white group-hover:text-cyber-green transition-colors block mb-1">TechPulse / Evaluador de Servicios</b>
+                        <span class="text-xs text-slate-400 block leading-relaxed mb-2">Plataforma de auditoría técnica, cotizador interactivo de infraestructura IT, ciberseguridad y evaluación automática de proyectos.</span>
+                        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-cyber-green">
+                            <span>Iniciar Auditoría</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </a>
+
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-cyber-border/30 bg-cyber-dark/80 py-6 px-4 text-center font-mono text-xs text-slate-400">
+            <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-cyber-green"></span>
+                    <span>Bocetos de Alta Fidelidad</span>
+                </div>
+                <p>&copy; 2026 Waner Alcequiez. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- SCRIPT DE FILTRADO INTERACTIVO -->
+    <script>
+        // Inicializar Iconos
+        lucide.createIcons();
+
+        // Función de Búsqueda y Filtrado en Tiempo Real
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.c-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const keywords = card.getAttribute('data-keywords') || '';
+                const textContent = card.innerText.toLowerCase();
+
+                if (keywords.toLowerCase().includes(query) || textContent.includes(query)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            document.getElementById('totalCount').innerText = visibleCount;
+        }
+    </script>
+</body>
+</html>
